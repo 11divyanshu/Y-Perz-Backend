@@ -1,0 +1,11 @@
+.home_dash_parent_container{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home_dash_parent_container1{
+    width: 100%;
+    height: fit-content;
+}

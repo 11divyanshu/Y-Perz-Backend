@@ -1,0 +1,109 @@
+.add_service_parent {
+    width: 90%;
+    height: fit-content;
+    background-color: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.form_heading_div {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px !important;
+}
+
+.services_form_parent_div {
+    width: 90%;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.row-form {
+    float: left;
+    width: 100%;
+    padding: 20px 0 50px;
+}
+
+:focus {
+    outline: none;
+}
+
+.col-form {
+    float: left;
+    width: 99.33%;
+    margin: 40px 3%;
+    position: relative;
+}
+
+/* necessary to give position: relative to parent. */
+.effect-5 {
+    background-color: #EEF1F3;
+    font: 15px/24px "Lato", Arial, sans-serif;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    padding: 10px;
+}
+
+.effect-5 {
+    border: 0;
+    padding: 5px 0 7px;
+    border: 1px solid transparent;
+    border-bottom-color: #ccc;
+    transition: 0.4s;
+}
+
+.effect-5:focus {
+    padding: 5px 14px 7px;
+    transition: 0.4s;
+}
+
+.effect-5~.focus-border {
+    position: absolute;
+    height: 52px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    transition: 0.4s;
+}
+
+.effect-5:focus~.focus-border {
+    width: 100%;
+    transition: 0.4s;
+    border: 2px solid #E7EAEC;
+}
+
+.add_service_btn{
+    width: 130px;
+    height: 40px;
+    background-color: #E0F3FF;
+    padding: 5px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.modal_ok_btn{
+    width: 100px;
+    height: 35px;
+    background-color: rgb(115, 210, 232);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
