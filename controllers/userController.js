@@ -686,7 +686,7 @@ exports.userProfilePicUpdate = (req, res) => {
 // Error - 205
 exports.userProfilePicRemove = (req,res) => {
     let data = req.body;
-    fs.unlink(`Images/Profile/12thMarksheet.jpeg`, (err) => {
+    fs.unlink(`Images/Profile/${req.body.fileName}`, (err) => {
         if (err) {
             console.log(err);
             res.status(205);
