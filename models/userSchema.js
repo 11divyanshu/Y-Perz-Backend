@@ -19,10 +19,7 @@ const UserSchema = sequelize.define('user',{
     phone:{
         type: Sequelize.STRING,
         allowNull: false,
-    },
-    password:{
-        type: Sequelize.STRING,
-        allowNull: false,
+        unique: true
     },
     location:{
         type: Sequelize.STRING,

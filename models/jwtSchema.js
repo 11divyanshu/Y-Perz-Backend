@@ -8,9 +8,10 @@ const JwtSchema = sequelize.define('jwtuser',{
         autoIncrement: true,
         primaryKey: true 
     },
-    email:{
+    phone:{
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true
     },
     jwt:{
         type: Sequelize.STRING,
