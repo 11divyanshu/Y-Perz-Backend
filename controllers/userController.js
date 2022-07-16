@@ -26,6 +26,7 @@ exports.handleUserLoginOTP = (req, res) => {
                 if (len.length > 4) {
                     otpVal = otpVal / 10;
                 }
+                otpVal = Math.floor(otpVal);
                 len = otpVal.toString();
                 var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
                 // Setting OTP req headers
@@ -293,28 +294,25 @@ exports.handleUserLogout = (req, res) => {
 // Success - 202
 // Error - 205
 exports.handleUserRegisterOTP = (req, res) => {
-    // Fetching user register request data
     let data = req.body;
-    // Generating OTP
+    console.log(data.phone);
     let otpVal = Math.floor(Math.random() * 10000) + 1001;
     let len = otpVal.toString();
     if (len.length > 4) {
         otpVal = otpVal / 10;
     }
+    otpVal = Math.floor(otpVal);
     len = otpVal.toString();
     var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
-    // Setting OTP req headers
     req.headers({
         authorization:
             "hVKQnXXGfvK5iOl1sG5wwfWepO9X8igDjI9GmwZXL1aT9Ef7lZkVqQB5zPmm",
     });
-    // Setting OTP req data
     req.form({
         variables_values: len,
         route: "otp",
         numbers: data.phone,
     });
-    // Making OTP req
     req.end(function (resVar) {
         if (res.error) throw new Error(res.error);
         var resData = {
@@ -378,7 +376,6 @@ exports.handleUserRegisterOTP = (req, res) => {
                 })
                 console.log(err);
             })
-
     })
 };
 
@@ -398,6 +395,7 @@ exports.handleOtpCheckRegister = (req, res) => {
             console.log(fetchedOtp)
             // JSON - Object
             let extData = JSON.parse(fetchedOtp);
+            console.log(extData[0]);
             if (extData[0].otp == data.otp) {
                 // Correct OTP
                 // Creating User in DB
@@ -501,6 +499,7 @@ exports.handleOtpResend = (req, res) => {
     if (len.length > 4) {
         otpVal = otpVal / 10;
     }
+    otpVal = Math.floor(otpVal);
     len = otpVal.toString();
     var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
     // Setting OTP req headers
