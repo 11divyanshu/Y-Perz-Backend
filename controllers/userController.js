@@ -24,7 +24,7 @@ exports.handleUserLoginOTP = (req, res) => {
                 let otpVal = Math.floor(Math.random() * 10000) + 1001;
                 let len = otpVal.toString();
                 if (len.length > 4) {
-                    otpVal = otpVal % 10;
+                    otpVal = otpVal / 10;
                 }
                 len = otpVal.toString();
                 var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
@@ -299,7 +299,7 @@ exports.handleUserRegisterOTP = (req, res) => {
     let otpVal = Math.floor(Math.random() * 10000) + 1001;
     let len = otpVal.toString();
     if (len.length > 4) {
-        otpVal = otpVal % 10;
+        otpVal = otpVal / 10;
     }
     len = otpVal.toString();
     var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
@@ -499,7 +499,7 @@ exports.handleOtpResend = (req, res) => {
     let otpVal = Math.floor(Math.random() * 10000) + 1001;
     let len = otpVal.toString();
     if (len.length > 4) {
-        otpVal = otpVal % 10;
+        otpVal = otpVal / 10;
     }
     len = otpVal.toString();
     var req = unirest("POST", "https://www.fast2sms.com/dev/bulkV2");
@@ -589,10 +589,10 @@ exports.userProfileUpdate = (req, res) => {
     let data = req.body;
     UserSchema.update(
         {
-            fName: len,
-            email: len,
-            location: len,
-            desc: len,
+            fName: data.fName,
+            email: data.email,
+            location: data.location,
+            desc: data.desc,
         },
         {
             where: { phone: data.phone }
