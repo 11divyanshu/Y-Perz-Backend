@@ -615,69 +615,28 @@ exports.userProfileUpdate = (req, res) => {
 // Success - 202
 // Error - 205
 exports.userProfilePicUpdate = (req, res) => {
-    UserSchema.findAll({ attribute: { phone: data.phone } })
-        .then(response => {
-            let fetchedOtp1 = JSON.stringify(checkUserRes, null, 4);
-            let extData1 = JSON.parse(fetchedOtp1);
-            if (extData1.profilepic.length > 0) {
-                fs.unlink(`Images/Profile/${req.body.fileName}`, (err) => {
-                    if (err) {
-                        res.status(205);
-                        res.json({
-                            msg: "Fatal Error Occured",
-                            key: 0
-                        })
-                    }
-                    UserSchema.update(
-                        {
-                            profilepic: req.file.path
-                        },
-                        {
-                            where: { phone: data.phone }
-                        }
-                    ).then(response => {
-                        res.status(202);
-                        res.json({
-                            msg: "User Profile Picture Updated Successfully",
-                            key: 1
-                        })
-                    }).catch(err => {
-                        res.status(205);
-                        res.json({
-                            msg: "Fatal Error Occured",
-                            key: 0
-                        })
-                    })
-                  })
-            } else {
-                UserSchema.update(
-                    {
-                        profilepic: req.file.path
-                    },
-                    {
-                        where: { phone: data.phone }
-                    }
-                ).then(response => {
-                    res.status(202);
-                    res.json({
-                        msg: "User Profile Picture Updated Successfully",
-                        key: 1
-                    })
-                }).catch(err => {
-                    res.status(205);
-                    res.json({
-                        msg: "Fatal Error Occured",
-                        key: 0
-                    })
-                })
-            }
-        }).catch(err => {
-            res.status(205);
-            res.json({
-                msg: "Fatal Error Occured",
-                key: 0
-            })
+    let data = req.body;
+    UserSchema.update(
+        {
+            profilepic: req.file.path
+        },
+        {
+            where: { phone: data.phone }
+        }
+    ).then(response => {
+        res.status(202);
+        res.json({
+            msg: "User Profile Picture Updated Successfully",
+            key: 1
         })
+    }).catch(err => {
+        console.log(err);
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    })
 }
 
 // User Profile Pic Remove
@@ -740,4 +699,4 @@ exports.uploadProfilePic = multer({
             return ("Give proper file format to upload");
         }
     }
-}).single('icon');
+}).single('profilepic');
