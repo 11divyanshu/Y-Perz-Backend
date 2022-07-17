@@ -422,7 +422,8 @@ exports.handleOtpCheckRegister = (req, res) => {
                                         phone: data.phone,
                                         location: "",
                                         desc: "",
-                                        profilepic: ""
+                                        profilepic: "",
+                                        vehicles: JSON.stringify([])
                                     }).then((dbres) => {
                                         jwt.sign({ user: data }, 'secretkey', (err, token) => {
                                             // Status 202 - Correct password
@@ -672,6 +673,58 @@ exports.userProfilePicRemove = (req,res) => {
                 msg: "Fatal Error Occured",
                 key: 0
             })
+        })
+    })
+}
+
+// User Add Car Section
+exports.addUserVehicle = (req,res) => {
+    let data = req.body;
+    UserSchema.findAll({ attribute : { phone : data.phone } })
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            let vehicleData = extData[0].vehicles;
+            let vehicleArr = JSON.parse(vehicleData);
+            console.log(vehicleArr);
+            vehicleArr.push({
+                c_name : data.c_name,
+                c_num : data.c_num,
+                c_photo : ""
+            })
+            let newVehicleJson = JSON.stringify(vehicleArr);
+            UserSchema.update(
+                {
+                    vehicles : newVehicleJson
+                },
+                {
+                    where : { phone : data.phone }
+                }
+            ).then(res1 => {
+                res.status(202);
+                res.json({
+                    msg : "Vehicle Added Successfully",
+                    key : 1,
+                    vehicles : newVehicleJson
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(205);
+                res.json({
+                    msg : "Fatal Error Occured",
+                    key : 0
+                })
+            })
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(205);
+        res.json({
+            msg : "Fatal error occured",
+            key : 0
         })
     })
 }

@@ -16,6 +16,8 @@ router.post('/resendotp', userController.handleOtpResend);
 router.post('/userprofileupdate', userController.userProfileUpdate);
 router.post('/userprofilepicupdate', userController.uploadProfilePic, userController.userProfilePicUpdate);
 router.post('/userprofilepicremove', userController.userProfilePicRemove);
+router.post('/adduservehicle', userController.addUserVehicle);
+
 
 
 module.exports = router;

@@ -33,6 +33,10 @@ const UserSchema = sequelize.define('user',{
         type: Sequelize.STRING,
         allowNull: true,
     },
+    vehicles:{
+        type: Sequelize.JSON,
+        allowNull: true
+    }
 })
 
 
