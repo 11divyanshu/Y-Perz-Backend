@@ -16,7 +16,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use('/Images', express.static('./Images'));
 app.get('/', (req, res) => {
-  res.send('Y PEREZ Backend')
+  // res.send('Y PEREZ Backend')
+  res.render('admin/login', {
+    pageTitle: 'Login Page | Y PEREZ',
+    path: '/admin/login',
+    confirmation: '204'
+  });
 });
 
 app.use('/admin', adminRoutes);

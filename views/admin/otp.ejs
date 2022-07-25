@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login | Y PEREZ</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container height-100 d-flex justify-content-center align-items-center">
+        <div class="position-relative">
+            <div class="card p-2 text-center">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+                <div>
+                    <span>A code has been sent to</span> <small>******<%- lastDigit %></small>
+                </div>
+                <form method="post" action="/admin/supervisorOtpVerify">
+                    <input class="m-2 text-center form-control d-none" type="text" id="phone" name="suvisor_phone" maxlength="1" value="<%- userPhone %>"/>
+                    <input class="m-2 text-center form-control d-none" type="text" id="phone" name="lastDigit" maxlength="1" value="<%- lastDigit %>"/>
+                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                        <input class="m-2 text-center form-control rounded" type="text" id="first" name="firstInput" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" id="second" name="secondInput" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" id="third" name="thirdInput" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" id="fourth" name="fourthInput" maxlength="1" />
+                    </div>
+                    <div class="mt-4"> <button class="btn btn-danger px-4 validate">Validate</button> </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js">
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            function OTPInput() {
+                const inputs = document.querySelectorAll('#otp > *[id]');
+                for (let i = 0; i < inputs.length; i++) { inputs[i].addEventListener('keydown', function (event) { if (event.key === "Backspace") { inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus(); } else { if (i === inputs.length - 1 && inputs[i].value !== '') { return true; } else if (event.keyCode > 47 && event.keyCode < 58) { inputs[i].value = event.key; if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } else if (event.keyCode > 64 && event.keyCode < 91) { inputs[i].value = String.fromCharCode(event.keyCode); if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } } }); }
+            } OTPInput();
+        });
+    </script>
+</body>
+
+</html>

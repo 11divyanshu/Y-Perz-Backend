@@ -4,6 +4,7 @@ const unirest = require('unirest');
 const OtpStore = require('../models/userAuth');
 const UserSchema = require('../models/userSchema');
 const JwtSchema = require('../models/jwtSchema');
+const EverydaySchema = require('../models/everydaySchema');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
@@ -678,6 +679,8 @@ exports.userProfilePicRemove = (req,res) => {
 }
 
 // User Add Car Section
+// Success - 202
+// Error - 205
 exports.addUserVehicle = (req,res) => {
     let data = req.body;
     UserSchema.findAll({ attribute : { phone : data.phone } })
@@ -724,6 +727,39 @@ exports.addUserVehicle = (req,res) => {
         res.status(205);
         res.json({
             msg : "Fatal error occured",
+            key : 0
+        })
+    })
+}
+
+exports.addeverydayservice = (req,res) => {
+    let data = req.body;
+    EverydaySchema.create({
+        phone : data.phone,
+        startdate : data.startdate,
+        enddate : data.enddate,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : data.order_id,
+        supervisor_num : "",
+        pay_status : 0,
+        status : 0,
+
+    })
+    .then(response =>  {
+        res.status(202);
+        res.json({
+            msg : "Service Stored Successfully",
+            key : 1
+        })
+    })
+    
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg : "Fatal Error Occured",
             key : 0
         })
     })
