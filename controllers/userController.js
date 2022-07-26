@@ -824,6 +824,39 @@ exports.singleServicePaymentConfirm = (req,res) => {
     });
 }
 
+exports.getSingleServiceUserData = (req,res) => {
+    let data = req.body;
+    SingleTimeServiceSchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
 // Multer image handeling method
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
