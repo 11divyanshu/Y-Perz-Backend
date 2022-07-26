@@ -17,7 +17,8 @@ router.post('/userprofileupdate', userController.userProfileUpdate);
 router.post('/userprofilepicupdate', userController.uploadProfilePic, userController.userProfilePicUpdate);
 router.post('/userprofilepicremove', userController.userProfilePicRemove);
 router.post('/adduservehicle', userController.addUserVehicle);
-
+router.post('/singleServiceAddRoute', userController.addSingleTimeServiceModule);
+router.post('/singleServicePaymentConfirm', userController.singleServicePaymentConfirm);
 
 
 module.exports = router;

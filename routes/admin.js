@@ -26,6 +26,7 @@ router.post('/add-vehicle' , adminController.handleAdminAddVehiclePost);
 router.get('/supervisorRegister', supervisorController.handleSupervisorRegister);
 router.post('/supervisorOtpSend', supervisorController.handlePostSupervisorOtpSend);
 router.post('/supervisorOtpVerify', supervisorController.handlePostSupervisorRegister);
+// router.post('/administratorLogin', supervisorController.handleAdministratorLogin);
 
 
 module.exports = router;

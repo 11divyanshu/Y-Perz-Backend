@@ -4,7 +4,9 @@ const ServiceSchema = require('../models/service');
 const OfferSchema = require('../models/offer');
 const VehicleSchema = require('../models/vehicle');
 const UserSchema = require('../models/userSchema');
-
+const AdministrationSchema = require('../models/administrationSchema');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 exports.handleAdminLogin = (req, res) => {
   res.render('admin/login', {
     pageTitle: 'Admin Login | Y PEREZ',
@@ -186,6 +188,23 @@ exports.handleAdminAddVehiclePost = (req,res) => {
     }); 
   }); 
 }
+
+// exports.handleAdministratorLogin = (req,res) => {
+//   let data = req.body;
+//   // UserSchema.findAll({attribute : {email:data.email}})
+//   // .then((response) => {
+//   //     let fetchedOtp = JSON.stringify(response, null, 4);
+//   //     let extData = JSON.parse(fetchedOtp);
+//   //     bcrypt.compare(data.password,extData[0].password, (err,response) => {
+//   //         if(response){
+
+//   //         }
+//   //     });
+//   //   }).catch(function(err){
+//   //     console.log('Oops! something went wrong, : ', err);
+//   //   });
+//   res.send("nice")
+// }
 
 const storage = multer.diskStorage({
   destination: (req,file,cb) => {

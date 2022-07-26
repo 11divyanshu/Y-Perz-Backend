@@ -5,6 +5,7 @@ const OtpStore = require('../models/userAuth');
 const UserSchema = require('../models/userSchema');
 const JwtSchema = require('../models/jwtSchema');
 const EverydaySchema = require('../models/everydaySchema');
+const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
@@ -763,6 +764,64 @@ exports.addeverydayservice = (req,res) => {
             key : 0
         })
     })
+}
+
+exports.addSingleTimeServiceModule = (req,res) => {
+    let data = req.body;
+    SingleTimeServiceSchema.create({
+        phone : data.phone,
+        date : data.date,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : "",
+        supervisor_num : "",
+        pay_status : "0",
+        status : "0"
+    }).then(response => {
+        console.log("Single Time Service Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Single Time Service Created Successfully",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.singleServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    SingleTimeServiceSchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Single Time Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Single Time Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
 }
 
 // Multer image handeling method
