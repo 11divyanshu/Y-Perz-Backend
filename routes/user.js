@@ -20,6 +20,9 @@ router.post('/adduservehicle', userController.addUserVehicle);
 router.post('/singleServiceAddRoute', userController.addSingleTimeServiceModule);
 router.post('/singleServicePaymentConfirm', userController.singleServicePaymentConfirm);
 router.post('/getSingleServiceUserData', userController.getSingleServiceUserData);
+router.post('/everydayServiceAddRoute', userController.addeverydayservice);
+router.post('/everydayServicePaymentConfirm', userController.everydayServicePaymentConfirm);
+router.post('/getEverydayServiceUserData', userController.getEverydayServiceUserData);
 
 module.exports = router;
 

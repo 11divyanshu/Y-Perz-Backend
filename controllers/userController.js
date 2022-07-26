@@ -743,7 +743,7 @@ exports.addeverydayservice = (req,res) => {
         c_name : data.c_name,
         slot : data.slot,
         trans_id : "",
-        order_id : data.order_id,
+        order_id : "",
         supervisor_num : "",
         pay_status : 0,
         status : 0,
@@ -752,7 +752,7 @@ exports.addeverydayservice = (req,res) => {
     .then(response =>  {
         res.status(202);
         res.json({
-            msg : "Service Stored Successfully",
+            msg : "Everyday Service Stored Successfully",
             key : 1
         })
     })
@@ -764,6 +764,69 @@ exports.addeverydayservice = (req,res) => {
             key : 0
         })
     })
+}
+
+exports.everydayServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    EverydaySchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                id : data.id,
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Everyday Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Everyday Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.getEverydayServiceUserData = (req,res) => {
+    let data = req.body;
+    EverydaySchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Everyday Time Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Everyday Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
 }
 
 exports.addSingleTimeServiceModule = (req,res) => {
@@ -805,6 +868,7 @@ exports.singleServicePaymentConfirm = (req,res) => {
         },
         {
             where : {
+                id : data.id,
                 phone : data.phone
             }
         }
