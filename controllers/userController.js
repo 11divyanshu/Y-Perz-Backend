@@ -21,7 +21,7 @@ require('dotenv').config();
 // Error - 205
 exports.handleUserLoginOTP = (req, res) => {
     let data = req.body;
-    UserSchema.findAll({ attribute: { phone: data.phone } })
+    UserSchema.findAll({ where: { phone: data.phone } })
         .then(checkUserRes => {
             let fetchedOtp1 = JSON.stringify(checkUserRes, null, 4);
             let extData1 = JSON.parse(fetchedOtp1);
@@ -53,7 +53,7 @@ exports.handleUserLoginOTP = (req, res) => {
                         userMobNum: data.phone,
                         otp: len,
                     };
-                    OtpStore.findAll({ attribute: { phone: data.phone } })
+                    OtpStore.findAll({ where: { phone: data.phone } })
                         .then((otpres) => {
                             let fetchedOtp1 = JSON.stringify(otpres, null, 4);
                             let extData1 = JSON.parse(fetchedOtp1);
@@ -136,7 +136,7 @@ exports.handleUserLoginOTP = (req, res) => {
 exports.handleUserLogin = (req, res) => {
     let data = req.body;
     // Verifying OTP
-    OtpStore.findAll({ attribute: [{ phone: data.phone }] })
+    OtpStore.findAll({ where: [{ phone: data.phone }] })
         .then(response => {
             // Convertin data in form of JSON
             let fetchedOtp = JSON.stringify(response, null, 4);
@@ -325,7 +325,7 @@ exports.handleUserRegisterOTP = (req, res) => {
             userMobNum: data.phone,
             otp: len,
         };
-        OtpStore.findAll({ attribute: { phone: data.phone } })
+        OtpStore.findAll({ where: { phone: data.phone } })
             .then((otpres) => {
                 let fetchedOtp1 = JSON.stringify(otpres, null, 4);
                 let extData1 = JSON.parse(fetchedOtp1);
@@ -530,7 +530,7 @@ exports.handleOtpResend = (req, res) => {
             userMobNum: data.phone,
             otp: len,
         };
-        OtpStore.findAll({ attribute: { phone: data.phone } })
+        OtpStore.findAll({ where: { phone: data.phone } })
             .then((otpres) => {
                 let fetchedOtp1 = JSON.stringify(otpres, null, 4);
                 let extData1 = JSON.parse(fetchedOtp1);
@@ -691,7 +691,7 @@ exports.userProfilePicRemove = (req,res) => {
 // Error - 205
 exports.addUserVehicle = (req,res) => {
     let data = req.body;
-    UserSchema.findAll({ attribute : { phone : data.phone } })
+    UserSchema.findAll({ where : { phone : data.phone } })
     .then(response => {
         let fetchedData = JSON.stringify(response, null, 4);
         let extData = JSON.parse(fetchedData);
