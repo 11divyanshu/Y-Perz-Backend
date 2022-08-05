@@ -12,6 +12,7 @@ const LoanSchema = require('../models/loanSchema');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
+const Razorpay = require('razorpay');
 require('dotenv').config();
 
 // Login OTP Method
@@ -1031,3 +1032,22 @@ exports.uploadProfilePic = multer({
         }
     }
 }).single('profilepic');
+
+exports.createOrderID = (req,res)=>{
+
+    var instance = new Razorpay({ key_id: "rzp_test_D0hBqb37bM28I4", key_secret: "KSTT3b0nXCotKVTp2ijHgdtN" })
+
+    var options = {
+        amount: 10000,  // amount in the smallest currency unit
+        currency: "INR",
+        receipt: "order_rcptid_11"
+    };
+    instance.orders.create(options, function(err, order) {
+        console.log(order);
+        res.status(202);
+        res.json({
+            orderid: order.id,
+            key: 0
+        })
+    });
+}

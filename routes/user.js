@@ -27,6 +27,7 @@ router.post('/addfaq', userController.addFaqs);
 router.post('/addquery', userController.addQuery);
 router.post('/addloan', userController.addLoan);
 
+router.post('/createOrderID', userController.createOrderID);
 
 module.exports = router;
 

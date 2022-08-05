@@ -29,6 +29,7 @@
     "mysql2": "^2.3.3",
     "node-localstorage": "^2.2.1",
     "nodemon": "^2.0.16",
+    "razorpay": "^2.8.2",
     "sequelize": "^6.19.0",
     "unirest": "^0.6.0"
   }
