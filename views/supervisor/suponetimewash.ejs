@@ -1,0 +1,376 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                                    display: flex;
+                                    margin-top: 15px;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">Users</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input
+                                            style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                            type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Vehicle Name</th>
+                                                <th>Vehicle No.</th>
+                                                <th>Date</th>
+                                                <th>Slot</th>
+                                                <th>Payment</th>
+                                                <!-- <th>Supervisor</th> -->
+                                                <th>Cleaner</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(onetimeWash.length> 0) { %>
+                                                <% for (let data0 of onetimeWash) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= data0.id %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.c_name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.c_num %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.date %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.slot %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data0.pay_status == 0){ %>
+                                                                <span class="badge badge-danger">Pending</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Paid</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <!-- <td>
+                                                            <span class="badge badge-success"><%= data.supervisor_num %></span>
+                                                        </td> -->
+                                                        <td>
+                                                            <% if(data0.cleaner_num == ""){ %>
+                                                                <button id="assign" data-target="#cleanerModal"
+                                                                    onclick="storeDetails('<%= data0.id %>','<%= data0.phone %>')"
+                                                                    data-toggle="modal"
+                                                                    style="background-color: #148b4b; color: #fff"
+                                                                    type="button" type="button" class="btn">
+                                                                    Assign
+                                                                </button>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success"><%= data0.cleaner_num %></span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <button id="assign" data-target="#detailsModal"
+                                                                onclick="updateModalDetails('<%= data0.phone %>','<%= data0.name %>','<%= data0.c_name %>','<%= data0.c_num %>','<%= data0.date %>','<%= data0.slot %>','<%= data0.pay_status %>','<%= data0.cleaner_num %>')"
+                                                                data-toggle="modal"
+                                                                style="background-color: #148b4b; color: #fff"
+                                                                type="button" type="button" class="btn">
+                                                                View Details
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No data found</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <!-- Cleaner Modal -->
+    <div class="modal fade" id="cleanerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Assign Cleaner</h4>
+                                </div>
+
+                                <div style="display: flex; align-items: center">
+                                    <input
+                                        style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;;"
+                                        type="text" id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
+                                    <div class="updown" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-content table-responsive">
+                                <table id="myModal" class="table table-hover">
+                                    <thead style="color: #148b4b">
+                                        <tr class="header">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Position</th>
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(cleaners.length> 0) { %>
+                                            <% for (let data1 of cleaners) { %>
+                                                <tr>
+                                                    <td><%= data1.id %></td>
+                                                    <td><%= data1.fName %></td>
+                                                    <td><%= data1.phone %></td>
+                                                    <td>Cleaner</td>
+                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>');"/></td>
+                                                </tr>
+                                            <% } %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5">No cleaner found</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <% if(cleaners.length> 0) { %>
+                        <button onclick="assignCleaner();" style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Done
+                        </button>
+                    <% } else { %>
+                        <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Close
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <img src="/images/logo.png" width="75px"
+                                style="margin-left: 5px; padding: 10px; margin-right: auto;" />
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="name">Full Name - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="phone">Phone - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="sup_num">Supervisor - <%= data.fName %></h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="cleaner_num">Cleaner - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="date">Date - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="slot">Slot - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Total Bill - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Vehicle</h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: block;
+                                margin-top: 15px;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                                padding: 10px;
+                            ">
+                                <img src="/images/logo.png" width="55px"
+                                    style="margin-left: 5px; padding: 10px; margin-right: auto;" />
+                                <div class="card-header card-header-text" style="margin-top: -10px;">
+                                    <h4 class="card-title" id="c_name">Vehicle Name - </h4>
+                                </div>
+                                <div class="card-header card-header-text" style="margin-top: -10px;">
+                                    <h4 class="card-title" id="c_num">Vehicle Number - </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                        class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let num = "";
+        let id = "";
+        let cleaner_num = "";
+        // Methods for supervisor assignment
+        function storeDetails(data,phone){
+            num = phone;
+            id = data;
+            console.log(phone);
+        }
+        function selectedData(phone){
+            cleaner_num = phone;
+        }
+        function assignCleaner(){
+            console.log(num);
+            console.log(cleaner_num);
+            // use fetch for api call
+            if(cleaner_num != ""){
+                fetch('/admin/onetimeassigncleaner', {
+                    method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone: num,
+                    cleaner_phone: cleaner_num,
+                    id: id
+                })
+                }).then(res => {
+                    window.location.reload();
+                })
+            }
+        }
+        // Methods for details modal
+        function updateModalDetails(phone,name,c_name,c_num,date,slot,pay_status,cleaner){
+            document.getElementById('name').innerHTML = "Full Name - "+name;
+            document.getElementById('phone').innerHTML = "Phone - "+  phone;
+            if(cleaner_num === ""){
+                document.getElementById('cleaner_num').innerHTML = "Cleaner - Not Assigned";
+            }else{
+                document.getElementById('cleaner_num').innerHTML = "Cleaner - "+cleaner;
+            }
+            document.getElementById('date').innerHTML = "Date - "+date;
+            document.getElementById('slot').innerHTML = "Slot - "+slot;
+            document.getElementById('c_name').innerHTML = "Vehicle Name - "+c_name;
+            document.getElementById('c_num').innerHTML = "Vehicle Number - "+c_num;
+
+        }
+    </script>
+
+    <%- include('../includes/end_body.ejs') %>

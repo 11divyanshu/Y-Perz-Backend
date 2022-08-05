@@ -1,0 +1,311 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="container-fluid">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex">
+                                        <h5 class="card-header-title">Add Car Insurance Brand</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="POST" action="/admin/addcarinsurancebrands">
+                                            <!-- <div class="form-group"> -->
+                                                <label for="brand_name">Brand Name</label>
+                                                <input type="text" class="form-control" id="brand_name"
+                                                    name="brand_name" placeholder="Brand Name" />
+                                            <!-- </div> -->
+                                            <!-- <div class="form-group"> -->
+                                                <label for="brand_image" style="margin-top: 20px;">Brand Image</label>
+                                                <br/>
+                                                <input type="file" accept="image/*" style="padding-bottom: 10px ;" id="brand_image"
+                                                    name="brand_image" placeholder="Brand Image" />
+                                            <!-- </div> -->
+                                            <br/>
+                                            <button style="background-color: #148B4B; margin-top: 20px; color: #fff;" type="submit"
+                                                class="btn">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                                    display: flex;
+                                    margin-top: 15px;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">Car Brands</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input
+                                            style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                            type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Photo</th>
+                                                <th>Brand Name</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(carbrands.length> 0) { %>
+                                                <% for (let data of carbrands) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= data.id %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.photo == ""){ %>
+                                                                <img src="/images/logo.png" width="25px"
+                                                                    style="margin-left: 5px; margin-right: auto;" />
+                                                            <% } else { %>
+                                                                <img src='<%= data.photo %>' width="25px"
+                                                                    style="margin-left: 5px; margin-right: auto;" />
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data.name %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.status == "0"){ %>
+                                                                <span class="badge badge-danger">Blocked</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Available</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.status == "0"){ %>
+                                                                <button id="assign" data-target="#statusModal"
+                                                                    onclick="setActionData('<%= data.id %>','<%= data.name %>','<%= data.status %>')"
+                                                                    data-toggle="modal"
+                                                                    class="btn btn-primary"
+                                                                    style="background-color: #148b4b; color: #fff"
+                                                                    type="button" type="button" class="btn">
+                                                                    Unblock
+                                                                </button>
+                                                            <% } else { %>
+                                                                <button id="assign" data-target="#statusModal"
+                                                                    onclick="setActionData('<%= data.id %>','<%= data.name %>','<%= data.status %>')"
+                                                                    data-toggle="modal"
+                                                                    class="btn btn-danger"
+                                                                    type="button" type="button" class="btn">
+                                                                    Block
+                                                                </button>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <button id="assign" data-target="#detailsModal"
+                                                                onclick="updateModalDetails('<%= data.id %>','<%= data.name %>','<%= data.status %>','<%= data.photo %>')"
+                                                                data-toggle="modal"
+                                                                style="background-color: #148b4b; color: #fff"
+                                                                type="button" type="button" class="btn">
+                                                                View Details
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No brands found</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <img src="/images/logo.png" id="brand_photo" width="75px"
+                                style="margin-left: 5px; padding: 10px; margin-right: auto;" />
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="id">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="name">Brand Name - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="status">Status - </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                        class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="idAs">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="nameAs">Brand Name - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="messageAs"></h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-evenly;
+                                padding: 20px;
+                            ">
+                                <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                                    class="btn btn-secondary" data-dismiss="modal">
+                                    No
+                                </button>
+                                <button id="assign"
+                                    onclick="updateStatus()"
+                                    class="btn btn-danger"
+                                    type="button" class="btn">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let name = "";
+        let id = "";
+        let status = "";
+        function setActionData(ids,names,stat){
+            name = names;
+            id = ids;
+            status = stat;
+            document.getElementById('idAs').innerHTML = "Id - "+ id;
+            document.getElementById('nameAs').innerHTML = "Brand Name - "+  names;
+            if(stat === "0"){
+                document.getElementById('messageAs').innerHTML = "Do you really want to unblock this Brand?";
+                status = "1";
+            }else{
+                document.getElementById('messageAs').innerHTML = "Do you really want to block this Brand?";
+                status = "0";
+            }
+        }
+        function updateStatus(){
+            fetch('/admin/updatecarinsurancebrandstatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    status: status,
+                    id: id
+                })
+            }).then(res => {
+                window.location.reload();
+            })
+        }
+        function updateModalDetails(id,name,status,photo){
+            document.getElementById('id').innerHTML = "Id - "+ id;
+            document.getElementById('name').innerHTML = "Brand Name - "+  name;
+            if(status === "1"){
+                document.getElementById('status').innerHTML = "Status - Not Blocked";
+            }else{
+                document.getElementById('status').innerHTML = "Status - Blocked";
+            }
+            if(photo === ""){
+                document.getElementById('brand_name').setAttribute("src", "/images/logo.png");
+            }else{
+                document.getElementById('brand_name').setAttribute("src", photo);
+            }
+        }
+    </script>
+    <%- include('../includes/end_body.ejs') %>

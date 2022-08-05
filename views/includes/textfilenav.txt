@@ -1,0 +1,56 @@
+<div class="scrollbar-sidebar">
+    <div class="app-sidebar__inner">
+        <ul class="vertical-nav-menu">
+            <li class="app-sidebar__heading">Dashboards</li>
+            <li>
+                <a href="/admin/home" class="<%= path === '/admin/home' ? 'mm-active' : '' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="/admin/users" class="<%= path === '/admin/users' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Users
+                </a>
+            </li>
+            <li>
+                <a href="/admin/offers" class="<%= path === '/admin/offers' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Offers
+                </a>
+            </li>
+            <li>
+                <a href="/admin/add-offers" class="<%= path === '/admin/add-offers' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Add Offers
+                </a>
+            </li>
+            <li>
+                <a href="/admin/services" class="<%= path === '/admin/service' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Service
+                </a>
+            </li>
+            <li>
+                <a href="/admin/add-service" class="<%= path === '/admin/add-service' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Add Service
+                </a>
+            </li>
+            <li>
+                <a href="/admin/vehicle" class="<%= path === '/admin/vehicle' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Vehicle
+                </a>
+            </li>
+            <li>
+                <a href="/admin/add-vehicle" class="<%= path === '/admin/add-vehicle' ? 'mm-active my-3' : 'my-3' %>">
+                    <i class="metismenu-icon pe-7s-rocket"></i>
+                    Add Vehicle
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>

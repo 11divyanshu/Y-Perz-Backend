@@ -1,0 +1,103 @@
+<nav id="sidebar">
+  <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-evenly;">
+    <h3>
+      <img src="/images/logo.png" class="img-fluid" /><span>YPerz</span>
+    </h3>
+    <button class="d-inline-block d-lg-none ml-auto more-button" type="button"
+      style="border: none; background: transparent;" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+  <% if(data.type=="1") { %>
+    <ul class="list-unstyled components">
+      <li class="<%= path === '/admin/home' ? 'active' : '' %>">
+        <a href="/admin/home" class="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
+      </li>
+      <li class="<%= path === '/admin/users' ? 'active' : '' %>">
+        <a href="/admin/users" class="dashboard"><i class="material-icons">dashboard</i><span>Users</span></a>
+      </li>
+
+      <li class="dropdown">
+        <a href="#services" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="material-icons">apps</i><span>Car Wash</span></a>
+        <ul class="collapse list-unstyled menu" id="services">
+          <li class="<%= path === '/admin/onetimewash' ? 'active' : '' %>">
+            <a href="/admin/onetimewash">One Time Wash</a>
+          </li>
+          <li class="<%= path === '/admin/alternatewash' ? 'active' : '' %>">
+            <a href="/admin/alternatewash">Alternate Day Wash</a>
+          </li>
+          <li class="<%= path === '/admin/everydaywash' ? 'active' : '' %>">
+            <a href="/admin/everydaywash">Everyday Wash</a>
+          </li>
+          <li class="<%= path === '/admin/weeklywash' ? 'active' : '' %>">
+            <a href="/admin/weeklywash">Weekly Wash</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#brands" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="material-icons">apps</i><span>Brands</span></a>
+        <ul class="collapse list-unstyled menu" id="brands">
+          <li class="<%= path === '/admin/carbrands' ? 'active' : '' %>">
+            <a href="/admin/carbrands">Car Brands</a>
+          </li>
+          <li class="<%= path === '/admin/carloanbrands' ? 'active' : '' %>">
+            <a href="/admin/carloanbrands">Car Loan Brands</a>
+          </li>
+          <li class="<%= path === '/admin/carinsurancebrands' ? 'active' : '' %>">
+            <a href="/admin/carinsurancebrands">Car Insurance Brands</a>
+          </li>
+          <li class="<%= path === '/admin/cardrivelearningbrands' ? 'active' : '' %>">
+            <a href="/admin/cardrivelearningbrands">Car Drive Learning Brands</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="<%= path === '/admin/raisequery' ? 'active' : '' %>">
+        <a href="/admin/raisequery" class="dashboard"><i class="material-icons">dashboard</i><span>Queries</span></a>
+      </li>
+      <li class="<%= path === '/admin/loans' ? 'active' : '' %>">
+        <a href="/admin/loans" class="dashboard"><i class="material-icons">dashboard</i><span>Loans</span></a>
+      </li>
+      <li class="<%= path === '/admin/createfaq' ? 'active' : '' %>">
+        <a href="/admin/createfaq" class="dashboard"><i class="material-icons">dashboard</i><span>Create FAQ's</span></a>
+      </li>
+      <li class="<%= path === '/admin/faqs' ? 'active' : '' %>">
+        <a href="/admin/faqs" class="dashboard"><i class="material-icons">dashboard</i><span>FAQ's</span></a>
+      </li>
+      <form method="post" action="/admin/logout">
+        <button type="submit" class="btn btn-danger" style="margin-left: 20px; margin-top:10px;">Logout</button>
+      </form>
+    </ul>
+    <% } else if(data.type=="2"){ %>
+      <ul class="list-unstyled components">
+        <li class="<%= path === '/admin/supervisorhome' ? 'active' : '' %>">
+          <a href="/admin/supervisorhome" class="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
+        </li>
+
+        <li class="dropdown">
+          <a href="#services" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="material-icons">apps</i><span>Car Wash</span></a>
+          <ul class="collapse list-unstyled menu" id="services">
+            <li class="<%= path === '/admin/suponetimewash' ? 'active' : '' %>">
+              <a href="/admin/suponetimewash">One Time Wash</a>
+            </li>
+            <!-- <li class="<%= path === '/admin/alternatewash' ? 'active' : '' %>">
+              <a href="/admin/alternatewash">Alternate Day Wash</a>
+            </li>
+            <li class="<%= path === '/admin/everydaywash' ? 'active' : '' %>">
+              <a href="/admin/everydaywash">Everyday Wash</a>
+            </li>
+            <li class="<%= path === '/admin/weeklywash' ? 'active' : '' %>">
+              <a href="/admin/weeklywash">Weekly Wash</a>
+            </li> -->
+          </ul>
+        </li>
+      </ul>
+      <% } else { %>
+        <h1>No data</h1>
+        <% } %>
+</nav>

@@ -1,0 +1,176 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                                    display: flex;
+                                    margin-top: 15px;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">User Loans</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input
+                                            style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                            type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(loans.length> 0) { %>
+                                                <% for (let data of loans) { %>
+                                                    <tr>
+                                                        <td><%= data.id %></td>
+                                                        <td><%= data.name %></td>
+                                                        <td><%= data.phone %></td>
+                                                        <td><%= data.email %></td>
+                                                        <td><%= data.type %></td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No Loans found</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="id">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="name">Name - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="phone">Phone - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="email">Email - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="subject">Subject - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Description - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                margin-top: 15px;
+                                padding: 10px;
+                            ">
+                                <!-- <div class="card-header card-header-text"> -->
+                                    <h4 class="card-title" style="font-size: 14px;text-align: left;" id="description"></h4>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                        class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateModalDetails(id, name, phone, email, subject, description) {
+            document.getElementById('id').innerHTML = "Id - " + id;
+            document.getElementById('name').innerHTML = "Name - " + name;
+            document.getElementById('phone').innerHTML = "Phone - " + phone;
+            document.getElementById('email').innerHTML = "Email - " + email;
+            document.getElementById('subject').innerHTML = "Subject - " + subject;
+            document.getElementById('description').innerHTML = description;
+        }
+    </script>
+    <%- include('../includes/end_body.ejs') %>

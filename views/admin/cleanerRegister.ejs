@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login | Y PEREZ</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body> 
+      <div class="wrapper">
+        <h3>Cleaner Registration Form</h3>
+        <form style="margin-top:20px;" method="post" action="/admin/cleanerOtpSend">
+          <input type="text" name="cleaner_name" placeholder="Enter Full Name" required>
+          <input type="email" name="cleaner_email" placeholder="Enter Email" required>
+          <input type="text" name="cleaner_phone" placeholder="Enter Phone Number" required>
+          <input type="text" name="cleaner_location" placeholder="Enter Location" required>
+          <input type="text" name="cleaner_desc" placeholder="Enter Description" required>
+          <input type="password" name="cleaner_pass" placeholder="Enter Password" required>
+          <button class="admin_login_btn" type="submit">Register</button>
+        </form>
+      </div>
+      <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js">
+      </script>
+</body>
+
+</html>

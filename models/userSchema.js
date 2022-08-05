@@ -10,11 +10,11 @@ const UserSchema = sequelize.define('user',{
     },
     fName:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     email:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     phone:{
         type: Sequelize.STRING,
@@ -34,6 +34,10 @@ const UserSchema = sequelize.define('user',{
         allowNull: true,
     },
     vehicles:{
+        type: Sequelize.JSON,
+        allowNull: true
+    },
+    offers:{
         type: Sequelize.JSON,
         allowNull: true
     }

@@ -1,0 +1,396 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                                    display: flex;
+                                    margin-top: 15px;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">Users</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input
+                                            style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                            type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Answer</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                                <th>Answer</th>
+                                                <th>Action</th>
+                                                <th>View Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(faqs.length> 0) { %>
+                                                <% for (let data of faqs) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= data.id %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data.faq %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.answer == ""){ %>
+                                                                <span class="badge badge-danger">Not Answered</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Answered</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.status == "0"){ %>
+                                                                <span class="badge badge-danger">Blocked</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Available</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data.createdAt %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.answer == ""){ %>
+                                                                <button id="assign" data-target="#answerModal"
+                                                                    onclick="storePrimaryData('<%= data.id %>','<%= data.faq %>')"
+                                                                    data-toggle="modal"
+                                                                    style="background-color: #148b4b; color: #fff"
+                                                                    type="button" type="button" class="btn">
+                                                                    Answer
+                                                                </button>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Completed</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data.status == "0"){ %>
+                                                                <button id="assign" data-target="#statusModal"
+                                                                    onclick="setActionData('<%= data.id %>','<%= data.faq %>','<%= data.status %>')"
+                                                                    data-toggle="modal"
+                                                                    class="btn btn-primary"
+                                                                    style="background-color: #148b4b; color: #fff"
+                                                                    type="button" type="button" class="btn">
+                                                                    Unblock
+                                                                </button>
+                                                            <% } else { %>
+                                                                <button id="assign" data-target="#statusModal"
+                                                                    onclick="setActionData('<%= data.id %>','<%= data.faq %>','<%= data.status %>')"
+                                                                    data-toggle="modal"
+                                                                    class="btn btn-danger"
+                                                                    type="button" type="button" class="btn">
+                                                                    Block
+                                                                </button>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <button id="assign" data-target="#detailsModal"
+                                                                onclick="updateModalDetails('<%= data.id %>','<%= data.faq %>','<%= data.answer %>','<%= data.status %>','<%= data.createdAt %>')"
+                                                                data-toggle="modal"
+                                                                style="background-color: #148b4b; color: #fff"
+                                                                type="button" type="button" class="btn">
+                                                                View Details
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No faqs found</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="id">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="faq">Faq - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="answer">Answer - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="status">Status - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="date">Date - </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                        class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Answer Modal -->
+    <div class="modal fade" id="answerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="idA">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="faqA">Faq - </h4>
+                                </div>
+                            </div>
+                            <textarea name="answerA" id="answerA" cols="30" rows="10" placeholder="Enter the answer here!"
+                            style="margin-top: 10px; padding:10px;width: 100%;
+                            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            border: none;"></textarea>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                    onclick="updateAnswer()"
+                    class="btn btn-secondary" data-dismiss="modal">
+                        Answer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="idAs">Id - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="faqAs">Faq - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title" id="messageAs"></h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-evenly;
+                            ">
+                                <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                                    class="btn btn-secondary" data-dismiss="modal">
+                                    No
+                                </button>
+                                <button id="assign"
+                                    onclick="updateStatus()"
+                                    class="btn btn-danger"
+                                    type="button" class="btn">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let faq = "";
+        let id = "";
+        let status = "";
+        // Methods for supervisor assignment
+        function storePrimaryData(ids,faqs){
+            faq = faqs;
+            id = ids;
+            document.getElementById('idA').innerHTML = "Id - "+ id;
+            document.getElementById('faqA').innerHTML = "Faq - "+  faq;
+        }
+        function setActionData(ids,faqs,stat){
+            faq = faqs;
+            id = ids;
+            status = stat;
+            document.getElementById('idAs').innerHTML = "Id - "+ id;
+            document.getElementById('faqAs').innerHTML = "Faq - "+  faq;
+            if(stat === "0"){
+                document.getElementById('messageAs').innerHTML = "Do you really want to unblock this Faq?";
+                status = "1";
+            }else{
+                document.getElementById('messageAs').innerHTML = "Do you really want to block this Faq?";
+                status = "0";
+            }
+        }
+        function updateStatus(){
+            fetch('/admin/updatestatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    status: status,
+                    id: id
+                })
+            }).then(res => {
+                window.location.reload();
+            })
+        }
+        function updateAnswer(){
+            let answer = document.getElementById('answerA').value;
+            console.log(answer);
+            if(answer !== ""){
+                fetch('/admin/answerfaq', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        answer: answer,
+                        id: id
+                    })
+                }).then(res => {
+                    window.location.reload();
+                })
+            }
+        }
+        function updateModalDetails(id,faq,answer,status,createdAt){
+            document.getElementById('id').innerHTML = "Id - "+ id;
+            document.getElementById('faq').innerHTML = "Faq - "+  faq;
+            if(answer === ""){
+                document.getElementById('answer').innerHTML = "Answer - Not Answered";
+            }else{
+                document.getElementById('answer').innerHTML = "Answer - "+ answer;
+            }
+            if(status === "1"){
+                document.getElementById('status').innerHTML = "Status - Not Blocked";
+            }else{
+                document.getElementById('status').innerHTML = "Status - Blocked";
+            }
+            document.getElementById('date').innerHTML = "Date - "+ createdAt;
+        }
+    </script>
+
+    <%- include('../includes/end_body.ejs') %>

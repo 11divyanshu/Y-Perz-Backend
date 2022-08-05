@@ -8,6 +8,10 @@ const EverydaySchema = sequelize.define('everydayservice',{
         autoIncrement: true,
         primaryKey: true 
     },
+    name:{
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     phone:{
         type: Sequelize.STRING,
         allowNull: false,
@@ -41,6 +45,10 @@ const EverydaySchema = sequelize.define('everydayservice',{
         allowNull: true,
     },
     supervisor_num:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    cleaner_num:{
         type: Sequelize.STRING,
         allowNull: true,
     },

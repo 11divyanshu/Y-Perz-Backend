@@ -4,8 +4,11 @@ const unirest = require('unirest');
 const OtpStore = require('../models/userAuth');
 const UserSchema = require('../models/userSchema');
 const JwtSchema = require('../models/jwtSchema');
+const Faqs = require('../models/faqSchema');
 const EverydaySchema = require('../models/everydaySchema');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
+const RaiseQuery = require('../models/querySchema');
+const LoanSchema = require('../models/loanSchema');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
@@ -390,7 +393,7 @@ exports.handleOtpCheckRegister = (req, res) => {
     // Fetching user register request data
     let data = req.body;
     // Verifying OTP
-    OtpStore.findAll({ attribute: [{ phone: data.phone }] })
+    OtpStore.findAll({ where: [{ phone: data.phone }] })
         .then(response => {
             // Convertin data in form of JSON
             let fetchedOtp = JSON.stringify(response, null, 4);
@@ -407,7 +410,7 @@ exports.handleOtpCheckRegister = (req, res) => {
                     .then(() => {
                         console.log("Deleted OTP");
                         console.log("User Data : " + data);
-                        UserSchema.findAll({ attribute: { phone: data.phone } })
+                        UserSchema.findAll({ where: { phone: data.phone } })
                             .then(checkUserRes => {
                                 let fetchedOtp1 = JSON.stringify(checkUserRes, null, 4);
                                 let extData1 = JSON.parse(fetchedOtp1);
@@ -425,7 +428,8 @@ exports.handleOtpCheckRegister = (req, res) => {
                                         location: "",
                                         desc: "",
                                         profilepic: "",
-                                        vehicles: JSON.stringify([])
+                                        vehicles: JSON.stringify([]),
+                                        offers: JSON.stringify([])
                                     }).then((dbres) => {
                                         jwt.sign({ user: data }, 'secretkey', (err, token) => {
                                             // Status 202 - Correct password
@@ -459,6 +463,8 @@ exports.handleOtpCheckRegister = (req, res) => {
                                 }
                             })
                             .catch(err => {
+                                console.log(err);
+
                                 res.status(205);
                                 res.json({
                                     msg: "Fatal Error Occured",
@@ -736,6 +742,7 @@ exports.addUserVehicle = (req,res) => {
 exports.addeverydayservice = (req,res) => {
     let data = req.body;
     EverydaySchema.create({
+        name: data.name,
         phone : data.phone,
         startdate : data.startdate,
         enddate : data.enddate,
@@ -745,6 +752,7 @@ exports.addeverydayservice = (req,res) => {
         trans_id : "",
         order_id : "",
         supervisor_num : "",
+        cleaner_num : "",
         pay_status : 0,
         status : 0,
 
@@ -755,6 +763,7 @@ exports.addeverydayservice = (req,res) => {
             msg : "Everyday Service Stored Successfully",
             key : 1
         })
+
     })
     
     .catch(err => {
@@ -832,6 +841,7 @@ exports.getEverydayServiceUserData = (req,res) => {
 exports.addSingleTimeServiceModule = (req,res) => {
     let data = req.body;
     SingleTimeServiceSchema.create({
+        name: data.name,
         phone : data.phone,
         date : data.date,
         c_num : data.c_num,
@@ -840,6 +850,7 @@ exports.addSingleTimeServiceModule = (req,res) => {
         trans_id : "",
         order_id : "",
         supervisor_num : "",
+        cleaner_num : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -913,6 +924,81 @@ exports.getSingleServiceUserData = (req,res) => {
             })
         }
     }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.addFaqs = (req,res) => {
+    let data = req.body;
+    Faqs.create({
+        faq : data.faq,
+        answer : "",
+        status : "0"
+    })
+    .then(response => {
+        console.log("Faqs Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Faqs Created Successfully",
+            key: 1
+        })
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.addQuery = (req,res) => {
+    let data = req.body;
+    RaiseQuery.create({
+        name : data.name,
+        phone : data.phone,
+        email : data.email,
+        subject : data.subject,
+        description : data.description,
+    })
+    .then(response => {
+        console.log("Query Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Query Created Successfully",
+            key: 1
+        })
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.addLoan = (req,res) => {
+    let data = req.body;
+    LoanSchema.create({
+        name : data.name,
+        phone : data.phone,
+        email : data.email,
+        type : data.type,
+    })
+    .then(response => {
+        console.log("Loan Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Loan Created Successfully",
+            key: 1
+        })
+    })
+    .catch(err => {
         res.status(205);
         res.json({
             msg: "Fatal Error Occured",

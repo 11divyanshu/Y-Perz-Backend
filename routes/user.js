@@ -23,6 +23,10 @@ router.post('/getSingleServiceUserData', userController.getSingleServiceUserData
 router.post('/everydayServiceAddRoute', userController.addeverydayservice);
 router.post('/everydayServicePaymentConfirm', userController.everydayServicePaymentConfirm);
 router.post('/getEverydayServiceUserData', userController.getEverydayServiceUserData);
+router.post('/addfaq', userController.addFaqs);
+router.post('/addquery', userController.addQuery);
+router.post('/addloan', userController.addLoan);
+
 
 module.exports = router;
 

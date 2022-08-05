@@ -1,0 +1,389 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                                    display: flex;
+                                    margin-top: 15px;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">Users</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input
+                                            style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                            type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Vehicle Name</th>
+                                                <th>Vehicle No.</th>
+                                                <th>City</th>
+                                                <th>Date</th>
+                                                <th>Supervisor</th>
+                                                <th>Cleaner</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Bob Williams</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#supervisorModalId"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>Not Assigned</td>
+                                                <td>
+                                                    <button id="assign" data-target="#detailsModal"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Details
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <!-- Supervisor Modal -->
+    <div class="modal fade" id="supervisorModalId" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                    display: flex;
+                    margin-top: 15px;
+                    align-items: center;
+                    justify-content: space-between;
+                  ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Assign Supervisors</h4>
+                                </div>
+
+                                <div style="display: flex; align-items: center">
+                                    <input style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;;"
+                                        type="text" id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
+                                    <div class="updown" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-content table-responsive">
+                                <table id="myModal" class="table table-hover">
+                                    <thead style="color: #148b4b">
+                                        <tr class="header">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Bob Williams</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Tom</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Barak Obama</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Elon Musk</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Mike Tyson</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cleaner Modal -->
+    <div class="modal fade" id="cleanerModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                    display: flex;
+                    margin-top: 15px;
+                    align-items: center;
+                    justify-content: space-between;
+                  ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Assign Cleaners</h4>
+                                </div>
+
+                                <div style="display: flex; align-items: center">
+                                    <input style="border-radius: 4px; height: 45px; width: 125px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
+                                        type="text" id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
+                                    <div class="updown" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-content table-responsive">
+                                <table id="myModal" class="table table-hover">
+                                    <thead style="color: #148b4b">
+                                        <tr class="header">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Bob Williams</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Tom</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Barak Obama</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Elon Musk</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Mike Tyson</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <img src="/images/logo.png" width="75px" style="margin-left: 5px; padding: 10px; margin-right: auto;"/>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Full Name - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Phone - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Supervisor - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Cleaner - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Start Date - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">End Date - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Slot - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Total Bill - </h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                            ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Vehicle</h4>
+                                </div>
+                            </div>
+                            <div style="
+                                display: block;
+                                margin-top: 15px;
+                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                                padding: 10px;
+                            ">
+                                <img src="/images/logo.png" width="55px" style="margin-left: 5px; padding: 10px; margin-right: auto;"/>
+                                <div class="card-header card-header-text" style="margin-top: -10px;">
+                                    <h4 class="card-title">Vehicle Name - </h4>
+                                </div>
+                                <div class="card-header card-header-text" style="margin-top: -10px;">
+                                    <h4 class="card-title">Vehicle Number - </h4>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/end_body.ejs') %>

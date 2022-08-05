@@ -8,7 +8,12 @@ const EverydaySchema = require('../models/everydaySchema');
 const AdministrationSchema = require('../models/administrationSchema');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
+const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema');
+let LocalStorage = require('node-localstorage').LocalStorage;
+if (typeof localStorage === "undefined" || localStorage === null) {
+    localStorage = new LocalStorage('./scratch');
+}
 require('dotenv').config();
 
 exports.handleSupervisorRegister = (req, res) => {
@@ -352,15 +357,15 @@ exports.handlePostSupervisorRegister = (req, res) => {
                 }
             } else {
                 console.log("Failed");
-                        res.status(205);
-                        res.render('admin/otp', {
-                            pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                            path: '/supervisor/otpverification',
-                            confirmation: '205',
-                            otp: 0,
-                            userPhone: userPhone,
-                            lastDigit: lastDigit
-                        });
+                res.status(205);
+                res.render('admin/otp', {
+                    pageTitle: 'Supervisor OTP Verification | Y PEREZ',
+                    path: '/supervisor/otpverification',
+                    confirmation: '205',
+                    otp: 0,
+                    userPhone: userPhone,
+                    lastDigit: lastDigit
+                });
             }
         }).catch(err => {
             console.log("Failed");
@@ -371,5 +376,95 @@ exports.handlePostSupervisorRegister = (req, res) => {
                 confirmation: '205',
                 otp: 0
             });
+        })
+}
+
+exports.handleSupervisorHome = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    res.status(202);
+    res.render('supervisor/suphome', {
+        pageTitle: 'Supervisor Home | Y PEREZ',
+        path: '/admin/supervisorhome',
+        pageName: 'Home | Administration Panel',
+        confirmation: '202',
+        data: data
+    });
+}
+
+exports.checkAdministration = (req, res, next) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    if (data === null) {
+        res.redirect('/admin/login');
+    } else {
+        return next();
+    }
+}
+
+// One Time Wash Contorllers
+exports.handleSupervisorOneTimeWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    SingleTimeServiceSchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/suponetimewash', {
+                        pageTitle: 'Supervisor One Time Wash | YPERZ',
+                        pageName: 'One Time Wash | Administration Panel',
+                        path: '/admin/suponetimewash',
+                        onetimeWash: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('admin/supervisor', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisor',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('admin/home', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/home',
+                data: data
+            });
+        });
+}
+
+exports.handleOneTimeCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    SingleTimeServiceSchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/suponetimewash');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('admin/supervisorhome');
         })
 }

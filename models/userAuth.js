@@ -4,7 +4,7 @@ const sequelize = require('../util/database');
 
 const OtpStore = sequelize.define('otpstore',{
     phone : {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
