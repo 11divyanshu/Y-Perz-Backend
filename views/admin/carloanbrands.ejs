@@ -11,21 +11,22 @@
                                         <h5 class="card-header-title">Add Car Loan Brand</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form method="POST" action="/admin/addcarloanbrands">
+                                        <form method="POST" action="/admin/addcarloanbrands"
+                                            enctype="multipart/form-data">
                                             <!-- <div class="form-group"> -->
-                                                <label for="brand_name">Brand Name</label>
-                                                <input type="text" class="form-control" id="brand_name"
-                                                    name="brand_name" placeholder="Brand Name" />
+                                            <label for="brand_name">Brand Name</label>
+                                            <input type="text" class="form-control" id="brand_name" name="brand_name"
+                                                placeholder="Brand Name" />
                                             <!-- </div> -->
                                             <!-- <div class="form-group"> -->
-                                                <label for="brand_image" style="margin-top: 20px;">Brand Image</label>
-                                                <br/>
-                                                <input type="file" accept="image/*" style="padding-bottom: 10px ;" id="brand_image"
-                                                    name="brand_image" placeholder="Brand Image" />
+                                            <label for="brand_image" style="margin-top: 20px;">Brand Image</label>
+                                            <br />
+                                            <input type="file" accept="image/*" style="padding-bottom: 10px ;"
+                                                id="brand_image" name="brand_image" placeholder="Brand Image" />
                                             <!-- </div> -->
-                                            <br/>
-                                            <button style="background-color: #148B4B; margin-top: 20px; color: #fff;" type="submit"
-                                                class="btn">Submit</button>
+                                            <br />
+                                            <button style="background-color: #148B4B; margin-top: 20px; color: #fff;"
+                                                type="submit" class="btn">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -70,43 +71,43 @@
                                                             <%= data.id %>
                                                         </td>
                                                         <td>
-                                                            <% if(data.photo == ""){ %>
-                                                                <img src="/images/logo.png" width="25px"
+                                                            <% if(data.photo=="" ){ %>
+                                                                <img src="/images/logo.png" width="25px" height="25px"
+                                                                    class="rounded-circle"
                                                                     style="margin-left: 5px; margin-right: auto;" />
-                                                            <% } else { %>
-                                                                <img src='<%= data.photo %>' width="25px"
-                                                                    style="margin-left: 5px; margin-right: auto;" />
-                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <img src='../../<%= data.photo %>' height="25px"
+                                                                        class="rounded-circle" width="25px"
+                                                                        style="margin-left: 5px; margin-right: auto;" />
+                                                                    <% } %>
                                                         </td>
                                                         <td>
                                                             <%= data.name %>
                                                         </td>
                                                         <td>
-                                                            <% if(data.status == "0"){ %>
+                                                            <% if(data.status=="0" ){ %>
                                                                 <span class="badge badge-danger">Blocked</span>
-                                                            <% } else { %>
-                                                                <span class="badge badge-success">Available</span>
-                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <span class="badge badge-success">Available</span>
+                                                                    <% } %>
                                                         </td>
                                                         <td>
-                                                            <% if(data.status == "0"){ %>
+                                                            <% if(data.status=="0" ){ %>
                                                                 <button id="assign" data-target="#statusModal"
                                                                     onclick="setActionData('<%= data.id %>','<%= data.name %>','<%= data.status %>')"
-                                                                    data-toggle="modal"
-                                                                    class="btn btn-primary"
+                                                                    data-toggle="modal" class="btn btn-primary"
                                                                     style="background-color: #148b4b; color: #fff"
                                                                     type="button" type="button" class="btn">
                                                                     Unblock
                                                                 </button>
-                                                            <% } else { %>
-                                                                <button id="assign" data-target="#statusModal"
-                                                                    onclick="setActionData('<%= data.id %>','<%= data.name %>','<%= data.status %>')"
-                                                                    data-toggle="modal"
-                                                                    class="btn btn-danger"
-                                                                    type="button" type="button" class="btn">
-                                                                    Block
-                                                                </button>
-                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <button id="assign" data-target="#statusModal"
+                                                                        onclick="setActionData('<%= data.id %>','<%= data.name %>','<%= data.status %>')"
+                                                                        data-toggle="modal" class="btn btn-danger"
+                                                                        type="button" type="button" class="btn">
+                                                                        Block
+                                                                    </button>
+                                                                    <% } %>
                                                         </td>
                                                         <td>
                                                             <button id="assign" data-target="#detailsModal"
@@ -118,12 +119,12 @@
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                <% } %>
-                                            <% } else { %>
-                                                <tr>
-                                                    <td colspan="5">No brands found</td>
-                                                </tr>
-                                            <% } %>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="5">No brands found</td>
+                                                            </tr>
+                                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -248,10 +249,8 @@
                                     class="btn btn-secondary" data-dismiss="modal">
                                     No
                                 </button>
-                                <button id="assign"
-                                    onclick="updateStatus()"
-                                    class="btn btn-danger"
-                                    type="button" class="btn">
+                                <button id="assign" onclick="updateStatus()" class="btn btn-danger" type="button"
+                                    class="btn">
                                     Yes
                                 </button>
                             </div>
@@ -265,21 +264,21 @@
         let name = "";
         let id = "";
         let status = "";
-        function setActionData(ids,names,stat){
+        function setActionData(ids, names, stat) {
             name = names;
             id = ids;
             status = stat;
-            document.getElementById('idAs').innerHTML = "Id - "+ id;
-            document.getElementById('nameAs').innerHTML = "Brand Name - "+  names;
-            if(stat === "0"){
+            document.getElementById('idAs').innerHTML = "Id - " + id;
+            document.getElementById('nameAs').innerHTML = "Brand Name - " + names;
+            if (stat === "0") {
                 document.getElementById('messageAs').innerHTML = "Do you really want to unblock this Brand?";
                 status = "1";
-            }else{
+            } else {
                 document.getElementById('messageAs').innerHTML = "Do you really want to block this Brand?";
                 status = "0";
             }
         }
-        function updateStatus(){
+        function updateStatus() {
             fetch('/admin/updatecarloanbrandstatus', {
                 method: 'POST',
                 headers: {
@@ -293,17 +292,17 @@
                 window.location.reload();
             })
         }
-        function updateModalDetails(id,name,status,photo){
-            document.getElementById('id').innerHTML = "Id - "+ id;
-            document.getElementById('name').innerHTML = "Brand Name - "+  name;
-            if(status === "1"){
+        function updateModalDetails(id, name, status, photo) {
+            document.getElementById('id').innerHTML = "Id - " + id;
+            document.getElementById('name').innerHTML = "Brand Name - " + name;
+            if (status === "1") {
                 document.getElementById('status').innerHTML = "Status - Not Blocked";
-            }else{
+            } else {
                 document.getElementById('status').innerHTML = "Status - Blocked";
             }
-            if(photo === ""){
+            if (photo === "") {
                 document.getElementById('brand_name').setAttribute("src", "/images/logo.png");
-            }else{
+            } else {
                 document.getElementById('brand_name').setAttribute("src", photo);
             }
         }

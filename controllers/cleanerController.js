@@ -10,13 +10,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema');
+const WeeklySchema = require('../models/weeklySchema');
+const AlternateSchema = require('../models/alternateSchema');
 let LocalStorage = require('node-localstorage').LocalStorage;
 if (typeof localStorage === "undefined" || localStorage === null) {
     localStorage = new LocalStorage('./scratch');
 }
 require('dotenv').config();
 
-exports.handleCleanerRegister = (req, res) => { 
+exports.handleCleanerRegister = (req, res) => {
     res.render('admin/cleanerRegister', {
         pageTitle: 'Cleaner Register | Y PEREZ',
         path: '/admin/cleanerregister',
@@ -282,7 +284,6 @@ exports.handlePostCleanerOtpSend = (req, res) => {
 
 }
 
-
 exports.handlePostCleanerRegister = (req, res) => {
     let data = req.body;
     let otpVal = data.firstInput + data.secondInput + data.thirdInput + data.fourthInput;
@@ -378,4 +379,313 @@ exports.handlePostCleanerRegister = (req, res) => {
                 otp: 0
             });
         })
+}
+
+exports.checkAdministration = (req, res, next) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    if (data === null) {
+        res.redirect('/admin/login');
+    } else {
+        return next();
+    }
+}
+
+exports.handleCleanerHome = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    res.status(202);
+    res.render('cleaner/cleanerhome', {
+        pageTitle: 'Cleaner Home | Y PEREZ',
+        path: '/admin/cleanerhome',
+        pageName: 'Home | Administration Panel',
+        confirmation: '202',
+        data: data
+    });
+}
+
+exports.handleCleanerOneTimeWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    SingleTimeServiceSchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleaneronetimewash', {
+                    pageTitle: 'Cleaner One Time Wash | YPERZ',
+                    pageName: 'One Time Wash | Administration Panel',
+                    path: '/admin/cleaneronetimewash',
+                    onetimeWash: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleOneTimeCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    SingleTimeServiceSchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleaneronetimewash');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
+}
+
+exports.handleCleanerEverydayWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    EverydaySchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleanereverydaywash', {
+                    pageTitle: 'Cleaner Everyday Wash | YPERZ',
+                    pageName: 'Everyday Wash | Administration Panel',
+                    path: '/admin/cleanereverydaywash',
+                    everydayWash: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleEverydayCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    EverydaySchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleanereverydaywash');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
+}
+
+exports.handleCleanerWeeklyWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    WeeklySchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleanerweeklywash', {
+                    pageTitle: 'Cleaner Weekly Wash | YPERZ',
+                    pageName: 'Weekly Wash | Administration Panel',
+                    path: '/admin/cleanerweeklywash',
+                    weeklyWash: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleWeeklyCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    WeeklySchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleanereverydaywash');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
+}
+
+exports.handleCleanerAlternateWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    AlternateSchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleaneralternatewash', {
+                    pageTitle: 'Cleaner Alternate Wash | YPERZ',
+                    pageName: 'Alternate Wash | Administration Panel',
+                    path: '/admin/cleaneralternatewash',
+                    weeklyWash: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleAlternateCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    AlternateSchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleaneralternatewash');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
 }

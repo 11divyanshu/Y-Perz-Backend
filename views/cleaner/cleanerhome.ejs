@@ -1,0 +1,394 @@
+<%- include('../includes/head.ejs') %>
+    <div class="wrapper">
+        <%- include('../includes/sidebar.ejs') %>
+
+            <!-- Page Content  -->
+            <div id="content">
+                <%- include('../includes/navbar.ejs') %>
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header">
+                                        <div class="icon icon-warning">
+                                            <span class="material-icons">equalizer</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category"><strong>Users</strong></p>
+                                        <h3 class="card-title">70,340</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <i class="material-icons text-info">info</i>
+                                            <a href="#pablo">See detailed report</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header">
+                                        <div class="icon icon-rose">
+                                            <span class="material-icons">shopping_cart</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category"><strong>Cleaners</strong></p>
+                                        <h3 class="card-title">102</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <i class="material-icons">local_offer</i> Product-wise sales
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header">
+                                        <div class="icon icon-success">
+                                            <span class="material-icons"> attach_money </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category"><strong>Services Complete</strong></p>
+                                        <h3 class="card-title">23,000</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <i class="material-icons">date_range</i> Weekly sales
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="card card-stats">
+                                    <div class="card-header">
+                                        <div class="icon icon-info">
+                                            <span class="material-icons"> follow_the_signs </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <p class="category"><strong>Supervisors</strong></p>
+                                        <h3 class="card-title">+245</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <i class="material-icons">update</i> Just Updated
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row"> -->
+                        <div class="table col-lg-12 col-md-12">
+                            <div class="card" style="min-height: 485px">
+                                <div style="
+                  display: flex;
+                  margin-top: 15px;
+                  align-items: center;
+                  justify-content: space-between;
+                ">
+                                    <div class="card-header card-header-text">
+                                        <h4 class="card-title">Users</h4>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center">
+                                        <input style="border-radius: 4px; height: 25px; width: 55px" type="text"
+                                            id="myInput" onkeyup="myFunction()" placeholder="Search" />
+                                        <div class="updown" style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    ">
+                                            <p>
+                                                <button style="
+                          border: none;
+                          border-radius: 4px;
+                          height: 30px;
+                          width: 35px;
+                        " id="sortButton" onclick="sortTable()">
+                                                    Up
+                                                </button>
+                                            </p>
+                                            <p>
+                                                <button style="
+                          border: none;
+                          border-radius: 4px;
+                          height: 25px;
+                          width: 55px;
+                        " id="sortButton" onclick="unsortTable()">
+                                                    Down
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-content table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead style="color: #148b4b">
+                                            <tr class="header">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Vehicle Name</th>
+                                                <th>Vehicle No.</th>
+                                                <th>Serivce</th>
+                                                <th>City</th>
+                                                <th>Date</th>
+                                                <th>Supervisor</th>
+                                                <th>Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Bob Williams</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Mike Tyson</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Tim Sebastian</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>Philip Morris</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Minerva Hooper</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>Hulk Hogan</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>Angelina Jolie</td>
+                                                <td>Alto 800</td>
+                                                <td>TN-12-UI-3456</td>
+                                                <td>Cleaning</td>
+                                                <td>USA</td>
+                                                <td>28th July, 2022</td>
+                                                <td>
+                                                    <button id="assign" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"
+                                                        style="background-color: #148b4b; color: #fff" type="button"
+                                                        class="btn">
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td>$100</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p class="copyright d-flex justify-content-end">
+                                        &copy 2022 Design by TDPVista.
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+            </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center">
+                    <div class="table col-lg-12 col-md-12">
+                        <div class="card">
+                            <div style="
+                    display: flex;
+                    margin-top: 15px;
+                    align-items: center;
+                    justify-content: space-between;
+                  ">
+                                <div class="card-header card-header-text">
+                                    <h4 class="card-title">Assign Workers</h4>
+                                </div>
+
+                                <div style="display: flex; align-items: center">
+                                    <input style="border-radius: 4px; height: 25px; width: 55px" type="text"
+                                        id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
+                                    <div class="updown" style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      ">
+                                        <p>
+                                            <button style="
+                            border: none;
+                            border-radius: 4px;
+                            height: 30px;
+                            width: 35px;
+                          " id="sortButton" onclick="sortModal()">
+                                                Up
+                                            </button>
+                                        </p>
+                                        <p>
+                                            <button style="
+                            border: none;
+                            border-radius: 4px;
+                            height: 25px;
+                            width: 55px;
+                          " id="sortButton" onclick="unsortModal()">
+                                                Down
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-content table-responsive">
+                                <table id="myModal" class="table table-hover">
+                                    <thead style="color: #148b4b">
+                                        <tr class="header">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Bob Williams</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Tom</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Barak Obama</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Elon Musk</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Mike Tyson</td>
+                                            <td>Supervisor</td>
+                                            <td><input type="checkbox" name="" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/end_body.ejs') %>

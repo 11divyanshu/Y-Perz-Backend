@@ -5,6 +5,8 @@ const OtpStore = require('../models/userAuth');
 const UserSchema = require('../models/userSchema');
 const JwtSchema = require('../models/jwtSchema');
 const EverydaySchema = require('../models/everydaySchema');
+const WeeklySchema = require('../models/weeklySchema');
+const AlternateSchema = require('../models/alternateSchema');
 const AdministrationSchema = require('../models/administrationSchema');
 const multer = require('multer');
 const path = require('path');
@@ -462,6 +464,210 @@ exports.handleOneTimeCleanerAssign = (req, res) => {
         .then(response => {
             console.log(response);
             res.redirect('/admin/suponetimewash');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('admin/supervisorhome');
+        })
+}
+
+exports.handleSupervisorEverydayWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    EverydaySchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/supeverydaywash', {
+                        pageTitle: 'Supervisor Everyday Wash | YPERZ',
+                        pageName: 'Everyday Wash | Administration Panel',
+                        path: '/admin/supeverydaywash',
+                        everydayWash: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('admin/supervisor', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisor',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('admin/home', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/home',
+                data: data
+            });
+        });
+}
+
+exports.handleEverydayCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    EverydaySchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/supeverydaywash');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('admin/supervisorhome');
+        })
+}
+
+exports.handleSupervisorWeeklyWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    WeeklySchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/supweeklywash', {
+                        pageTitle: 'Supervisor Weekly Wash | YPERZ',
+                        pageName: 'Weekly Wash | Administration Panel',
+                        path: '/admin/supweeklywash',
+                        weeklyWash: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('admin/supervisor', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisor',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('admin/home', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/home',
+                data: data
+            });
+        });
+}
+
+exports.handleWeeklyCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    WeeklySchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/supweeklywash');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('admin/supervisorhome');
+        })
+}
+
+exports.handleSupervisorAlternateWash = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    EverydaySchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/supalternatewash', {
+                        pageTitle: 'Supervisor Alternate Wash | YPERZ',
+                        pageName: 'Alternate Wash | Administration Panel',
+                        path: '/admin/supalternatewash',
+                        alternateWash: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('admin/supervisor', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisor',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('admin/home', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/home',
+                data: data
+            });
+        });
+}
+
+exports.handleAlternateCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    AlternateSchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/supalternatewash');
         })
         .catch(err => {
             console.log(err);

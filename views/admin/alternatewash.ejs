@@ -15,7 +15,7 @@
                                     justify-content: space-between;
                                 ">
                                     <div class="card-header card-header-text">
-                                        <h4 class="card-title">Users</h4>
+                                        <h4 class="card-title">Alterate Day wash</h4>
                                     </div>
 
                                     <div style="display: flex; align-items: center">
@@ -33,39 +33,84 @@
                                                 <th>Name</th>
                                                 <th>Vehicle Name</th>
                                                 <th>Vehicle No.</th>
-                                                <th>City</th>
-                                                <th>Date</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Slot</th>
+                                                <th>Payment</th>
                                                 <th>Supervisor</th>
                                                 <th>Cleaner</th>
                                                 <th>Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Bob Williams</td>
-                                                <td>Alto 800</td>
-                                                <td>TN-12-UI-3456</td>
-                                                <td>USA</td>
-                                                <td>28th July, 2022</td>
-                                                <td>
-                                                    <button id="assign" data-target="#supervisorModalId"
-                                                        data-toggle="modal"
-                                                        style="background-color: #148b4b; color: #fff" type="button"
-                                                        class="btn">
-                                                        Assign
-                                                    </button>
-                                                </td>
-                                                <td>Not Assigned</td>
-                                                <td>
-                                                    <button id="assign" data-target="#detailsModal"
-                                                        data-toggle="modal"
-                                                        style="background-color: #148b4b; color: #fff" type="button"
-                                                        class="btn">
-                                                        Details
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <% if(alternateWash.length> 0) { %>
+                                                <% for (let data0 of alternateWash) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= data0.id %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.c_name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.c_num %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.startdate %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.enddate %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data0.slot %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data0.pay_status == 0){ %>
+                                                                <span class="badge badge-danger">Pending</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success">Paid</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data0.supervisor_num == ""){ %>
+                                                                <button id="assign" data-target="#supervisorModalId"
+                                                                    onclick="storeDetails('<%= data0.id %>','<%= data0.phone %>')"
+                                                                    data-toggle="modal"
+                                                                    style="background-color: #148b4b; color: #fff"
+                                                                    type="button" type="button" class="btn"
+                                                                    >
+                                                                    Assign
+                                                                </button>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success"><%= data0.supervisor_num %></span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if(data0.cleaner_num == ""){ %>
+                                                                <span class="badge badge-danger">Not Assigned</span>
+                                                            <% } else { %>
+                                                                <span class="badge badge-success"><%= data0.cleaner_num %></span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <button id="assign" data-target="#detailsModal"
+                                                                onclick="updateModalDetails('<%= data0.phone %>','<%= data0.name %>','<%= data0.c_name %>','<%= data0.c_num %>','<%= data0.startdate %>','<%= data0.enddate %>','<%= data0.slot %>','<%= data0.pay_status %>','<%= data0.supervisor_num %>','<%= data0.cleaner_num %>')"
+                                                                data-toggle="modal"
+                                                                style="background-color: #148b4b; color: #fff"
+                                                                type="button" type="button" class="btn">
+                                                                View Details
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5">No data found</td>
+                                                </tr>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -86,25 +131,26 @@
     </div>
 
     <!-- Supervisor Modal -->
-    <div class="modal fade" id="supervisorModalId" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="supervisorModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="text-align: center">
                     <div class="table col-lg-12 col-md-12">
                         <div class="card">
                             <div style="
-                    display: flex;
-                    margin-top: 15px;
-                    align-items: center;
-                    justify-content: space-between;
-                  ">
+                                display: flex;
+                                margin-top: 15px;
+                                align-items: center;
+                                justify-content: space-between;
+                            ">
                                 <div class="card-header card-header-text">
                                     <h4 class="card-title">Assign Supervisors</h4>
                                 </div>
 
                                 <div style="display: flex; align-items: center">
-                                    <input style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;;"
+                                    <input
+                                        style="border-radius: 4px; height: 45px; width: 225px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;;"
                                         type="text" id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
                                     <div class="updown" style="
                                         display: flex;
@@ -121,149 +167,58 @@
                                         <tr class="header">
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Phone</th>
                                             <th>Position</th>
                                             <th>Select</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Bob Williams</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Tom</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Barak Obama</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Elon Musk</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Mike Tyson</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
+                                        <% if(supervisors.length> 0) { %>
+                                            <% for (let data1 of supervisors) { %>
+                                                <tr>
+                                                    <td><%= data1.id %></td>
+                                                    <td><%= data1.fName %></td>
+                                                    <td><%= data1.phone %></td>
+                                                    <td>Supervisor</td>
+                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>');"/></td>
+                                                </tr>
+                                            <% } %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5">No supervisor found</td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">
-                        Done
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cleaner Modal -->
-    <div class="modal fade" id="cleanerModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style="text-align: center">
-                    <div class="table col-lg-12 col-md-12">
-                        <div class="card">
-                            <div style="
-                    display: flex;
-                    margin-top: 15px;
-                    align-items: center;
-                    justify-content: space-between;
-                  ">
-                                <div class="card-header card-header-text">
-                                    <h4 class="card-title">Assign Cleaners</h4>
-                                </div>
-
-                                <div style="display: flex; align-items: center">
-                                    <input style="border-radius: 4px; height: 45px; width: 125px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;padding: 10px;"
-                                        type="text" id="myModalInput" onkeyup="myModalSearch()" placeholder="Search" />
-                                    <div class="updown" style="
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                    ">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-content table-responsive">
-                                <table id="myModal" class="table table-hover">
-                                    <thead style="color: #148b4b">
-                                        <tr class="header">
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Select</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Bob Williams</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Tom</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Barak Obama</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Elon Musk</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Mike Tyson</td>
-                                            <td>Supervisor</td>
-                                            <td><input type="checkbox" name="" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">
-                        Done
-                    </button>
+                    <% if(supervisors.length> 0) { %>
+                        <button onclick="assignSupervisor();" style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Done
+                        </button>
+                    <% } else { %>
+                        <button style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Close
+                        </button>
+                    <% } %>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Details Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="table col-lg-12 col-md-12">
                         <div class="card">
-                            <img src="/images/logo.png" width="75px" style="margin-left: 5px; padding: 10px; margin-right: auto;"/>
+                            <img src="/images/logo.png" width="75px"
+                                style="margin-left: 5px; padding: 10px; margin-right: auto;" />
                             <div style="
                                 display: flex;
                                 margin-top: 15px;
@@ -272,7 +227,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Full Name - </h4>
+                                    <h4 class="card-title" id="name">Full Name - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -283,7 +238,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Phone - </h4>
+                                    <h4 class="card-title" id="phone">Phone - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -294,7 +249,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Supervisor - </h4>
+                                    <h4 class="card-title" id="sup_num">Supervisor - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -305,7 +260,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Cleaner - </h4>
+                                    <h4 class="card-title" id="cleaner_num">Cleaner - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -316,7 +271,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Start Date - </h4>
+                                    <h4 class="card-title" id="sdate">Start Date - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -327,7 +282,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">End Date - </h4>
+                                    <h4 class="card-title" id="edate">End Date - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -338,7 +293,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Slot - </h4>
+                                    <h4 class="card-title" id="slot">Slot - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -368,22 +323,78 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                                 padding: 10px;
                             ">
-                                <img src="/images/logo.png" width="55px" style="margin-left: 5px; padding: 10px; margin-right: auto;"/>
+                                <img src="/images/logo.png" width="55px"
+                                    style="margin-left: 5px; padding: 10px; margin-right: auto;" />
                                 <div class="card-header card-header-text" style="margin-top: -10px;">
-                                    <h4 class="card-title">Vehicle Name - </h4>
+                                    <h4 class="card-title" id="c_name">Vehicle Name - </h4>
                                 </div>
                                 <div class="card-header card-header-text" style="margin-top: -10px;">
-                                    <h4 class="card-title">Vehicle Number - </h4>
+                                    <h4 class="card-title" id="c_num">Vehicle Number - </h4>
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                     </div>
-                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">
+                    <button style="background-color: #148b4b; color: #fff; margin-left: 10px;" type="button"
+                        class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        let num = "";
+        let id = "";
+        let sup_num = "";
+        // Methods for supervisor assignment
+        function storeDetails(data,phone){
+            num = phone;
+            id = data;
+            console.log(phone);
+        }
+        function selectedData(phone){
+            sup_num = phone;
+        }
+        function assignSupervisor(){
+            console.log(num);
+            console.log(sup_num);
+            // use fetch for api call
+            fetch('/admin/alternateassignsupervisor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone: num,
+                    supervisor_phone: sup_num,
+                    id: id
+                })
+            }).then(res => {
+                window.location.reload();
+            })
+        }
+        // Methods for details modal
+        function updateModalDetails(phone,name,c_name,c_num,sdate,edate,slot,pay_status,sup_num,cleaner_num){
+            document.getElementById('name').innerHTML = "Full Name - "+name;
+            document.getElementById('phone').innerHTML = "Phone - "+  phone;
+            if(sup_num === ""){
+                document.getElementById('sup_num').innerHTML = "Supervisor - Not Assigned";
+            }else{
+                document.getElementById('sup_num').innerHTML = "Supervisor - "+sup_num;
+            }
+            if(cleaner_num === ""){
+                document.getElementById('cleaner_num').innerHTML = "Cleaner - Not Assigned";
+            }else{
+                document.getElementById('cleaner_num').innerHTML = "Cleaner - "+cleaner_num;
+            }
+            document.getElementById('sdate').innerHTML = "Start Date - "+sdate;
+            document.getElementById('edate').innerHTML = "End Date - "+edate;
+            document.getElementById('slot').innerHTML = "Slot - "+slot;
+            document.getElementById('c_name').innerHTML = "Vehicle Name - "+c_name;
+            document.getElementById('c_num').innerHTML = "Vehicle Number - "+c_num;
+
+        }
+    </script>
+
     <%- include('../includes/end_body.ejs') %>

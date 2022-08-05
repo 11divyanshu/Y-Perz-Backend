@@ -28,12 +28,15 @@ router.post('/onetimeassignsupervisor', adminController.checkAdministration,admi
 
 // Everyday Wash
 router.get('/everydaywash', adminController.checkAdministration,adminController.handleEverydayWash);
+router.post('/everydayassignsupervisor', adminController.checkAdministration,adminController.handleEverydaySuperAssign);
 
 // Alternate Wash
 router.get('/alternatewash', adminController.checkAdministration,adminController.handleAlternateWash);
+router.get('/alternateassignsupervisor', adminController.checkAdministration,adminController.handleAlternateSuperAssign);
 
 // Weekly Wash
 router.get('/weeklywash', adminController.checkAdministration,adminController.handleWeeklyWash);
+router.get('/weeklyassignsupervisor', adminController.checkAdministration,adminController.handleWeeklySuperAssign);
 
 // Raise Query
 router.get('/raisequery', adminController.checkAdministration,adminController.handleRaiseQuery);
@@ -56,12 +59,12 @@ router.post('/updatecarbrandstatus', adminController.checkAdministration,adminCo
 
 // Car Loan Brands
 router.get('/carloanbrands', adminController.checkAdministration,adminController.handleCarLoanBrands);
-router.post('/addcarloanbrands', adminController.checkAdministration,adminController.handleAddCarLoanBrands);
+router.post('/addcarloanbrands', adminController.checkAdministration,adminController.uploadcarbrand,adminController.handleAddCarLoanBrands);
 router.post('/updatecarloanbrandstatus', adminController.checkAdministration,adminController.handleUpdateCarLoanBrandStatus);
 
 // Car Insurance Brands
 router.get('/carinsurancebrands', adminController.checkAdministration,adminController.handleCarInsuranceBrands);
-router.post('/addcarinsurancebrands', adminController.checkAdministration,adminController.handleAddCarInsuranceBrands);
+router.post('/addcarinsurancebrands', adminController.checkAdministration,adminController.uploadcarbrand,adminController.handleAddCarInsuranceBrands);
 router.post('/updatecarinsurancebrandstatus', adminController.checkAdministration,adminController.handleUpdateCarInsuranceBrandStatus);
 
 // Car Drive Learning Brands
@@ -79,14 +82,48 @@ router.get('/cleanerRegister', cleanerController.handleCleanerRegister);
 router.post('/cleanerOtpSend', cleanerController.handlePostCleanerOtpSend);
 router.post('/cleanerOtpVerify', cleanerController.handlePostCleanerRegister);
 
+// Cleaner Home
+router.get('/cleanerhome', cleanerController.checkAdministration,cleanerController.handleCleanerHome);
+
+// Cleaner One Time Wash
+router.get('/cleaneronetimewash', cleanerController.checkAdministration,cleanerController.handleCleanerOneTimeWash);
+router.post('/cleaneronetimecompleteservice', cleanerController.checkAdministration,cleanerController.handleOneTimeCleanerComplete);
+
+// Cleaner Everyday Wash
+router.get('/cleanereverydaywash', cleanerController.checkAdministration,cleanerController.handleCleanerEverydayWash);
+router.post('/cleanereverydaycompleteservice', cleanerController.checkAdministration,cleanerController.handleEverydayCleanerComplete);
+
+// Cleaner Weekly Wash
+router.get('/cleanerweeklywash', cleanerController.checkAdministration,cleanerController.handleCleanerWeeklyWash);
+router.post('/cleanerweeklycompleteservice', cleanerController.checkAdministration,cleanerController.handleEverydayCleanerComplete);
+
+// Cleaner Weekly Wash
+router.get('/cleaneralternatewash', cleanerController.checkAdministration,cleanerController.handleCleanerAlternateWash);
+router.post('/cleaneralternatecompleteservice', cleanerController.checkAdministration,cleanerController.handleAlternateCleanerComplete);
+
 // Supervisor Routes 
+// Supervisor Authentication
 router.get('/supervisorRegister', supervisorController.handleSupervisorRegister);
 router.post('/supervisorOtpSend', supervisorController.handlePostSupervisorOtpSend);
 router.post('/supervisorOtpVerify', supervisorController.handlePostSupervisorRegister);
+
+// Supervisor Home
 router.get('/supervisorhome', supervisorController.checkAdministration,supervisorController.handleSupervisorHome);
+
+// Supervisor One Time Wash
 router.get('/suponetimewash', supervisorController.checkAdministration,supervisorController.handleSupervisorOneTimeWash);
 router.post('/onetimeassigncleaner', supervisorController.checkAdministration,supervisorController.handleOneTimeCleanerAssign);
-// router.post('/administratorLogin', supervisorController.handleAdministratorLogin);
 
+// Supervisor Everyday Wash
+router.get('/supeverydaywash', supervisorController.checkAdministration,supervisorController.handleSupervisorEverydayWash);
+router.post('/everydayassigncleaner', supervisorController.checkAdministration,supervisorController.handleEverydayCleanerAssign);
+
+// Supervisor Weekly Wash
+router.get('/supweeklywash', supervisorController.checkAdministration,supervisorController.handleSupervisorWeeklyWash);
+router.post('/weeklyassigncleaner', supervisorController.checkAdministration,supervisorController.handleWeeklyCleanerAssign);
+
+// Supervisor Alternate Wash
+router.get('/supalternatewash', supervisorController.checkAdministration,supervisorController.handleSupervisorAlternateWash);
+router.post('/alternateassigncleaner', supervisorController.checkAdministration,supervisorController.handleAlternateCleanerAssign);
 
 module.exports = router;

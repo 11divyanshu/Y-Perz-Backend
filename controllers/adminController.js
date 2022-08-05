@@ -6,6 +6,9 @@ const VehicleSchema = require('../models/vehicle');
 const UserSchema = require('../models/userSchema');
 const AdministrationSchema = require('../models/administrationSchema');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
+const EverydaySchema = require('../models/everydaySchema.js');
+const WeeklySchema = require('../models/weeklySchema.js');
+const AlternateSchema = require('../models/alternateSchema.js');
 const JwtSchema = require('../models/jwtSchema');
 const CarBrand = require('../models/carBrandSchema');
 const CarLoanBrand = require('../models/carLoanBrandSchema');
@@ -111,14 +114,20 @@ exports.handleAdministrationLoginPost = (req, res) => {
                         localStorage.setItem('data', JSON.stringify(extData[0]));
                         res.render('supervisor/suphome', {
                           pageTitle: 'Supervisor Home | Y PEREZ',
+                          pageName: 'Home | Administration Panel',
                           path: '/admin/suphome',
-                          confirmation: '202',
                           confirmation: '202',
                           data: extData[0]
                         });
-                      } else {
-                        res.status(202);
-                        res.redirect('/admin/onetimewash');
+                      } else if (extData[0].type == "3") {
+                        localStorage.setItem('data', JSON.stringify(extData[0]));
+                        res.render('cleaner/cleanerhome', {
+                          pageTitle: 'Cleaner Home | Y PEREZ',
+                          pageName: 'Home | Administration Panel',
+                          path: '/admin/cleanerhome',
+                          confirmation: '202',
+                          data: extData[0]
+                        });
                       }
                     })
                     .catch(err => {
@@ -350,33 +359,195 @@ exports.handleOneTimeSuperAssign = (req, res) => {
 
 exports.handleEverydayWash = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
-  res.render('admin/everydaywash', {
-    pageTitle: 'Every Day Wash | YPERZ',
-    pageName: 'Every Day  Wash | Administration Panel',
-    path: '/admin/everydaywash',
-    data: data
-  });
+  EverydaySchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      AdministrationSchema.findAll(
+        { where: { type: "2" } }
+      )
+        .then(response1 => {
+          let fetchedOtp1 = JSON.stringify(response1, null, 4);
+          let extData1 = JSON.parse(fetchedOtp1);
+          res.render('admin/everydaywash', {
+            pageTitle: 'Every Day Wash | YPERZ',
+            pageName: 'Every Day  Wash | Administration Panel',
+            path: '/admin/everydaywash',
+            data: data,
+            everydayWash: extData,
+            supervisors: extData1
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('admin/home', {
+            pageTitle: 'Admin Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/home',
+            data: data
+          });
+        })
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
 };
+
+exports.handleEverydaySuperAssign = (req, res) => {
+  let data = req.body;
+  EverydaySchema.update(
+    {
+      supervisor_num: data.supervisor_phone
+    },
+    {
+      where: {
+        id: data.id,
+        phone: data.phone
+      }
+    }
+  )
+    .then(response => {
+      res.redirect('/admin/everydaywash');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('admin/home');
+    })
+}
 
 exports.handleAlternateWash = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
-  res.render('admin/alternatewash', {
-    pageTitle: 'Alternate Day Wash | YPERZ',
-    pageName: 'Alternate Day Wash | Administration Panel',
-    path: '/admin/alternatewash',
-    data: data
-  });
+  AlternateSchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      AdministrationSchema.findAll(
+        { where: { type: "2" } }
+      )
+        .then(response1 => {
+          let fetchedOtp1 = JSON.stringify(response1, null, 4);
+          let extData1 = JSON.parse(fetchedOtp1);
+          res.render('admin/alternatewash', {
+            pageTitle: 'Admin Alternate Wash | YPERZ',
+            pageName: 'Alternate Wash | Administration Panel',
+            path: '/admin/alternatewash',
+            data: data,
+            alternateWash: extData,
+            supervisors: extData1
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('admin/home', {
+            pageTitle: 'Admin Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/home',
+            data: data
+          });
+        })
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
 };
+
+exports.handleAlternateSuperAssign = (req, res) => {
+  let data = req.body;
+  AlternateSchema.update(
+    {
+      supervisor_num: data.supervisor_phone
+    },
+    {
+      where: {
+        id: data.id,
+        phone: data.phone
+      }
+    }
+  )
+    .then(response => {
+      res.redirect('/admin/alternatewash');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('admin/home');
+    })
+}
 
 exports.handleWeeklyWash = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
-  res.render('admin/weeklywash', {
-    pageTitle: 'Weekly Wash | YPERZ',
-    pageName: 'Weekly Wash | Administration Panel',
-    path: '/admin/weeklywash',
-    data: data
-  });
+  WeeklySchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      AdministrationSchema.findAll(
+        { where: { type: "2" } }
+      )
+        .then(response1 => {
+          let fetchedOtp1 = JSON.stringify(response1, null, 4);
+          let extData1 = JSON.parse(fetchedOtp1);
+          res.render('admin/weeklywash', {
+            pageTitle: 'Admin Weekly Wash | YPERZ',
+            pageName: 'Weekly Wash | Administration Panel',
+            path: '/admin/weeklywash',
+            data: data,
+            weeklyWash: extData,
+            supervisors: extData1
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('admin/home', {
+            pageTitle: 'Admin Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/home',
+            data: data
+          });
+        })
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
 };
+
+exports.handleWeeklySuperAssign = (req, res) => {
+  let data = req.body;
+  WeeklySchema.update(
+    {
+      supervisor_num: data.supervisor_phone
+    },
+    {
+      where: {
+        id: data.id,
+        phone: data.phone
+      }
+    }
+  )
+    .then(response => {
+      res.redirect('/admin/weeklywash');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('admin/home');
+    })
+}
 
 exports.handleRaiseQuery = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
@@ -735,39 +906,13 @@ exports.handleAddCarLoanBrands = (req, res) => {
   CarLoanBrand.create({
     name: data.brand_name,
     status: "1",
-    photo: ""
+    photo: req.file.path
   })
     .then(response => {
-      CarLoanBrand.findAll()
-        .then(response => {
-          let fetchedData = JSON.stringify(response, null, 4);
-          let extData = JSON.parse(fetchedData);
-          res.render('admin/carloanbrands', {
-            pageTitle: "Admin Car Loan Brands | YPERZ",
-            pageName: "Car Loan Brands | Administration Panel",
-            path: '/admin/carloanbrands',
-            data: data1,
-            carbrands: extData
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.render('admin/home', {
-            pageTitle: 'Admin Home | YPERZ',
-            pageName: 'Home | Administration Panel',
-            path: '/admin/home',
-            data: data1
-          });
-        });
+      res.redirect('/admin/carloanbrands');
     })
     .catch(err => {
-      console.log(err);
-      res.render('admin/home', {
-        pageTitle: 'Admin Home | YPERZ',
-        pageName: 'Home | Administration Panel',
-        path: '/admin/home',
-        data: data1
-      });
+      res.redirect('/admin/home');
     })
 }
 
@@ -849,39 +994,14 @@ exports.handleAddCarInsuranceBrands = (req, res) => {
   CarInsuranceBrand.create({
     name: data.brand_name,
     status: "1",
-    photo: ""
+    photo: req.file.path
   })
     .then(response => {
-      CarInsuranceBrand.findAll()
-        .then(response => {
-          let fetchedData = JSON.stringify(response, null, 4);
-          let extData = JSON.parse(fetchedData);
-          res.render('admin/carinsurancebrands', {
-            pageTitle: "Admin Car Insurance Brands | YPERZ",
-            pageName: "Car Insurance Brands | Administration Panel",
-            path: '/admin/carinsurancebrands',
-            data: data,
-            carbrands: extData
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.render('admin/home', {
-            pageTitle: 'Admin Home | YPERZ',
-            pageName: 'Home | Administration Panel',
-            path: '/admin/home',
-            data: data1
-          });
-        });
+      res.redirect('/admin/carinsurancebrands');
     })
     .catch(err => {
       console.log(err);
-      res.render('admin/home', {
-        pageTitle: 'Admin Home | YPERZ',
-        pageName: 'Home | Administration Panel',
-        path: '/admin/home',
-        data: data1
-      });
+      res.redirect('/admin/home');
     })
 }
 
@@ -962,39 +1082,13 @@ exports.handleAddCarDriveLearningBrands = (req, res) => {
   CarDriveLearningBrand.create({
     name: data.brand_name,
     status: "1",
-    photo: ""
+    photo: req.file.path
   })
     .then(response => {
-      CarDriveLearningBrand.findAll()
-        .then(response => {
-          let fetchedData = JSON.stringify(response, null, 4);
-          let extData = JSON.parse(fetchedData);
-          res.render('admin/cardrivelearningbrands', {
-            pageTitle: "Admin Car Drive Learning Brands | YPERZ",
-            pageName: "Car Drive Learning Brands | Administration Panel",
-            path: '/admin/cardrivelearningbrands',
-            data: data,
-            carbrands: extData
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.render('admin/home', {
-            pageTitle: 'Admin Home | YPERZ',
-            pageName: 'Home | Administration Panel',
-            path: '/admin/home',
-            data: data1
-          });
-        });
+      res.redirect('/admin/cardrivelearningbrands');
     })
     .catch(err => {
-      console.log(err);
-      res.render('admin/home', {
-        pageTitle: 'Admin Home | YPERZ',
-        pageName: 'Home | Administration Panel',
-        path: '/admin/home',
-        data: data1
-      });
+      res.redirect('/admin/home');
     })
 }
 
@@ -1070,18 +1164,6 @@ exports.upload = multer({
 
 exports.uploadcarbrand = multer({
   storage: storage,
-  // limits: { fileSize: '5000000' },
-  // fileFilter: (req, file, cb) => {
-  //   const fileTypes = /jpeg|jgp|png|gif/
-  //   const mimeType = fileTypes.test(file.mimetype)
-  //   let extname = fileTypes.test(path.extname(file.originalname))
-  //   extname = true;
-  //   if (mimeType && extname) {
-  //     return cb(null, true)
-  //   } else {
-  //     return ("Give proper file format to upload");
-  //   }
-  // }
 }).single('brand_image')
 
 exports.checkAdministration = (req, res, next) => {

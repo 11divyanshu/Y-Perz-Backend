@@ -11,7 +11,7 @@
                                         <h5 class="card-header-title">Add Car Insurance Brand</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form method="POST" action="/admin/addcarinsurancebrands">
+                                        <form method="POST" action="/admin/addcarinsurancebrands" enctype="multipart/form-data">
                                             <!-- <div class="form-group"> -->
                                                 <label for="brand_name">Brand Name</label>
                                                 <input type="text" class="form-control" id="brand_name"
@@ -70,13 +70,13 @@
                                                             <%= data.id %>
                                                         </td>
                                                         <td>
-                                                            <% if(data.photo == ""){ %>
-                                                                <img src="/images/logo.png" width="25px"
+                                                            <% if(data.photo=="" ){ %>
+                                                                <img src="/images/logo.png" width="25px" height="25px" class="rounded-circle"
                                                                     style="margin-left: 5px; margin-right: auto;" />
-                                                            <% } else { %>
-                                                                <img src='<%= data.photo %>' width="25px"
-                                                                    style="margin-left: 5px; margin-right: auto;" />
-                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <img src='../../<%= data.photo %>' height="25px" class="rounded-circle" width="25px"
+                                                                        style="margin-left: 5px; margin-right: auto;" />
+                                                                    <% } %>
                                                         </td>
                                                         <td>
                                                             <%= data.name %>

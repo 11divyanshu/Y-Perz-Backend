@@ -83,46 +83,46 @@
             <li class="<%= path === '/admin/suponetimewash' ? 'active' : '' %>">
               <a href="/admin/suponetimewash">One Time Wash</a>
             </li>
-            <!-- <li class="<%= path === '/admin/alternatewash' ? 'active' : '' %>">
-              <a href="/admin/alternatewash">Alternate Day Wash</a>
+            <li class="<%= path === '/admin/supalternatewash' ? 'active' : '' %>">
+              <a href="/admin/supalternatewash">Alternate Day Wash</a>
             </li>
-            <li class="<%= path === '/admin/everydaywash' ? 'active' : '' %>">
-              <a href="/admin/everydaywash">Everyday Wash</a>
+            <li class="<%= path === '/admin/supeverydaywash' ? 'active' : '' %>">
+              <a href="/admin/supeverydaywash">Everyday Wash</a>
             </li>
-            <li class="<%= path === '/admin/weeklywash' ? 'active' : '' %>">
-              <a href="/admin/weeklywash">Weekly Wash</a>
-            </li> -->
+            <li class="<%= path === '/admin/supweeklywash' ? 'active' : '' %>">
+              <a href="/admin/supweeklywash">Weekly Wash</a>
+            </li>
           </ul>
         </li>
       </ul>
       <% } else if(data.type=="3"){ %>
         <ul class="list-unstyled components">
-          <li class="<%= path === '/admin/supervisorhome' ? 'active' : '' %>">
-            <a href="/admin/supervisorhome" class="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
+          <li class="<%= path === '/admin/cleanerhome' ? 'active' : '' %>">
+            <a href="/admin/cleanerhome" class="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
           </li>
   
           <li class="dropdown">
             <a href="#services" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
               <i class="material-icons">apps</i><span>Car Wash</span></a>
             <ul class="collapse list-unstyled menu" id="services">
-              <li class="<%= path === '/admin/suponetimewash' ? 'active' : '' %>">
-                <a href="/admin/suponetimewash">One Time Wash</a>
+              <li class="<%= path === '/admin/cleaneronetimewash' ? 'active' : '' %>">
+                <a href="/admin/cleaneronetimewash">One Time Wash</a>
               </li>
-              <!-- <li class="<%= path === '/admin/alternatewash' ? 'active' : '' %>">
-                <a href="/admin/alternatewash">Alternate Day Wash</a>
+              <li class="<%= path === '/admin/cleaneralternatewash' ? 'active' : '' %>">
+                <a href="/admin/cleaneralternatewash">Alternate Day Wash</a>
               </li>
-              <li class="<%= path === '/admin/everydaywash' ? 'active' : '' %>">
-                <a href="/admin/everydaywash">Everyday Wash</a>
+              <li class="<%= path === '/admin/cleanereverydaywash' ? 'active' : '' %>">
+                <a href="/admin/cleanereverydaywash">Everyday Wash</a>
               </li>
-              <li class="<%= path === '/admin/weeklywash' ? 'active' : '' %>">
-                <a href="/admin/weeklywash">Weekly Wash</a>
-              </li> -->
+              <li class="<%= path === '/admin/cleanerweeklywash' ? 'active' : '' %>">
+                <a href="/admin/cleanerweeklywash">Weekly Wash</a>
+              </li>
             </ul>
           </li>
         </ul>
       <% } else { %>
         <h1>No data</h1>
-        <% } %>
+      <% } %>
       <form method="post" action="/admin/logout">
         <button type="submit" class="btn btn-danger" style="margin-left: 20px; margin-top:10px;">Logout</button>
       </form>

@@ -15,7 +15,7 @@
                                     justify-content: space-between;
                                 ">
                                     <div class="card-header card-header-text">
-                                        <h4 class="card-title">Weekly wash</h4>
+                                        <h4 class="card-title">Everyday Wash</h4>
                                     </div>
 
                                     <div style="display: flex; align-items: center">
@@ -35,16 +35,16 @@
                                                 <th>Vehicle No.</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
-                                                <th>Day</th>
+                                                <th>Slot</th>
                                                 <th>Payment</th>
-                                                <th>Supervisor</th>
+                                                <!-- <th>Supervisor</th> -->
                                                 <th>Cleaner</th>
                                                 <th>Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if(weeklyWash.length> 0) { %>
-                                                <% for (let data0 of weeklyWash) { %>
+                                            <% if(everydayWash.length> 0) { %>
+                                                <% for (let data0 of everydayWash) { %>
                                                     <tr>
                                                         <td>
                                                             <%= data0.id %>
@@ -65,7 +65,7 @@
                                                             <%= data0.enddate %>
                                                         </td>
                                                         <td>
-                                                            <%= data0.day %>
+                                                            <%= data0.slot %>
                                                         </td>
                                                         <td>
                                                             <% if(data0.pay_status == 0){ %>
@@ -74,30 +74,25 @@
                                                                 <span class="badge badge-success">Paid</span>
                                                             <% } %>
                                                         </td>
+                                                        <!-- <td>
+                                                            <span class="badge badge-success"><%= data.supervisor_num %></span>
+                                                        </td> -->
                                                         <td>
-                                                            <% if(data0.supervisor_num == ""){ %>
-                                                                <button id="assign" data-target="#supervisorModalId"
+                                                            <% if(data0.cleaner_num == ""){ %>
+                                                                <button id="assign" data-target="#cleanerModal"
                                                                     onclick="storeDetails('<%= data0.id %>','<%= data0.phone %>')"
                                                                     data-toggle="modal"
                                                                     style="background-color: #148b4b; color: #fff"
-                                                                    type="button" type="button" class="btn"
-                                                                    >
+                                                                    type="button" type="button" class="btn">
                                                                     Assign
                                                                 </button>
-                                                            <% } else { %>
-                                                                <span class="badge badge-success"><%= data0.supervisor_num %></span>
-                                                            <% } %>
-                                                        </td>
-                                                        <td>
-                                                            <% if(data0.cleaner_num == ""){ %>
-                                                                <span class="badge badge-danger">Not Assigned</span>
                                                             <% } else { %>
                                                                 <span class="badge badge-success"><%= data0.cleaner_num %></span>
                                                             <% } %>
                                                         </td>
                                                         <td>
                                                             <button id="assign" data-target="#detailsModal"
-                                                                onclick="updateModalDetails('<%= data0.phone %>','<%= data0.name %>','<%= data0.c_name %>','<%= data0.c_num %>','<%= data0.startdate %>','<%= data0.enddate %>','<%= data0.day %>','<%= data0.slot %>','<%= data0.pay_status %>','<%= data0.supervisor_num %>','<%= data0.cleaner_num %>')"
+                                                                onclick="updateModalDetails('<%= data0.phone %>','<%= data0.name %>','<%= data0.c_name %>','<%= data0.c_num %>','<%= data0.startdate %>','<%= data0.c_num %>','<%= data0.enddate %>','<%= data0.slot %>','<%= data0.pay_status %>','<%= data0.cleaner_num %>')"
                                                                 data-toggle="modal"
                                                                 style="background-color: #148b4b; color: #fff"
                                                                 type="button" type="button" class="btn">
@@ -130,8 +125,8 @@
             </div>
     </div>
 
-    <!-- Supervisor Modal -->
-    <div class="modal fade" id="supervisorModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <!-- Cleaner Modal -->
+    <div class="modal fade" id="cleanerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -145,7 +140,7 @@
                                 justify-content: space-between;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Assign Supervisors</h4>
+                                    <h4 class="card-title">Assign Cleaner</h4>
                                 </div>
 
                                 <div style="display: flex; align-items: center">
@@ -173,19 +168,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if(supervisors.length> 0) { %>
-                                            <% for (let data1 of supervisors) { %>
+                                        <% if(cleaners.length> 0) { %>
+                                            <% for (let data1 of cleaners) { %>
                                                 <tr>
                                                     <td><%= data1.id %></td>
                                                     <td><%= data1.fName %></td>
                                                     <td><%= data1.phone %></td>
-                                                    <td>Supervisor</td>
+                                                    <td>Cleaner</td>
                                                     <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>');"/></td>
                                                 </tr>
                                             <% } %>
                                         <% } else { %>
                                             <tr>
-                                                <td colspan="5">No supervisor found</td>
+                                                <td colspan="5">No cleaner found</td>
                                             </tr>
                                         <% } %>
                                     </tbody>
@@ -193,8 +188,8 @@
                             </div>
                         </div>
                     </div>
-                    <% if(supervisors.length> 0) { %>
-                        <button onclick="assignSupervisor();" style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
+                    <% if(cleaners.length> 0) { %>
+                        <button onclick="assignCleaner();" style="background-color: #148b4b; color: #fff" type="button" class="btn btn-secondary"
                             data-dismiss="modal">
                             Done
                         </button>
@@ -249,7 +244,7 @@
                                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                             ">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title" id="sup_num">Supervisor - </h4>
+                                    <h4 class="card-title" id="sup_num">Supervisor - <%= data.fName %></h4>
                                 </div>
                             </div>
                             <div style="
@@ -283,17 +278,6 @@
                             ">
                                 <div class="card-header card-header-text">
                                     <h4 class="card-title" id="edate">End Date - </h4>
-                                </div>
-                            </div>
-                            <div style="
-                                display: flex;
-                                margin-top: 15px;
-                                align-items: center;
-                                justify-content: space-between;
-                                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-                            ">
-                                <div class="card-header card-header-text">
-                                    <h4 class="card-title" id="day">Day - </h4>
                                 </div>
                             </div>
                             <div style="
@@ -357,7 +341,7 @@
     <script>
         let num = "";
         let id = "";
-        let sup_num = "";
+        let cleaner_num = "";
         // Methods for supervisor assignment
         function storeDetails(data,phone){
             num = phone;
@@ -365,43 +349,39 @@
             console.log(phone);
         }
         function selectedData(phone){
-            sup_num = phone;
+            cleaner_num = phone;
         }
-        function assignSupervisor(){
+        function assignCleaner(){
             console.log(num);
-            console.log(sup_num);
+            console.log(cleaner_num);
             // use fetch for api call
-            fetch('/admin/weeklyassignsupervisor', {
-                method: 'POST',
+            if(cleaner_num != ""){
+                fetch('/admin/everydayassigncleaner', {
+                    method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     phone: num,
-                    supervisor_phone: sup_num,
+                    cleaner_phone: cleaner_num,
                     id: id
                 })
-            }).then(res => {
-                window.location.reload();
-            })
+                }).then(res => {
+                    window.location.reload();
+                })
+            }
         }
         // Methods for details modal
-        function updateModalDetails(phone,name,c_name,c_num,sdate,edate,day,slot,pay_status,sup_num,cleaner_num){
+        function updateModalDetails(phone,name,c_name,c_num,sdate,edate,slot,pay_status,cleaner){
             document.getElementById('name').innerHTML = "Full Name - "+name;
             document.getElementById('phone').innerHTML = "Phone - "+  phone;
-            if(sup_num === ""){
-                document.getElementById('sup_num').innerHTML = "Supervisor - Not Assigned";
-            }else{
-                document.getElementById('sup_num').innerHTML = "Supervisor - "+sup_num;
-            }
             if(cleaner_num === ""){
                 document.getElementById('cleaner_num').innerHTML = "Cleaner - Not Assigned";
             }else{
-                document.getElementById('cleaner_num').innerHTML = "Cleaner - "+cleaner_num;
+                document.getElementById('cleaner_num').innerHTML = "Cleaner - "+cleaner;
             }
             document.getElementById('sdate').innerHTML = "Start Date - "+sdate;
             document.getElementById('edate').innerHTML = "End Date - "+edate;
-            document.getElementById('day').innerHTML = "Day - "+day;
             document.getElementById('slot').innerHTML = "Slot - "+slot;
             document.getElementById('c_name').innerHTML = "Vehicle Name - "+c_name;
             document.getElementById('c_num').innerHTML = "Vehicle Number - "+c_num;
