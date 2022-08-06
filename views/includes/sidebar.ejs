@@ -36,7 +36,19 @@
           </li>
         </ul>
       </li>
-
+      
+      <li class="dropdown">
+        <a href="#spa" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="material-icons">apps</i><span>Car Spa</span></a>
+        <ul class="collapse list-unstyled menu" id="spa">
+          <li class="<%= path === '/admin/dryclean' ? 'active' : '' %>">
+            <a href="/admin/dryclean">Dry Cleaning</a>
+          </li>
+          <li class="<%= path === '/admin/rubpolish' ? 'active' : '' %>">
+            <a href="/admin/rubpolish">Rubbing/Polishing</a>
+          </li>
+        </ul>
+      </li>
       <li class="dropdown">
         <a href="#brands" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
           <i class="material-icons">apps</i><span>Brands</span></a>
@@ -55,7 +67,6 @@
           </li>
         </ul>
       </li>
-
       <li class="<%= path === '/admin/raisequery' ? 'active' : '' %>">
         <a href="/admin/raisequery" class="dashboard"><i class="material-icons">dashboard</i><span>Queries</span></a>
       </li>
@@ -94,6 +105,20 @@
             </li>
           </ul>
         </li>
+
+        <li class="dropdown">
+          <a href="#spa" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="material-icons">apps</i><span>Car Spa</span></a>
+          <ul class="collapse list-unstyled menu" id="spa">
+            <li class="<%= path === '/admin/supdryclean' ? 'active' : '' %>">
+              <a href="/admin/supdryclean">Dry Cleaning</a>
+            </li>
+            <li class="<%= path === '/admin/suprubpolish' ? 'active' : '' %>">
+              <a href="/admin/suprubpolish">Rubbing/Polishing</a>
+            </li>
+          </ul>
+        </li>
+
       </ul>
       <% } else if(data.type=="3"){ %>
         <ul class="list-unstyled components">
@@ -119,6 +144,21 @@
               </li>
             </ul>
           </li>
+
+          <li class="dropdown">
+            <a href="#spa" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              <i class="material-icons">apps</i><span>Car Spa</span></a>
+            <ul class="collapse list-unstyled menu" id="spa">
+              <li class="<%= path === '/admin/cleanerdryclean' ? 'active' : '' %>">
+                <a href="/admin/cleanerdryclean">Dry Cleaning</a>
+              </li>
+              <li class="<%= path === '/admin/cleanerrubpolish' ? 'active' : '' %>">
+                <a href="/admin/cleanerrubpolish">Rubbing/Polishing</a>
+              </li>
+            </ul>
+          </li>
+  
+
         </ul>
       <% } else { %>
         <h1>No data</h1>

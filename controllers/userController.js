@@ -6,9 +6,13 @@ const UserSchema = require('../models/userSchema');
 const JwtSchema = require('../models/jwtSchema');
 const Faqs = require('../models/faqSchema');
 const EverydaySchema = require('../models/everydaySchema');
+const WeeklySchema = require('../models/weeklySchema');
+const AlternateSchema = require('../models/alternateSchema');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
 const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
+const DryCleaningSchema = require('../models/dryCleaningSchema');
+const RubPolishSchema = require('../models/rubAndPolishSchema');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
@@ -430,8 +434,10 @@ exports.handleOtpCheckRegister = (req, res) => {
                                         desc: "",
                                         profilepic: "",
                                         vehicles: JSON.stringify([]),
-                                        offers: JSON.stringify([])
+                                        offers: JSON.stringify([]),
+                                        devices: data.devices,
                                     }).then((dbres) => {
+                                        
                                         jwt.sign({ user: data }, 'secretkey', (err, token) => {
                                             // Status 202 - Correct password
                                             JwtSchema.create({
@@ -702,7 +708,7 @@ exports.addUserVehicle = (req,res) => {
             vehicleArr.push({
                 c_name : data.c_name,
                 c_num : data.c_num,
-                c_photo : ""
+                c_photo : req.file.path
             })
             let newVehicleJson = JSON.stringify(vehicleArr);
             UserSchema.update(
@@ -740,6 +746,8 @@ exports.addUserVehicle = (req,res) => {
     })
 }
 
+
+// Everyday Service
 exports.addeverydayservice = (req,res) => {
     let data = req.body;
     EverydaySchema.create({
@@ -839,6 +847,8 @@ exports.getEverydayServiceUserData = (req,res) => {
     });
 }
 
+
+// Single Time Service
 exports.addSingleTimeServiceModule = (req,res) => {
     let data = req.body;
     SingleTimeServiceSchema.create({
@@ -933,22 +943,33 @@ exports.getSingleServiceUserData = (req,res) => {
     });
 }
 
-exports.addFaqs = (req,res) => {
+
+// Weekly Wash Service
+exports.addWeeklyServiceModule = (req,res) => {
     let data = req.body;
-    Faqs.create({
-        faq : data.faq,
-        answer : "",
+    WeeklySchema.create({
+        name: data.name,
+        phone : data.phone,
+        startdate : data.startdate,
+        enddate : data.enddate,
+        day: data.day,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : "",
+        supervisor_num : "",
+        cleaner_num : "",
+        pay_status : "0",
         status : "0"
-    })
-    .then(response => {
-        console.log("Faqs Created Successfully");
+    }).then(response => {
+        console.log("Single Time Service Created Successfully");
         res.status(202);
         res.json({
-            msg: "Faqs Created Successfully",
+            msg: "Single Time Service Created Successfully",
             key: 1
         })
-    })
-    .catch(err => {
+    }).catch(err => {
         res.status(205);
         res.json({
             msg: "Fatal Error Occured",
@@ -957,6 +978,392 @@ exports.addFaqs = (req,res) => {
     });
 }
 
+exports.weeklyServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    WeeklySchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                id : data.id,
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Single Time Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Single Time Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.getWeeklyServiceUserData = (req,res) => {
+    let data = req.body;
+    WeeklySchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+
+// Alternate Wash Service
+exports.addAlternateServiceModule = (req,res) => {
+    let data = req.body;
+    AlternateSchema.create({
+        name: data.name,
+        phone : data.phone,
+        startdate : data.startdate,
+        enddate : data.enddate,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : "",
+        supervisor_num : "",
+        cleaner_num : "",
+        pay_status : "0",
+        status : "0"
+    }).then(response => {
+        console.log("Single Time Service Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Single Time Service Created Successfully",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.alternateServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    AlternateSchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                id : data.id,
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Single Time Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Single Time Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.getAlternateServiceUserData = (req,res) => {
+    let data = req.body;
+    AlternateSchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Single Time Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+
+// Dry Cleaning Service
+exports.addDryCleanService = (req,res) => {
+    let data = req.body;
+    DryCleaningSchema.create({
+        name: data.name,
+        phone : data.phone,
+        date : data.date,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : "",
+        supervisor_num : "",
+        cleaner_num : "",
+        pay_status : "0",
+        status : "0"
+    }).then(response => {
+        console.log("Dry Cleaning Service Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Dry Cleaning Service Created Successfully",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.drycleanServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    DryCleaningSchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                id : data.id,
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Dry Cleaning Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Dry Cleaning Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.getDryCleanServiceUserData = (req,res) => {
+    let data = req.body;
+    DryCleaningSchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Dry Cleaning Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Dry Cleaning Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+
+// Rubbing And Polishing Service
+exports.addRubPolishService = (req,res) => {
+    let data = req.body;
+    RubPolishSchema.create({
+        name: data.name,
+        phone : data.phone,
+        date : data.date,
+        c_num : data.c_num,
+        c_name : data.c_name,
+        slot : data.slot,
+        trans_id : "",
+        order_id : "",
+        supervisor_num : "",
+        cleaner_num : "",
+        pay_status : "0",
+        status : "0"
+    }).then(response => {
+        console.log("Rubbing And Polishing Service Created Successfully");
+        res.status(202);
+        res.json({
+            msg: "Rubbing And Polishing Service Created Successfully",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.rubpolishServicePaymentConfirm = (req,res) => {
+    let data = req.body;
+    RubPolishSchema.update(
+        {
+            pay_status : 1,
+            order_id : data.order_id,
+            trans_id : data.trans_id
+        },
+        {
+            where : {
+                id : data.id,
+                phone : data.phone
+            }
+        }
+    ).then(response => {
+        console.log("Rubbing And Polishing Service Payment Confirmed");
+        res.status(202);
+        res.json({
+            msg: "Rubbing And Polishing Service Payment Confirmed",
+            key: 1
+        })
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+exports.getRubPolishServiceUserData = (req,res) => {
+    let data = req.body;
+    RubPolishSchema.findAll({
+        where : {
+            phone : data.phone
+        }
+    }).then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Rubbing And Polishing Service Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Rubbing And Polishing Service Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+
+// Get Faqs
+exports.getFaqs = (req,res) => {
+    let data = req.body;
+    Faqs.findAll()
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Faqs Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Faqs Data Not Found",
+                key: 0
+            })
+        }
+    }).catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    })
+}
+
+
+// Add Query
 exports.addQuery = (req,res) => {
     let data = req.body;
     RaiseQuery.create({
@@ -983,6 +1390,7 @@ exports.addQuery = (req,res) => {
     });
 }
 
+// Get Loans
 exports.addLoan = (req,res) => {
     let data = req.body;
     LoanSchema.create({
@@ -1018,20 +1426,23 @@ const storage = multer.diskStorage({
     }
 })
 
-exports.uploadProfilePic = multer({
-    storage: storage,
-    limits: { fileSize: '5000000' },
-    fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jgp|png|gif/
-        const mimeType = fileTypes.test(file.mimetype)
-        const extname = fileTypes.test(path.extname(file.originalname))
-        if (mimeType && extname) {
-            return cb(null, true)
-        } else {
-            return ("Give proper file format to upload");
-        }
+const storageVehicle = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'Images/Vehicles')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
     }
+})
+
+exports.uploadProfilePic = multer({
+    storage: storage
 }).single('profilepic');
+
+exports.uploadVehiclePic = multer({
+    storage: storageVehicle
+}).single('vehiclepic');
+
 
 exports.createOrderID = (req,res)=>{
 

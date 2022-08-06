@@ -2,15 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const unirest = require('unirest');
 const OtpStore = require('../models/userAuth');
-const UserSchema = require('../models/userSchema');
-const JwtSchema = require('../models/jwtSchema');
 const EverydaySchema = require('../models/everydaySchema');
 const AdministrationSchema = require('../models/administrationSchema');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema');
 const WeeklySchema = require('../models/weeklySchema');
+const DryCleaningSchema = require('../models/dryCleaningSchema');
+const RubPolishSchema = require('../models/rubAndPolishSchema');
 const AlternateSchema = require('../models/alternateSchema');
 let LocalStorage = require('node-localstorage').LocalStorage;
 if (typeof localStorage === "undefined" || localStorage === null) {
@@ -390,6 +388,7 @@ exports.checkAdministration = (req, res, next) => {
     }
 }
 
+// Cleaner Home
 exports.handleCleanerHome = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     res.status(202);
@@ -402,6 +401,7 @@ exports.handleCleanerHome = (req, res) => {
     });
 }
 
+// Cleaner One Time Wash
 exports.handleCleanerOneTimeWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     SingleTimeServiceSchema.findAll(
@@ -474,6 +474,7 @@ exports.handleOneTimeCleanerComplete = (req, res) => {
     });
 }
 
+// Cleaner Everyday Wash
 exports.handleCleanerEverydayWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     EverydaySchema.findAll(
@@ -546,6 +547,7 @@ exports.handleEverydayCleanerComplete = (req, res) => {
     });
 }
 
+// Cleaner Weekly Wash
 exports.handleCleanerWeeklyWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     WeeklySchema.findAll(
@@ -618,6 +620,7 @@ exports.handleWeeklyCleanerComplete = (req, res) => {
     });
 }
 
+// Cleaner Alternate Wash
 exports.handleCleanerAlternateWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     AlternateSchema.findAll(
@@ -684,6 +687,152 @@ exports.handleAlternateCleanerComplete = (req, res) => {
     .then(response => {
         res.status(202);
         res.redirect('/admin/cleaneralternatewash');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
+}
+
+// Cleaner Dry Cleaning
+exports.handleCleanerDryClean = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    DryCleaningSchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleanerdryclean', {
+                    pageTitle: 'Cleaner Dry Cleaning | YPERZ',
+                    pageName: 'Dry Cleaning | Administration Panel',
+                    path: '/admin/cleanerdryclean',
+                    dryClean: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleDryCleanCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    DryCleaningSchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleanerdryclean');
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/admin/cleanerhome');
+    });
+}
+
+// Cleaner Rubbing And Polishing
+exports.handleCleanerRubPolish = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    RubPolishSchema.findAll(
+        {
+            where: {
+                cleaner_num : data.phone
+            }
+        }
+    )
+    .then(response => {
+        let fetchedOtp = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedOtp);
+
+        AdministrationSchema.findAll(
+            { where: { type: "2" } }
+        )
+            .then(response1 => {
+                let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                let extData1 = JSON.parse(fetchedOtp1);
+                res.render('cleaner/cleanerrubpolish', {
+                    pageTitle: 'Cleaner Rubbing And Polishing | YPERZ',
+                    pageName: 'Rubbing And Polishing | Administration Panel',
+                    path: '/admin/cleanerrubpolish',
+                    rubPolish: extData,
+                    supervisors: extData1,
+                    data: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('cleaner/cleanerhome', {
+                    pageTitle: 'Cleaner Home | YPERZ',
+                    pageName: 'Home | Administration Panel',
+                    path: '/admin/cleanerhome',
+                    data: data
+                });
+            });
+
+    })
+    .catch(err => {
+        console.log(err);
+        res.render('cleaner/cleanerhome', {
+            pageTitle: 'Cleaner Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/cleanerhome',
+            data: data
+        });
+    });
+}
+
+exports.handleRubPolishCleanerComplete = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    RubPolishSchema.update(
+        {
+            status: 1
+        },
+        {
+            where: {
+                id: req.body.id,
+                phone: req.body.phone
+            }
+        }
+    )
+    .then(response => {
+        res.status(202);
+        res.redirect('/admin/cleanerrubpolish');
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');

@@ -1,8 +1,5 @@
 const multer = require('multer');
 const path = require('path');
-const ServiceSchema = require('../models/service');
-const OfferSchema = require('../models/offer');
-const VehicleSchema = require('../models/vehicle');
 const UserSchema = require('../models/userSchema');
 const AdministrationSchema = require('../models/administrationSchema');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
@@ -16,6 +13,10 @@ const CarInsuranceBrand = require('../models/carInsuranceBrandSchema');
 const CarDriveLearningBrand = require('../models/carDriveLearningBrand');
 const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
+const DryCleaningSchema = require('../models/dryCleaningSchema');
+const RubPolishSchema = require('../models/rubAndPolishSchema');
+const { ONE_SIGNAL_CONFIG } = require('../config/app.config');
+const pushNotificationServices = require('../services/push-notification.services');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { nextTick } = require('process');
@@ -24,6 +25,35 @@ let LocalStorage = require('node-localstorage').LocalStorage;
 if (typeof localStorage === "undefined" || localStorage === null) {
   localStorage = new LocalStorage('./scratch');
 }
+
+exports.SendNotification = (req, res) => {
+  let message = {
+    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+    contents: {
+      en: "Supervisor Assigned to You"
+    },
+    included_segments: ["included_player_ids"],
+    included_player_ids: ["c93c8741-2f1b-462c-b8f6-5bbfb4488812"],
+    content_available: true,
+    small_icon: "ic_notification_icon",
+    data: {
+      PushTitle: "Service Notification",
+    }
+  }
+
+  pushNotificationServices.SendNotifications(message, (error, results) => {
+    if (error) {
+      res.send(error);
+    }
+    return res.status(200).json({
+      message: "Notification sent successfully",
+      data: results
+    });
+  })
+
+}
+
+
 
 exports.handleAdminRegister = (req, res) => {
   res.render('admin/adminregister', {
@@ -309,50 +339,48 @@ exports.handleOneTimeSuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      SingleTimeServiceSchema.findAll()
-        .then(response => {
-          let fetchedOtp = JSON.stringify(response, null, 4);
+      UserSchema.findAll
+      (
+        { 
+          where: { phone: data.phone } 
+        }
+      )
+        .then(response1 => {
+          let fetchedOtp = JSON.stringify(response1, null, 4);
           let extData = JSON.parse(fetchedOtp);
 
-          AdministrationSchema.findAll(
-            { where: { type: "2" } }
-          )
-            .then(response1 => {
-              let fetchedOtp1 = JSON.stringify(response1, null, 4);
-              let extData1 = JSON.parse(fetchedOtp1);
-              location.reload();
-              res.render('admin/onetimewash', {
-                pageTitle: 'One Time Wash | YPERZ',
-                pageName: 'One Time Wash | Administration Panel',
-                path: '/admin/onetimewash',
-                onetimeWash: extData,
-                supervisors: extData1,
-                data: data
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.render('admin/home', {
-                pageTitle: 'Admin Home | YPERZ',
-                pageName: 'Home | Administration Panel',
-                path: '/admin/home',
-                data: data
-              });
-            });
+          // let message = {
+          //   app_id: ONE_SIGNAL_CONFIG.APP_ID,
+          //   contents: {
+          //     en: "Supervisor Assigned to You"
+          //   },
+          //   included_segments: ["included_player_ids"],
+          //   included_player_ids: ["c93c8741-2f1b-462c-b8f6-5bbfb4488812"],
+          //   content_available: true,
+          //   priority: "high",
+          //   small_icon: "ic_notification_icon",
+          //   data: {
+          //     PushTitle: "Service Notification",
+          //   }
+          // }
+          // pushNotificationServices.SendNotifications(message, (error, results) => {
+          //   if (error) {
+          //     console.log("Error check");
+          //     console.log(error);
+          //     res.redirect('admin/home');
+          //   }
+          //   console.log(results);
+          //   res.redirect('/admin/onetimewash');
+          // })
+          res.redirect('/admin/onetimewash');
 
         })
         .catch(err => {
           console.log(err);
-          res.render('admin/home', {
-            pageTitle: 'Admin Home | YPERZ',
-            pageName: 'Home | Administration Panel',
-            path: '/admin/home',
-            data: data
-          });
+          res.redirect('admin/home');
         });
     })
     .catch(err => {
-      console.log(err);
       res.redirect('admin/home');
     })
 }
@@ -546,6 +574,139 @@ exports.handleWeeklySuperAssign = (req, res) => {
     .catch(err => {
       console.log(err);
       res.redirect('admin/home');
+    })
+}
+
+
+exports.handleDryClean = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  DryCleaningSchema.findAll()
+    .then(response => {
+      let fetchedOtp = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedOtp);
+
+      AdministrationSchema.findAll(
+        { where: { type: "2" } }
+      )
+        .then(response1 => {
+          let fetchedOtp1 = JSON.stringify(response1, null, 4);
+          let extData1 = JSON.parse(fetchedOtp1);
+          res.render('admin/dryclean', {
+            pageTitle: 'Admin Dry Cleaning | YPERZ',
+            pageName: 'Dry Cleaning | Administration Panel',
+            path: '/admin/dryclean',
+            dryClean: extData,
+            supervisors: extData1,
+            data: data
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('admin/home', {
+            pageTitle: 'Admin Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/home',
+            data: data
+          });
+        });
+
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
+};
+
+exports.handleDryCleanSuperAssign = (req, res) => {
+  let data = req.body;
+  DryCleaningSchema.update(
+    {
+      supervisor_num: data.supervisor_phone
+    },
+    {
+      where: {
+        id: data.id,
+        phone: data.phone
+      }
+    }
+  )
+    .then(response => {
+      res.redirect('/admin/dryclean');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/admin/home');
+    })
+}
+
+exports.handleRubPolish = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  RubPolishSchema.findAll()
+    .then(response => {
+      let fetchedOtp = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedOtp);
+
+      AdministrationSchema.findAll(
+        { where: { type: "2" } }
+      )
+        .then(response1 => {
+          let fetchedOtp1 = JSON.stringify(response1, null, 4);
+          let extData1 = JSON.parse(fetchedOtp1);
+          res.render('admin/rubpolish', {
+            pageTitle: 'Admin Rubbing And Polishing | YPERZ',
+            pageName: 'Rubbing And Polishing | Administration Panel',
+            path: '/admin/rubpolish',
+            rubPolish: extData,
+            supervisors: extData1,
+            data: data
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.render('admin/home', {
+            pageTitle: 'Admin Home | YPERZ',
+            pageName: 'Home | Administration Panel',
+            path: '/admin/home',
+            data: data
+          });
+        });
+
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
+};
+
+exports.handleRubPolishSuperAssign = (req, res) => {
+  let data = req.body;
+  RubPolishSchema.update(
+    {
+      supervisor_num: data.supervisor_phone
+    },
+    {
+      where: {
+        id: data.id,
+        phone: data.phone
+      }
+    }
+  )
+    .then(response => {
+      res.redirect('/admin/rubpolish');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/admin/home');
     })
 }
 
@@ -1174,69 +1335,3 @@ exports.checkAdministration = (req, res, next) => {
     return next();
   }
 }
-
-// exports.handleAdminOffers = (req,res) => {
-//   OfferSchema.findAll()
-//   .then(function(offersData){
-//     var data = JSON.parse(JSON.stringify(offersData)); 
-//     res.render('admin/offers', {
-//       pageTitle: 'Admin Offers | YPERZ',
-//       path: '/admin/offers',
-//       confirmation: '205',
-//       data: data
-//     });
-//   }).catch(function(err){
-//     console.log('Oops! something went wrong, : ', err);
-//   });
-// }
-
-// exports.handleAdminAddOffer = (req,res) => {
-//   res.render('admin/add-offers', {
-//     pageTitle: 'Admin Add Offer | YPERZ',
-//     path: '/admin/add-offers',
-//     confirmation: '205'
-//   });
-// }
-
-// exports.handleAdminAddOfferPost = (req,res) => {
-//   let data = {
-//     title : req.body.offer_title,
-//     price : req.body.offer_price,
-//     desc : req.body.offer_description,
-//     offerimage : req.file.path,
-//   }
-//   OfferSchema.create(data)
-//   .then((response) => { 
-//     console.log("Offer Created Successfully")
-//     res.render('admin/add-offers', {
-//       pageTitle: 'Admin Add Service | YPERZ',
-//       path: '/admin/add-offers',
-//       confirmation: '202'
-//     }); 
-//   })
-//   .catch(err => {  
-//     console.log("Offer Not Created");
-//     res.status(204);
-//     res.render('admin/add-offers', {
-//       pageTitle: 'Admin Add Offer | YPERZ',
-//       path: '/admin/add-offers',
-//       confirmation: '204'
-//     }); 
-//   }); 
-// }
-
-// exports.uploadOffer = multer({
-//   storage:storage,
-//   limits: {fileSize:'5000000'},
-//   fileFilter: (req,file,cb) => {
-//     const fileTypes = /jpeg|jgp|png|gif/
-//     const mimeType = fileTypes.test(file.mimetype)
-//     const extname = fileTypes.test(path.extname(file.originalname))
-//     if(mimeType && extname){
-//       return cb(null, true)
-//     }else{
-//       return ("Give proper file format to upload");
-//     }
-//   }
-// }).single('offerimage')
-

@@ -2,15 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const unirest = require('unirest');
 const OtpStore = require('../models/userAuth');
-const UserSchema = require('../models/userSchema');
-const JwtSchema = require('../models/jwtSchema');
 const EverydaySchema = require('../models/everydaySchema');
 const WeeklySchema = require('../models/weeklySchema');
 const AlternateSchema = require('../models/alternateSchema');
 const AdministrationSchema = require('../models/administrationSchema');
+const DryCleaningSchema = require('../models/dryCleaningSchema');
+const RubPolishSchema = require('../models/rubAndPolishSchema');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema');
 let LocalStorage = require('node-localstorage').LocalStorage;
 if (typeof localStorage === "undefined" || localStorage === null) {
@@ -427,10 +425,10 @@ exports.handleSupervisorOneTimeWash = (req, res) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    res.render('admin/supervisor', {
+                    res.render('supervisor/suphome', {
                         pageTitle: 'Supervisor Home | YPERZ',
                         pageName: 'Home | Administration Panel',
-                        path: '/admin/supervisor',
+                        path: '/admin/supervisorhome',
                         data: data
                     });
                 });
@@ -438,10 +436,10 @@ exports.handleSupervisorOneTimeWash = (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.render('admin/home', {
-                pageTitle: 'Admin Home | YPERZ',
+            res.render('supervisor/suphome', {
+                pageTitle: 'Supervisor Home | YPERZ',
                 pageName: 'Home | Administration Panel',
-                path: '/admin/home',
+                path: '/admin/supervisorhome',
                 data: data
             });
         });
@@ -471,6 +469,7 @@ exports.handleOneTimeCleanerAssign = (req, res) => {
         })
 }
 
+// Every Day Wash Contorllers
 exports.handleSupervisorEverydayWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     EverydaySchema.findAll({ where: { supervisor_num: data.phone } })
@@ -495,10 +494,10 @@ exports.handleSupervisorEverydayWash = (req, res) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    res.render('admin/supervisor', {
+                    res.render('supervisor/suphome', {
                         pageTitle: 'Supervisor Home | YPERZ',
                         pageName: 'Home | Administration Panel',
-                        path: '/admin/supervisor',
+                        path: '/admin/supervisorhome',
                         data: data
                     });
                 });
@@ -506,10 +505,10 @@ exports.handleSupervisorEverydayWash = (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.render('admin/home', {
-                pageTitle: 'Admin Home | YPERZ',
+            res.render('supervisor/suphome', {
+                pageTitle: 'Supervisor Home | YPERZ',
                 pageName: 'Home | Administration Panel',
-                path: '/admin/home',
+                path: '/admin/supervisorhome',
                 data: data
             });
         });
@@ -539,6 +538,7 @@ exports.handleEverydayCleanerAssign = (req, res) => {
         })
 }
 
+// Weekly Wash Contorllers
 exports.handleSupervisorWeeklyWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     WeeklySchema.findAll({ where: { supervisor_num: data.phone } })
@@ -563,10 +563,10 @@ exports.handleSupervisorWeeklyWash = (req, res) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    res.render('admin/supervisor', {
+                    res.render('supervisor/suphome', {
                         pageTitle: 'Supervisor Home | YPERZ',
                         pageName: 'Home | Administration Panel',
-                        path: '/admin/supervisor',
+                        path: '/admin/supervisorhome',
                         data: data
                     });
                 });
@@ -574,10 +574,10 @@ exports.handleSupervisorWeeklyWash = (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.render('admin/home', {
-                pageTitle: 'Admin Home | YPERZ',
+            res.render('supervisor/suphome', {
+                pageTitle: 'Supervisor Home | YPERZ',
                 pageName: 'Home | Administration Panel',
-                path: '/admin/home',
+                path: '/admin/supervisorhome',
                 data: data
             });
         });
@@ -607,6 +607,7 @@ exports.handleWeeklyCleanerAssign = (req, res) => {
         })
 }
 
+// Alternate Wash Contorllers 
 exports.handleSupervisorAlternateWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
     EverydaySchema.findAll({ where: { supervisor_num: data.phone } })
@@ -631,10 +632,10 @@ exports.handleSupervisorAlternateWash = (req, res) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    res.render('admin/supervisor', {
+                    res.render('supervisor/suphome', {
                         pageTitle: 'Supervisor Home | YPERZ',
                         pageName: 'Home | Administration Panel',
-                        path: '/admin/supervisor',
+                        path: '/admin/supervisorhome',
                         data: data
                     });
                 });
@@ -642,10 +643,10 @@ exports.handleSupervisorAlternateWash = (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.render('admin/home', {
-                pageTitle: 'Admin Home | YPERZ',
+            res.render('supervisor/suphome', {
+                pageTitle: 'Supervisor Home | YPERZ',
                 pageName: 'Home | Administration Panel',
-                path: '/admin/home',
+                path: '/admin/supervisorhome',
                 data: data
             });
         });
@@ -672,5 +673,143 @@ exports.handleAlternateCleanerAssign = (req, res) => {
         .catch(err => {
             console.log(err);
             res.redirect('admin/supervisorhome');
+        })
+}
+
+// Dry Cleaning Contorllers
+exports.handleSupervisorDryClean = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    DryCleaningSchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/supdryclean', {
+                        pageTitle: 'Supervisor Dry Cleaning | YPERZ',
+                        pageName: 'Dry Cleaning | Administration Panel',
+                        path: '/admin/supdryclean',
+                        dryClean: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('supervisor/suphome', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisorhome',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('supervisor/suphome', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/supervisorhome',
+                data: data
+            });
+        });
+}
+
+exports.handleDryCleanCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    DryCleaningSchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/supdryclean');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/admin/supervisorhome');
+        })
+}
+
+// Rubbing And Polishing Contorllers
+exports.handleSupervisorRubPolish = (req, res) => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    RubPolishSchema.findAll({ where: { supervisor_num: data.phone } })
+        .then(response => {
+            let fetchedOtp = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedOtp);
+
+            AdministrationSchema.findAll(
+                { where: { type: "3" } }
+            )
+                .then(response1 => {
+                    let fetchedOtp1 = JSON.stringify(response1, null, 4);
+                    let extData1 = JSON.parse(fetchedOtp1);
+                    res.render('supervisor/suprubpolish', {
+                        pageTitle: 'Supervisor Rubbing and Polishing | YPERZ',
+                        pageName: 'Rubbing and Polishing | Administration Panel',
+                        path: '/admin/suprubpolish',
+                        rubPolish: extData,
+                        cleaners: extData1,
+                        data: data
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.render('supervisor/suphome', {
+                        pageTitle: 'Supervisor Home | YPERZ',
+                        pageName: 'Home | Administration Panel',
+                        path: '/admin/supervisorhome',
+                        data: data
+                    });
+                });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.render('supervisor/suphome', {
+                pageTitle: 'Admin Home | YPERZ',
+                pageName: 'Home | Administration Panel',
+                path: '/admin/supervisorhome',
+                data: data
+            });
+        });
+}
+
+exports.handleRubPolishCleanerAssign = (req, res) => {
+    let data = req.body;
+    console.log(data);
+    RubPolishSchema.update(
+        {
+            cleaner_num: data.cleaner_phone
+        },
+        {
+            where: {
+                id: data.id,
+                phone: data.phone
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            res.redirect('/admin/suprubpolish');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/admin/supervisorhome');
         })
 }

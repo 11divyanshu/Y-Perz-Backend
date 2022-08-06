@@ -1,51 +1,63 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const UserSchema = sequelize.define('user',{
+const DryCleaningSchema = sequelize.define('drycleaning',{
     id:{
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true 
     },
-    fName:{
+    name:{
         type: Sequelize.STRING,
-        allowNull: true,
-    },
-    email:{
-        type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
     },
     phone:{
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
     },
-    location:{
+    date:{
         type: Sequelize.STRING,
         allowNull: true,
     },
-    desc:{
+    c_num:{
         type: Sequelize.STRING,
         allowNull: true,
     },
-    profilepic:{
+    c_name:{
         type: Sequelize.STRING,
         allowNull: true,
     },
-    vehicles:{
-        type: Sequelize.JSON,
-        allowNull: true
-    },
-    offers:{
-        type: Sequelize.JSON,
-        allowNull: true
-    },
-    devices:{
+    slot:{
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+    },
+    trans_id:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    order_id:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    supervisor_num:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    cleaner_num:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    pay_status:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    status:{
+        type: Sequelize.STRING,
+        allowNull: true,
     }
 })
 
 
-module.exports = UserSchema;
+
+module.exports = DryCleaningSchema;

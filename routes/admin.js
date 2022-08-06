@@ -5,9 +5,9 @@ const express = require('express');
 const adminController = require('../controllers/adminController');
 const supervisorController = require('../controllers/supervisorController');
 const cleanerController = require('../controllers/cleanerController');
-const ServiceSchema = require('../models/service');
 const router = express.Router();
 
+router.get('/sendnotification', adminController.SendNotification);
 
 // Administration Authentication
 router.get('/login', adminController.handleAdminLogin);
@@ -37,6 +37,14 @@ router.get('/alternateassignsupervisor', adminController.checkAdministration,adm
 // Weekly Wash
 router.get('/weeklywash', adminController.checkAdministration,adminController.handleWeeklyWash);
 router.get('/weeklyassignsupervisor', adminController.checkAdministration,adminController.handleWeeklySuperAssign);
+
+// Dry Cleaning
+router.get('/dryclean', adminController.checkAdministration,adminController.handleDryClean);
+router.get('/drycleanassignsupervisor', adminController.checkAdministration,adminController.handleDryCleanSuperAssign);
+
+// Dry Cleaning
+router.get('/rubpolish', adminController.checkAdministration,adminController.handleRubPolish);
+router.get('/rubpolishassignsupervisor', adminController.checkAdministration,adminController.handleRubPolishSuperAssign);
 
 // Raise Query
 router.get('/raisequery', adminController.checkAdministration,adminController.handleRaiseQuery);
@@ -72,12 +80,16 @@ router.get('/cardrivelearningbrands', adminController.checkAdministration,adminC
 router.post('/addcardrivelearningbrands', adminController.checkAdministration,adminController.handleAddCarDriveLearningBrands);
 router.post('/updatecardrivelearningbrandstatus', adminController.checkAdministration,adminController.handleUpdateCarDriveLearningBrandStatus);
 
-// Temporary Routes
-// router.get('/offers', adminController.handleAdminOffers);
-// router.get('/add-offers', adminController.handleAdminAddOffer);
-// router.post('/add-offers', adminController.uploadOffer , adminController.handleAdminAddOfferPost);
+
+
+
+
+
+
+
 
 // Cleaner Routes
+// Cleaner Authentication
 router.get('/cleanerRegister', cleanerController.handleCleanerRegister);
 router.post('/cleanerOtpSend', cleanerController.handlePostCleanerOtpSend);
 router.post('/cleanerOtpVerify', cleanerController.handlePostCleanerRegister);
@@ -100,6 +112,24 @@ router.post('/cleanerweeklycompleteservice', cleanerController.checkAdministrati
 // Cleaner Weekly Wash
 router.get('/cleaneralternatewash', cleanerController.checkAdministration,cleanerController.handleCleanerAlternateWash);
 router.post('/cleaneralternatecompleteservice', cleanerController.checkAdministration,cleanerController.handleAlternateCleanerComplete);
+
+// Cleaner Dry Cleaning
+router.get('/cleanerdryclean', cleanerController.checkAdministration,cleanerController.handleCleanerDryClean);
+router.post('/cleanerdrycleancompleteservice', cleanerController.checkAdministration,cleanerController.handleDryCleanCleanerComplete);
+
+// Cleaner Rubbing And Polishing
+router.get('/cleanerrubpolish', cleanerController.checkAdministration,cleanerController.handleCleanerRubPolish);
+router.post('/cleanerrubpolishcompleteservice', cleanerController.checkAdministration,cleanerController.handleRubPolishCleanerComplete);
+
+
+
+
+
+
+
+
+
+
 
 // Supervisor Routes 
 // Supervisor Authentication
@@ -125,5 +155,13 @@ router.post('/weeklyassigncleaner', supervisorController.checkAdministration,sup
 // Supervisor Alternate Wash
 router.get('/supalternatewash', supervisorController.checkAdministration,supervisorController.handleSupervisorAlternateWash);
 router.post('/alternateassigncleaner', supervisorController.checkAdministration,supervisorController.handleAlternateCleanerAssign);
+
+// Supervisor Dry Cleaning 
+router.get('/supdryclean', supervisorController.checkAdministration,supervisorController.handleSupervisorDryClean);
+router.post('/drycleanassigncleaner', supervisorController.checkAdministration,supervisorController.handleDryCleanCleanerAssign);
+
+// Supervisor Rubbing And Cleaning
+router.get('/suprubpolish', supervisorController.checkAdministration,supervisorController.handleSupervisorRubPolish);
+router.post('/rubpolishassigncleaner', supervisorController.checkAdministration,supervisorController.handleRubPolishCleanerAssign);
 
 module.exports = router;
