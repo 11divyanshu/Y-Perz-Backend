@@ -963,10 +963,10 @@ exports.addWeeklyServiceModule = (req,res) => {
         pay_status : "0",
         status : "0"
     }).then(response => {
-        console.log("Single Time Service Created Successfully");
+        console.log("Weekly Service Created Successfully");
         res.status(202);
         res.json({
-            msg: "Single Time Service Created Successfully",
+            msg: "Weekly Service Created Successfully",
             key: 1
         })
     }).catch(err => {
@@ -993,10 +993,10 @@ exports.weeklyServicePaymentConfirm = (req,res) => {
             }
         }
     ).then(response => {
-        console.log("Single Time Service Payment Confirmed");
+        console.log("Weekly Service Payment Confirmed");
         res.status(202);
         res.json({
-            msg: "Single Time Service Payment Confirmed",
+            msg: "Weekly Service Payment Confirmed",
             key: 1
         })
     }).catch(err => {
@@ -1020,7 +1020,7 @@ exports.getWeeklyServiceUserData = (req,res) => {
         if(extData.length > 0){
             res.status(202);
             res.json({
-                msg: "Single Time Service Data Fetched Successfully",
+                msg: "Weekly Service Data Fetched Successfully",
                 key: 1,
                 data: extData
             })
@@ -1028,7 +1028,7 @@ exports.getWeeklyServiceUserData = (req,res) => {
         else{
             res.status(202);
             res.json({
-                msg: "Single Time Service Data Not Found",
+                msg: "Weekly Service Data Not Found",
                 key: 0
             })
         }
@@ -1060,10 +1060,10 @@ exports.addAlternateServiceModule = (req,res) => {
         pay_status : "0",
         status : "0"
     }).then(response => {
-        console.log("Single Time Service Created Successfully");
+        console.log("Alternate Service Created Successfully");
         res.status(202);
         res.json({
-            msg: "Single Time Service Created Successfully",
+            msg: "Alternate Service Created Successfully",
             key: 1
         })
     }).catch(err => {
@@ -1090,10 +1090,10 @@ exports.alternateServicePaymentConfirm = (req,res) => {
             }
         }
     ).then(response => {
-        console.log("Single Time Service Payment Confirmed");
+        console.log("Alternate Service Payment Confirmed");
         res.status(202);
         res.json({
-            msg: "Single Time Service Payment Confirmed",
+            msg: "Alternate Service Payment Confirmed",
             key: 1
         })
     }).catch(err => {
@@ -1117,7 +1117,7 @@ exports.getAlternateServiceUserData = (req,res) => {
         if(extData.length > 0){
             res.status(202);
             res.json({
-                msg: "Single Time Service Data Fetched Successfully",
+                msg: "Alternate Service Data Fetched Successfully",
                 key: 1,
                 data: extData
             })
@@ -1125,7 +1125,7 @@ exports.getAlternateServiceUserData = (req,res) => {
         else{
             res.status(202);
             res.json({
-                msg: "Single Time Service Data Not Found",
+                msg: "Alternate Service Data Not Found",
                 key: 0
             })
         }
