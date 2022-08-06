@@ -10,7 +10,7 @@ const RubPolishSchema = sequelize.define('rubandpolish',{
     },
     name:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     phone:{
         type: Sequelize.STRING,
@@ -53,6 +53,10 @@ const RubPolishSchema = sequelize.define('rubandpolish',{
         allowNull: true,
     },
     status:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    amount:{
         type: Sequelize.STRING,
         allowNull: true,
     }

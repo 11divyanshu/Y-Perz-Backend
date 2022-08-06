@@ -13,11 +13,16 @@ const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
+const CarBrand = require('../models/carBrandSchema');
+const CarLoanBrand = require('../models/carLoanBrandSchema');
+const CarInsuranceBrand = require('../models/carInsuranceBrandSchema');
+const CarDriveLearningBrand = require('../models/carDriveLearningBrand');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
 const Razorpay = require('razorpay');
 require('dotenv').config();
+
 
 // Login OTP Method
 // Success - 202
@@ -795,7 +800,8 @@ exports.everydayServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -891,7 +897,8 @@ exports.singleServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -989,7 +996,8 @@ exports.weeklyServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -1086,7 +1094,8 @@ exports.alternateServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -1182,7 +1191,8 @@ exports.drycleanServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -1278,7 +1288,8 @@ exports.rubpolishServicePaymentConfirm = (req,res) => {
         {
             where : {
                 id : data.id,
-                phone : data.phone
+                phone : data.phone,
+                amount: data.amount
             }
         }
     ).then(response => {
@@ -1406,6 +1417,146 @@ exports.addLoan = (req,res) => {
             msg: "Loan Created Successfully",
             key: 1
         })
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+// Get Car Brands
+exports.getCarBrands = (req,res) => {
+    CarBrand.findAll({
+        where : {
+            status : 1
+        }
+    })
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Car Brands Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Car Brands Data Not Found",
+                key: 0
+            })
+        }
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+// Get Car Loan Brands
+exports.getCarLoanBrands = (req,res) => {
+    CarLoanBrand.findAll({
+        where : {
+            status : 1
+        }
+    })
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Car Loan Brands Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Car Loan Brands Data Not Found",
+                key: 0
+            })
+        }
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+// Get Car Insurance Brands
+exports.getCarInsuranceBrands = (req,res) => {
+    CarInsuranceBrand.findAll({
+        where : {
+            status : 1
+        }
+    })
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Car Insurance Brands Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Car Insurance Brands Data Not Found",
+                key: 0
+            })
+        }
+    })
+    .catch(err => {
+        res.status(205);
+        res.json({
+            msg: "Fatal Error Occured",
+            key: 0
+        })
+    });
+}
+
+// Get Car Driving Learning Brands
+exports.getCarDriveLearnBrands = (req,res) => {
+    CarDriveLearningBrand.findAll({
+        where : {
+            status : 1
+        }
+    })
+    .then(response => {
+        let fetchedData = JSON.stringify(response, null, 4);
+        let extData = JSON.parse(fetchedData);
+        if(extData.length > 0){
+            res.status(202);
+            res.json({
+                msg: "Car Drive Learn Brands Data Fetched Successfully",
+                key: 1,
+                data: extData
+            })
+        }
+        else{
+            res.status(202);
+            res.json({
+                msg: "Car Drive Learn Brands Data Not Found",
+                key: 0
+            })
+        }
     })
     .catch(err => {
         res.status(205);

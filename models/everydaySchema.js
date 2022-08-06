@@ -10,7 +10,7 @@ const EverydaySchema = sequelize.define('everydayservice',{
     },
     name:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     phone:{
         type: Sequelize.STRING,
@@ -57,6 +57,10 @@ const EverydaySchema = sequelize.define('everydayservice',{
         allowNull: true,
     },
     status:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    amount:{
         type: Sequelize.STRING,
         allowNull: true,
     }

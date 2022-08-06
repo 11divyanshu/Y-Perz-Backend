@@ -10,7 +10,7 @@ const AlternateSchema = sequelize.define('alternateservice',{
     },
     name:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     phone:{
         type: Sequelize.STRING,
@@ -57,6 +57,10 @@ const AlternateSchema = sequelize.define('alternateservice',{
         allowNull: true,
     },
     status:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    amount:{
         type: Sequelize.STRING,
         allowNull: true,
     }

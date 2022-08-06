@@ -6,6 +6,7 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+// User Authentication
 router.post('/otplogin',  userController.handleUserLoginOTP);
 router.post('/login',  userController.handleUserLogin);
 router.post('/checkUser',  userController.handleCheckUser);
@@ -13,6 +14,8 @@ router.post('/register', userController.handleUserRegisterOTP);
 router.post('/otpcheckregister', userController.handleOtpCheckRegister);
 router.post('/logout', userController.handleUserLogout);
 router.post('/resendotp', userController.handleOtpResend);
+
+// User Profile Management
 router.post('/userprofileupdate', userController.userProfileUpdate);
 router.post('/userprofilepicupdate', userController.uploadProfilePic, userController.userProfilePicUpdate);
 router.post('/userprofilepicremove', userController.userProfilePicRemove);
@@ -47,6 +50,13 @@ router.post('/getDryCleanServiceUserData', userController.getDryCleanServiceUser
 router.post('/rubpolishServiceAddRoute', userController.addRubPolishService);
 router.post('/rubpolishServicePaymentConfirm', userController.rubpolishServicePaymentConfirm);
 router.post('/getRubPolishServiceUserData', userController.getRubPolishServiceUserData);
+
+// Brands Data Fetching
+router.post('/getCarBrands', userController.getCarBrands);
+router.post('/getCarLoanBrands', userController.getCarLoanBrands);
+router.post('/getCarInsuranceBrands', userController.getCarInsuranceBrands);
+router.post('/getCarDriveLearnBrands', userController.getCarDriveLearnBrands);
+
 
 // Get Faqs
 router.post('/getFaq', userController.getFaqs);
