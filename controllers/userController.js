@@ -145,7 +145,7 @@ exports.handleUserLoginOTP = (req, res) => {
 exports.handleUserLogin = (req, res) => {
     let data = req.body;
     // Verifying OTP
-    OtpStore.findAll({ where: [{ phone: data.phone }] })
+    OtpStore.findAll({ where: { phone: data.phone } })
         .then(response => {
             // Convertin data in form of JSON
             let fetchedOtp = JSON.stringify(response, null, 4);
