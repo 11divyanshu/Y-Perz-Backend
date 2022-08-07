@@ -713,6 +713,7 @@ exports.addUserVehicle = (req,res) => {
             vehicleArr.push({
                 c_name : data.c_name,
                 c_num : data.c_num,
+                c_brand : data.c_brand,
                 c_photo : ""
             })
             let newVehicleJson = JSON.stringify(vehicleArr);
