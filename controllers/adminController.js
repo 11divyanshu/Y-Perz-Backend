@@ -332,7 +332,8 @@ exports.handleOneTimeSuperAssign = (req, res) => {
   let data = req.body;
   SingleTimeServiceSchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {
@@ -351,30 +352,6 @@ exports.handleOneTimeSuperAssign = (req, res) => {
         .then(response1 => {
           let fetchedOtp = JSON.stringify(response1, null, 4);
           let extData = JSON.parse(fetchedOtp);
-
-          // let message = {
-          //   app_id: ONE_SIGNAL_CONFIG.APP_ID,
-          //   contents: {
-          //     en: "Supervisor Assigned to You"
-          //   },
-          //   included_segments: ["included_player_ids"],
-          //   included_player_ids: ["c93c8741-2f1b-462c-b8f6-5bbfb4488812"],
-          //   content_available: true,
-          //   priority: "high",
-          //   small_icon: "ic_notification_icon",
-          //   data: {
-          //     PushTitle: "Service Notification",
-          //   }
-          // }
-          // pushNotificationServices.SendNotifications(message, (error, results) => {
-          //   if (error) {
-          //     console.log("Error check");
-          //     console.log(error);
-          //     res.redirect('admin/home');
-          //   }
-          //   console.log(results);
-          //   res.redirect('/admin/onetimewash');
-          // })
           res.redirect('/admin/onetimewash');
 
         })
@@ -434,7 +411,8 @@ exports.handleEverydaySuperAssign = (req, res) => {
   let data = req.body;
   EverydaySchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {
@@ -498,7 +476,8 @@ exports.handleAlternateSuperAssign = (req, res) => {
   let data = req.body;
   AlternateSchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {
@@ -562,7 +541,8 @@ exports.handleWeeklySuperAssign = (req, res) => {
   let data = req.body;
   WeeklySchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {
@@ -579,7 +559,6 @@ exports.handleWeeklySuperAssign = (req, res) => {
       res.redirect('admin/home');
     })
 }
-
 
 exports.handleDryClean = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
@@ -629,7 +608,8 @@ exports.handleDryCleanSuperAssign = (req, res) => {
   let data = req.body;
   DryCleaningSchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {
@@ -695,7 +675,8 @@ exports.handleRubPolishSuperAssign = (req, res) => {
   let data = req.body;
   RubPolishSchema.update(
     {
-      supervisor_num: data.supervisor_phone
+      supervisor_num: data.supervisor_phone,
+      supervisor_name: data.supervisor_name,
     },
     {
       where: {

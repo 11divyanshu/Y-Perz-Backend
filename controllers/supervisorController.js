@@ -413,7 +413,8 @@ exports.handleOneTimeCleanerAssign = (req, res) => {
     console.log(data);
     SingleTimeServiceSchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {
@@ -482,7 +483,8 @@ exports.handleEverydayCleanerAssign = (req, res) => {
     console.log(data);
     EverydaySchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {
@@ -551,7 +553,8 @@ exports.handleWeeklyCleanerAssign = (req, res) => {
     console.log(data);
     WeeklySchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {
@@ -620,7 +623,8 @@ exports.handleAlternateCleanerAssign = (req, res) => {
     console.log(data);
     AlternateSchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {
@@ -689,7 +693,8 @@ exports.handleDryCleanCleanerAssign = (req, res) => {
     console.log(data);
     DryCleaningSchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {
@@ -758,7 +763,8 @@ exports.handleRubPolishCleanerAssign = (req, res) => {
     console.log(data);
     RubPolishSchema.update(
         {
-            cleaner_num: data.cleaner_phone
+            cleaner_num: data.cleaner_phone,
+            cleaner_name: data.cleaner_name
         },
         {
             where: {

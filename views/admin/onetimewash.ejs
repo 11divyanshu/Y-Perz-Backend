@@ -71,7 +71,7 @@
                                                                 <% } %>
                                                             </td>
                                                             <td>
-                                                                <% if(data.supervisor_num == ""){ %>
+                                                                <% if(data.supervisor_name == ""){ %>
                                                                     <button id="assign" data-target="#supervisorModalId"
                                                                         onclick="storeDetails('<%= data.id %>','<%= data.phone %>')"
                                                                         data-toggle="modal"
@@ -80,14 +80,14 @@
                                                                         Assign
                                                                     </button>
                                                                 <% } else { %>
-                                                                    <span class="badge badge-success"><%= data.supervisor_num %></span>
+                                                                    <span class="badge badge-success"><%= data.supervisor_name %></span>
                                                                 <% } %>
                                                             </td>
                                                             <td>
-                                                                <% if(data.cleaner_num == ""){ %>
+                                                                <% if(data.cleaner_name == ""){ %>
                                                                     <span class="badge badge-danger">Not Assigned</span>
                                                                 <% } else { %>
-                                                                    <span class="badge badge-success"><%= data.cleaner_num %></span>
+                                                                    <span class="badge badge-success"><%= data.cleaner_name %></span>
                                                                 <% } %>
                                                             </td>
                                                             <td>
@@ -175,7 +175,7 @@
                                                         <td><%= data1.fName %></td>
                                                         <td><%= data1.phone %></td>
                                                         <td>Supervisor</td>
-                                                        <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>');"/></td>
+                                                        <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>','<%= data1.name %>');"/></td>
                                                     </tr>
                                                 <% } %>
                                             <% } else { %>
@@ -331,18 +331,18 @@
             let num = "";
             let id = "";
             let sup_num = "";
+            let sup_name = "";
             // Methods for supervisor assignment
             function storeDetails(data,phone){
                 num = phone;
                 id = data;
                 console.log(phone);
             }
-            function selectedData(phone){
+            function selectedData(phone,name){
                 sup_num = phone;
+                sup_name = name;
             }
             function assignSupervisor(){
-                console.log(num);
-                console.log(sup_num);
                 // use fetch for api call
                 fetch('/admin/onetimeassignsupervisor', {
                     method: 'POST',
@@ -352,7 +352,8 @@
                     body: JSON.stringify({
                         phone: num,
                         supervisor_phone: sup_num,
-                        id: id
+                        id: id,
+                        supervisor_name: sup_name
                     })
                 }).then(res => {
                     window.location.reload();

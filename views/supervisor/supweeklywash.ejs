@@ -78,7 +78,7 @@
                                                             <span class="badge badge-success"><%= data.supervisor_num %></span>
                                                         </td> -->
                                                         <td>
-                                                            <% if(data0.cleaner_num == ""){ %>
+                                                            <% if(data0.cleaner_name == ""){ %>
                                                                 <button id="assign" data-target="#cleanerModal"
                                                                     onclick="storeDetails('<%= data0.id %>','<%= data0.phone %>')"
                                                                     data-toggle="modal"
@@ -87,7 +87,7 @@
                                                                     Assign
                                                                 </button>
                                                             <% } else { %>
-                                                                <span class="badge badge-success"><%= data0.cleaner_num %></span>
+                                                                <span class="badge badge-success"><%= data0.cleaner_name %></span>
                                                             <% } %>
                                                         </td>
                                                         <td>
@@ -175,7 +175,7 @@
                                                     <td><%= data1.fName %></td>
                                                     <td><%= data1.phone %></td>
                                                     <td>Cleaner</td>
-                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>');"/></td>
+                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>','<%= data1.name %>');"/></td>
                                                 </tr>
                                             <% } %>
                                         <% } else { %>
@@ -353,19 +353,18 @@
         let num = "";
         let id = "";
         let cleaner_num = "";
+        let cleaner_name = "";
         // Methods for supervisor assignment
         function storeDetails(data,phone){
             num = phone;
             id = data;
             console.log(phone);
         }
-        function selectedData(phone){
+        function selectedData(phone,name){
             cleaner_num = phone;
+            cleaner_name = name;
         }
         function assignCleaner(){
-            console.log(num);
-            console.log(cleaner_num);
-            // use fetch for api call
             if(cleaner_num != ""){
                 fetch('/admin/weeklyassigncleaner', {
                     method: 'POST',
@@ -375,6 +374,7 @@
                 body: JSON.stringify({
                     phone: num,
                     cleaner_phone: cleaner_num,
+                    cleaner_name: cleaner_name,
                     id: id
                 })
                 }).then(res => {
