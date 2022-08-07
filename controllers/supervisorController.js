@@ -311,23 +311,11 @@ exports.handlePostSupervisorRegister = (req, res) => {
                                     }
                                 ).then((dbres) => {
                                     res.status(200);
-                                    res.render('admin/supervisorRegister', {
-                                        pageTitle: 'Supervisor Register | Y PEREZ',
-                                        path: '/supervisor/register',
-                                        confirmation: '202',
-                                        otp: 1,
-                                    });
+                                    res.redirect('/admin/login')
                                 }).catch(err => {
                                     console.log("Failed");
                                     res.status(205);
-                                    res.render('admin/otp', {
-                                        pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                                        path: '/supervisor/otpverification',
-                                        confirmation: '205',
-                                        otp: 0,
-                                        userPhone: userPhone,
-                                        lastDigit: lastDigit
-                                    });
+                                    res.redirect('admin/supervisorRegister')
                                 })
                         })
                         .catch(err => {
@@ -344,38 +332,13 @@ exports.handlePostSupervisorRegister = (req, res) => {
                         })
                 } else {
                     // OTP Invalid
-                    console.log("Failed");
-                    res.status(205);
-                    res.render('admin/otp', {
-                        pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                        path: '/supervisor/otpverification',
-                        confirmation: '205',
-                        otp: -1,
-                        userPhone: userPhone,
-                        lastDigit: lastDigit
-                    });
+                    res.redirect('/admin/supervisorRegister')
                 }
             } else {
-                console.log("Failed");
-                res.status(205);
-                res.render('admin/otp', {
-                    pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                    path: '/supervisor/otpverification',
-                    confirmation: '205',
-                    otp: 0,
-                    userPhone: userPhone,
-                    lastDigit: lastDigit
-                });
+                res.redirect('/admin/supervisorRegister')
             }
         }).catch(err => {
-            console.log("Failed");
-            res.status(205);
-            res.render('admin/otp', {
-                pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                path: '/supervisor/otpverification',
-                confirmation: '205',
-                otp: 0
-            });
+            res.redirect('/admin/supervisorRegister')
         })
 }
 

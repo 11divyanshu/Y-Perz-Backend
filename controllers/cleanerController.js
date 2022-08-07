@@ -40,9 +40,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                 // Already Account Created and Verified
                 console.log("Otp Store Updated");
                 res.status(202);
-                res.render('admin/supervisorRegister', {
-                    pageTitle: 'Supervisor Register | Y PEREZ',
-                    path: '/supervisor/register',
+                res.render('admin/cleanerRegister', {
+                    pageTitle: 'Cleaner Register | Y PEREZ',
+                    path: '/cleaner/register',
                     confirmation: '202',
                     otp: -1
                 });
@@ -68,7 +68,7 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                 req.end(function (resVar) {
                     if (res.error) throw new Error(res.error);
                     var resData = {
-                        userMobNum: data.phone,
+                        userMobNum: data.cleaner_phone,
                         otp: len,
                     };
                     OtpStore.findAll({ where: { phone: data.cleaner_phone } })
@@ -88,8 +88,8 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                                         console.log("Otp Store Updated");
                                         res.status(202);
                                         res.render('admin/otp', {
-                                            pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                                            path: '/supervisor/otpverification',
+                                            pageTitle: 'Cleaner OTP Verification | Y PEREZ',
+                                            path: '/cleaner/otpverification',
                                             confirmation: '202',
                                             otp: 1,
                                             userPhone: data.cleaner_phone,
@@ -99,9 +99,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                                     .catch(err => {
                                         console.log(err);
                                         res.status(205);
-                                        res.render('admin/supervisorRegister', {
-                                            pageTitle: 'Supervisor Register | Y PEREZ',
-                                            path: '/supervisor/register',
+                                        res.render('admin/cleanerRegister', {
+                                            pageTitle: 'Cleaner Register | Y PEREZ',
+                                            path: '/cleaner/register',
                                             confirmation: '205',
                                             otp: 0
                                         });
@@ -115,8 +115,8 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                                     console.log("Otp Store Updated");
                                     res.status(202);
                                     res.render('admin/otp', {
-                                        pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                                        path: '/supervisor/otpverification',
+                                        pageTitle: 'Cleaner OTP Verification | Y PEREZ',
+                                        path: '/cleaner/otpverification',
                                         confirmation: '202',
                                         otp: 1,
                                         userPhone: data.cleaner_phone,
@@ -125,9 +125,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                                 }).catch(err => {
                                     console.log(err);
                                     res.status(205);
-                                    res.render('admin/supervisorRegister', {
-                                        pageTitle: 'Supervisor Register | Y PEREZ',
-                                        path: '/supervisor/register',
+                                    res.render('admin/cleanerRegister', {
+                                        pageTitle: 'Cleaner Register | Y PEREZ',
+                                        path: '/cleaner/register',
                                         confirmation: '205',
                                         otp: 0
                                     });
@@ -137,9 +137,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                         .catch(err => {
                             console.log(err);
                             res.status(205);
-                            res.render('admin/supervisorRegister', {
-                                pageTitle: 'Supervisor Register | Y PEREZ',
-                                path: '/supervisor/register',
+                            res.render('admin/cleanerRegister', {
+                                pageTitle: 'Cleaner Register | Y PEREZ',
+                                path: '/cleaner/register',
                                 confirmation: '205',
                                 otp: 0
                             });
@@ -260,9 +260,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
                 }).catch(err => {
                     console.log(err);
                     res.status(205);
-                    res.render('admin/supervisorRegister', {
-                        pageTitle: 'Supervisor Register | Y PEREZ',
-                        path: '/supervisor/register',
+                    res.render('admin/cleanerRegister', {
+                        pageTitle: 'Cleaner Register | Y PEREZ',
+                        path: '/admin/cleanerregister',
                         confirmation: '205',
                         otp: 0
                     });
@@ -272,9 +272,9 @@ exports.handlePostCleanerOtpSend = (req, res) => {
     }).catch(err => {
         console.log(err);
         res.status(205);
-        res.render('admin/supervisorRegister', {
-            pageTitle: 'Supervisor Register | Y PEREZ',
-            path: '/supervisor/register',
+        res.render('admin/cleanerRegister', {
+            pageTitle: 'Cleaner Register | Y PEREZ',
+            path: '/admin/cleanerregister',
             confirmation: '205',
             otp: 0
         });
@@ -311,71 +311,23 @@ exports.handlePostCleanerRegister = (req, res) => {
                                     }
                                 ).then((dbres) => {
                                     res.status(200);
-                                    res.render('admin/supervisorRegister', {
-                                        pageTitle: 'Supervisor Register | Y PEREZ',
-                                        path: '/supervisor/register',
-                                        confirmation: '202',
-                                        otp: 1,
-                                    });
+                                    res.redirect('/admin/login');
                                 }).catch(err => {
-                                    console.log("Failed");
-                                    res.status(205);
-                                    res.render('admin/otp', {
-                                        pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                                        path: '/supervisor/otpverification',
-                                        confirmation: '205',
-                                        otp: 0,
-                                        userPhone: userPhone,
-                                        lastDigit: lastDigit
-                                    });
+                                    res.redirect('/admin/cleanerRegister');
                                 })
                         })
                         .catch(err => {
-                            console.log("Failed");
-                            res.status(205);
-                            res.render('admin/otp', {
-                                pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                                path: '/supervisor/otpverification',
-                                confirmation: '205',
-                                otp: 0,
-                                userPhone: userPhone,
-                                lastDigit: lastDigit
-                            });
+                            res.redirect('/admin/cleanerRegister');
                         })
                 } else {
                     // OTP Invalid
-                    console.log("Failed");
-                    res.status(205);
-                    res.render('admin/otp', {
-                        pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                        path: '/supervisor/otpverification',
-                        confirmation: '205',
-                        otp: -1,
-                        userPhone: userPhone,
-                        lastDigit: lastDigit
-                    });
+                    res.redirect('/admin/cleanerRegister');
                 }
             } else {
-                console.log("Failed");
-                res.status(205);
-                res.render('admin/otp', {
-                    pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                    path: '/supervisor/otpverification',
-                    confirmation: '205',
-                    otp: 0,
-                    userPhone: userPhone,
-                    lastDigit: lastDigit
-                });
+                res.redirect('/admin/cleanerRegister');
             }
         }).catch(err => {
-            console.log("Failed");
-            res.status(205);
-            res.render('admin/otp', {
-                pageTitle: 'Supervisor OTP Verification | Y PEREZ',
-                path: '/supervisor/otpverification',
-                confirmation: '205',
-                otp: 0
-            });
+            res.redirect('/admin/cleanerRegister');
         })
 }
 

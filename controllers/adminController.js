@@ -801,6 +801,7 @@ exports.handleCreateFaq = (req, res) => {
 exports.handleCreateFaqPost = (req, res) => {
   let data1 = JSON.parse(localStorage.getItem('data'));
   let data = req.body;
+  console.log(data.answer);
   if (data.answer === "") {
     Faqs.create({
       faq: data.faq,
@@ -808,23 +809,10 @@ exports.handleCreateFaqPost = (req, res) => {
       status: "0"
     })
       .then(response => {
-        console.log("Faqs Created Successfully");
-        res.status(202);
-        res.render('admin/createfaq', {
-          pageTitle: "Admin Create FAQ's | YPERZ",
-          pageName: "Create FAQ's | Administration Panel",
-          path: '/admin/createfaq',
-          data: data1,
-        });
+        res.redirect('/admin/faqs');
       })
       .catch(err => {
-        res.status(205);
-        res.render('admin/home', {
-          pageTitle: 'Admin Home | YPERZ',
-          pageName: 'Home | Administration Panel',
-          path: '/admin/home',
-          data: data1
-        });
+        res.redirect('/admin/home');
       });
   } else {
     Faqs.create({
@@ -833,24 +821,10 @@ exports.handleCreateFaqPost = (req, res) => {
       status: "1"
     })
       .then(response => {
-        console.log("Faqs Created Successfully");
-        res.status(202);
-        res.render('admin/faq', {
-          pageTitle: "Admin FAQ's | YPERZ",
-          pageName: "FAQ's | Administration Panel",
-          path: '/admin/faqs',
-          data: data,
-          faqs: extData
-        });
+        res.redirect('/admin/faqs');
       })
       .catch(err => {
-        res.status(205);
-        res.render('admin/home', {
-          pageTitle: 'Admin Home | YPERZ',
-          pageName: 'Home | Administration Panel',
-          path: '/admin/home',
-          data: data
-        });
+        res.redirect('/admin/home');
       });
   }
 
@@ -1310,21 +1284,6 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname))
   }
 });
-
-exports.upload = multer({
-  storage: storage,
-  limits: { fileSize: '5000000' },
-  fileFilter: (req, file, cb) => {
-    const fileTypes = /jpeg|jgp|png|gif/
-    const mimeType = fileTypes.test(file.mimetype)
-    const extname = fileTypes.test(path.extname(file.originalname))
-    if (mimeType && extname) {
-      return cb(null, true)
-    } else {
-      return ("Give proper file format to upload");
-    }
-  }
-}).single('icon')
 
 exports.uploadcarbrand = multer({
   storage: storage,
