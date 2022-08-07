@@ -48,6 +48,14 @@ const RubPolishSchema = sequelize.define('rubandpolish',{
         type: Sequelize.STRING,
         allowNull: true,
     },
+    supervisor_name:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    cleaner_name:{
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
     pay_status:{
         type: Sequelize.STRING,
         allowNull: true,

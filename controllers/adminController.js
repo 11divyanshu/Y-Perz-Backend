@@ -21,6 +21,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { nextTick } = require('process');
 const Faqs = require('../models/faqSchema');
+var FCM = require('fcm-node');
+var serverKey = 'YOURSERVERKEYHERE'; //put your server key here
+var fcm = new FCM(serverKey);
 let LocalStorage = require('node-localstorage').LocalStorage;
 if (typeof localStorage === "undefined" || localStorage === null) {
   localStorage = new LocalStorage('./scratch');
