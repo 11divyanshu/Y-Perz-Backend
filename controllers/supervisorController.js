@@ -576,7 +576,7 @@ exports.handleWeeklyCleanerAssign = (req, res) => {
 // Alternate Wash Contorllers 
 exports.handleSupervisorAlternateWash = (req, res) => {
     let data = JSON.parse(localStorage.getItem('data'));
-    EverydaySchema.findAll({ where: { supervisor_num: data.phone } })
+    AlternateSchema.findAll({ where: { supervisor_num: data.phone } })
         .then(response => {
             let fetchedOtp = JSON.stringify(response, null, 4);
             let extData = JSON.parse(fetchedOtp);

@@ -96,7 +96,7 @@
                                                         </td>
                                                         <td>
                                                             <button id="assign" data-target="#detailsModal"
-                                                                onclick="updateModalDetails('<%= data.phone %>','<%= data.name %>','<%= data.c_name %>','<%= data.c_num %>','<%= data.startdate %>','<%= data.enddate %>','<%= data.slot %>','<%= data.pay_status %>','<%= data.supervisor_num %>','<%= data.cleaner_num %>')"
+                                                                onclick="updateModalDetails('<%= data.phone %>','<%= data.name %>','<%= data.c_name %>','<%= data.c_num %>','<%= data.startdate %>','<%= data.enddate %>','<%= data.slot %>','<%= data.pay_status %>','<%= data.supervisor_name %>','<%= data.cleaner_name %>')"
                                                                 data-toggle="modal"
                                                                 style="background-color: #148b4b; color: #fff"
                                                                 type="button" type="button" class="btn">
@@ -179,7 +179,7 @@
                                                     <td><%= data1.fName %></td>
                                                     <td><%= data1.phone %></td>
                                                     <td>Supervisor</td>
-                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>','<%= data1.name %>');"/></td>
+                                                    <td><input type="checkbox" name="" onchange="selectedData('<%= data1.phone %>','<%= data1.fName %>');"/></td>
                                                 </tr>
                                             <% } %>
                                         <% } else { %>

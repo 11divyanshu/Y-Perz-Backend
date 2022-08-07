@@ -768,6 +768,8 @@ exports.addeverydayservice = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : 0,
         status : 0,
 
@@ -796,7 +798,8 @@ exports.everydayServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -869,6 +872,8 @@ exports.addSingleTimeServiceModule = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -893,7 +898,8 @@ exports.singleServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -968,6 +974,8 @@ exports.addWeeklyServiceModule = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -992,7 +1000,8 @@ exports.weeklyServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -1066,6 +1075,8 @@ exports.addAlternateServiceModule = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -1090,7 +1101,8 @@ exports.alternateServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -1163,6 +1175,8 @@ exports.addDryCleanService = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -1187,7 +1201,8 @@ exports.drycleanServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -1260,6 +1275,8 @@ exports.addRubPolishService = (req,res) => {
         order_id : "",
         supervisor_num : "",
         cleaner_num : "",
+        supervisor_name : "",
+        cleaner_name : "",
         pay_status : "0",
         status : "0"
     }).then(response => {
@@ -1284,7 +1301,8 @@ exports.rubpolishServicePaymentConfirm = (req,res) => {
         {
             pay_status : 1,
             order_id : data.order_id,
-            trans_id : data.trans_id
+            trans_id : data.trans_id,
+            amount : data.amount
         },
         {
             where : {
@@ -1346,7 +1364,11 @@ exports.getRubPolishServiceUserData = (req,res) => {
 // Get Faqs
 exports.getFaqs = (req,res) => {
     let data = req.body;
-    Faqs.findAll()
+    Faqs.findAll({
+        where : {
+            status : 1
+        }
+    })
     .then(response => {
         let fetchedData = JSON.stringify(response, null, 4);
         let extData = JSON.parse(fetchedData);

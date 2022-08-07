@@ -32,19 +32,19 @@ router.post('/everydayassignsupervisor', adminController.checkAdministration,adm
 
 // Alternate Wash
 router.get('/alternatewash', adminController.checkAdministration,adminController.handleAlternateWash);
-router.get('/alternateassignsupervisor', adminController.checkAdministration,adminController.handleAlternateSuperAssign);
+router.post('/alternateassignsupervisor', adminController.checkAdministration,adminController.handleAlternateSuperAssign);
 
 // Weekly Wash
 router.get('/weeklywash', adminController.checkAdministration,adminController.handleWeeklyWash);
-router.get('/weeklyassignsupervisor', adminController.checkAdministration,adminController.handleWeeklySuperAssign);
+router.post('/weeklyassignsupervisor', adminController.checkAdministration,adminController.handleWeeklySuperAssign);
 
 // Dry Cleaning
 router.get('/dryclean', adminController.checkAdministration,adminController.handleDryClean);
-router.get('/drycleanassignsupervisor', adminController.checkAdministration,adminController.handleDryCleanSuperAssign);
+router.post('/drycleanassignsupervisor', adminController.checkAdministration,adminController.handleDryCleanSuperAssign);
 
 // Dry Cleaning
 router.get('/rubpolish', adminController.checkAdministration,adminController.handleRubPolish);
-router.get('/rubpolishassignsupervisor', adminController.checkAdministration,adminController.handleRubPolishSuperAssign);
+router.post('/rubpolishassignsupervisor', adminController.checkAdministration,adminController.handleRubPolishSuperAssign);
 
 // Raise Query
 router.get('/raisequery', adminController.checkAdministration,adminController.handleRaiseQuery);
@@ -107,7 +107,7 @@ router.post('/cleanereverydaycompleteservice', cleanerController.checkAdministra
 
 // Cleaner Weekly Wash
 router.get('/cleanerweeklywash', cleanerController.checkAdministration,cleanerController.handleCleanerWeeklyWash);
-router.post('/cleanerweeklycompleteservice', cleanerController.checkAdministration,cleanerController.handleEverydayCleanerComplete);
+router.post('/cleanerweeklycompleteservice', cleanerController.checkAdministration,cleanerController.handleWeeklyCleanerComplete);
 
 // Cleaner Weekly Wash
 router.get('/cleaneralternatewash', cleanerController.checkAdministration,cleanerController.handleCleanerAlternateWash);
