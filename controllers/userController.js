@@ -807,7 +807,7 @@ exports.addeverydayservice = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
 
     })
         .then(response => {
@@ -834,14 +834,12 @@ exports.everydayServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
@@ -912,7 +910,7 @@ exports.addSingleTimeServiceModule = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
     }).then(response => {
         console.log("Single Time Service Created Successfully");
         res.status(202);
@@ -935,14 +933,12 @@ exports.singleServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
@@ -1015,7 +1011,7 @@ exports.addWeeklyServiceModule = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
     }).then(response => {
         console.log("Weekly Service Created Successfully");
         res.status(202);
@@ -1038,14 +1034,12 @@ exports.weeklyServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
@@ -1117,7 +1111,7 @@ exports.addAlternateServiceModule = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
     }).then(response => {
         console.log("Alternate Service Created Successfully");
         res.status(202);
@@ -1140,14 +1134,12 @@ exports.alternateServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
@@ -1218,7 +1210,7 @@ exports.addDryCleanService = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
     }).then(response => {
         console.log("Dry Cleaning Service Created Successfully");
         res.status(202);
@@ -1241,14 +1233,12 @@ exports.drycleanServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
@@ -1319,7 +1309,7 @@ exports.addRubPolishService = (req, res) => {
         cleaner_name: "",
         pay_status: "0",
         status: "0",
-        amount: ""
+        amount: data.amount
     }).then(response => {
         console.log("Rubbing And Polishing Service Created Successfully");
         res.status(202);
@@ -1342,14 +1332,12 @@ exports.rubpolishServicePaymentConfirm = (req, res) => {
         {
             pay_status: 1,
             order_id: data.order_id,
-            trans_id: data.trans_id,
-            amount: data.amount
+            trans_id: data.trans_id
         },
         {
             where: {
                 id: data.id,
-                phone: data.phone,
-                amount: data.amount
+                phone: data.phone
             }
         }
     ).then(response => {
