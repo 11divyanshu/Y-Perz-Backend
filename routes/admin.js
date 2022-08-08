@@ -80,7 +80,10 @@ router.get('/cardrivelearningbrands', adminController.checkAdministration,adminC
 router.post('/addcardrivelearningbrands', adminController.checkAdministration,adminController.handleAddCarDriveLearningBrands);
 router.post('/updatecardrivelearningbrandstatus', adminController.checkAdministration,adminController.handleUpdateCarDriveLearningBrandStatus);
 
-
+// RSA Car Brands
+router.get('/rsaservices', adminController.checkAdministration,adminController.handleRSACarBrands);
+router.post('/addrsabrand', adminController.checkAdministration,adminController.uploadcarbrand,adminController.handleAddRSACarBrands);
+router.post('/updatersacarbrandstatus', adminController.checkAdministration,adminController.handleUpdateRSACarBrandStatus);
 
 
 

@@ -15,6 +15,7 @@ const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
+const RSABrand = require('../models/rsaSchema');
 const { ONE_SIGNAL_CONFIG } = require('../config/app.config');
 const pushNotificationServices = require('../services/push-notification.services');
 const bcrypt = require('bcrypt');
@@ -1267,6 +1268,77 @@ exports.handleUpdateCarDriveLearningBrandStatus = (req, res) => {
             data: data1
           });
         });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data1
+      });
+    })
+}
+
+exports.handleRSACarBrands = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  RSABrand.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      res.render('admin/rsaservices', {
+        pageTitle: "Admin RSA Car Brands | YPERZ",
+        pageName: "RSA Car Brands | Administration Panel",
+        path: '/admin/rsaservices',
+        data: data,
+        rsacarbrands: extData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data1
+      });
+    });
+}
+
+exports.handleAddRSACarBrands = (req, res) => {
+  let data = req.body;
+  console.log(data);
+
+  let data1 = JSON.parse(localStorage.getItem('data'));
+  RSABrand.create({
+    name: data.brand_name,
+    rsa: data.rsa_number,
+    status: "1",
+    photo: req.file.path
+  })
+    .then(response => {
+      res.redirect('/admin/rsaservices');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/admin/home');
+    })
+}
+
+exports.handleUpdateRSACarBrandStatus = (req, res) => {
+  let data = req.body;
+  let data1 = JSON.parse(localStorage.getItem('data'));
+  RSABrand.update(
+    {
+      status: data.status
+    },
+    {
+      where: {
+        id: data.id
+      }
+    })
+    .then(response => {
+      res.redirect('/admin/rsaservices');
     })
     .catch(err => {
       console.log(err);

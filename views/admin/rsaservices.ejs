@@ -8,17 +8,20 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <div class="card-header d-flex">
-                                        <h5 class="card-header-title">Add Car Brand</h5>
+                                        <h5 class="card-header-title">Add RSA Car Brand</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form action="/admin/addcarbrands" method="POST" enctype="multipart/form-data">
+                                        <form action="/admin/addrsabrand" method="POST" enctype="multipart/form-data">
                                             <label for="brand_name">Brand Name</label>
                                             <input type="text" class="form-control" id="brand_name" name="brand_name"
-                                                placeholder="Brand Name" />
+                                                placeholder="Brand Name" required/>
+                                            <label for="brand_name">RSA Number</label>
+                                            <input type="text" class="form-control" id="rsa_number" name="rsa_number"
+                                                placeholder="RSA Number" required/>
                                             <label for="brand_image" style="margin-top: 20px;">Brand Image</label>
                                             <br />
                                             <input type="file" accept="image/*" style="padding-bottom: 10px ;"
-                                                id="brand_image" name="brand_image" placeholder="Brand Image" />
+                                                id="brand_image" name="brand_image" placeholder="Brand Image" required/>
                                             <br />
                                             <button style="background-color: #148B4B; margin-top: 20px; color: #fff;"
                                                 type="submit" class="btn">Submit</button>
@@ -36,7 +39,7 @@
                                     justify-content: space-between;
                                 ">
                                     <div class="card-header card-header-text">
-                                        <h4 class="card-title">Car Brands</h4>
+                                        <h4 class="card-title">RSA Car Brands</h4>
                                     </div>
 
                                     <div style="display: flex; align-items: center">
@@ -53,14 +56,15 @@
                                                 <th>ID</th>
                                                 <th>Photo</th>
                                                 <th>Brand Name</th>
+                                                <th>RSA Number</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                                 <th>Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if(carbrands.length> 0) { %>
-                                                <% for (let data of carbrands) { %>
+                                            <% if(rsacarbrands.length> 0) { %>
+                                                <% for (let data of rsacarbrands) { %>
                                                     <tr>
                                                         <td>
                                                             <%= data.id %>
@@ -83,6 +87,9 @@
                                                                 <% } else { %>
                                                                     <span class="badge badge-success">Available</span>
                                                                     <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data.rsa %>
                                                         </td>
                                                         <td>
                                                             <% if(data.status=="0" ){ %>
@@ -273,7 +280,7 @@
         }
         function updateStatus() {
             console.log(status)
-            fetch('/admin/updatecarbrandstatus', {
+            fetch('/admin/updatersacarbrandstatus', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -283,7 +290,7 @@
                     id: id
                 })
             }).then(res => {
-                window.location.href = "/admin/carbrands";
+                window.location.href = "/admin/rsaservices";
             })
         }
         function updateModalDetails(id, name, status, photo) {

@@ -56,6 +56,7 @@ router.post('/getCarBrands', userController.getCarBrands);
 router.post('/getCarLoanBrands', userController.getCarLoanBrands);
 router.post('/getCarInsuranceBrands', userController.getCarInsuranceBrands);
 router.post('/getCarDriveLearnBrands', userController.getCarDriveLearnBrands);
+router.post('/getRSACarBrands', userController.getRSACarBrands);
 
 
 // Get Faqs

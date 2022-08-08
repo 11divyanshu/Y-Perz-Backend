@@ -14,6 +14,7 @@ const LoanSchema = require('../models/loanSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
 const CarBrand = require('../models/carBrandSchema');
+const RSABrand = require('../models/rsaSchema');
 const CarLoanBrand = require('../models/carLoanBrandSchema');
 const CarInsuranceBrand = require('../models/carInsuranceBrandSchema');
 const CarDriveLearningBrand = require('../models/carDriveLearningBrand');
@@ -1618,6 +1619,42 @@ exports.getCarDriveLearnBrands = (req, res) => {
             })
         });
 }
+
+// Get Car Brands
+exports.getRSACarBrands = (req, res) => {
+    RSABrand.findAll({
+        where: {
+            status: 1
+        }
+    })
+        .then(response => {
+            let fetchedData = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedData);
+            if (extData.length > 0) {
+                res.status(202);
+                res.json({
+                    msg: "RSA Car Brands Data Fetched Successfully",
+                    key: 1,
+                    data: extData
+                })
+            }
+            else {
+                res.status(202);
+                res.json({
+                    msg: "RSA Car Brands Data Not Found",
+                    key: 0
+                })
+            }
+        })
+        .catch(err => {
+            res.status(205);
+            res.json({
+                msg: "Fatal Error Occured",
+                key: 0
+            })
+        });
+}
+
 
 // Multer image handeling method
 const storage = multer.diskStorage({
