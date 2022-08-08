@@ -467,6 +467,7 @@ exports.handleOtpCheckRegister = (req, res) => {
                                         key: 1
                                     });
                                 } else {
+                                    
                                     UserSchema.create({
                                         fName: "",
                                         email: "",

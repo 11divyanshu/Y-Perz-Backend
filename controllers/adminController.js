@@ -36,13 +36,8 @@ exports.SendNotification = (req, res) => {
     contents: {
       en: "Supervisor Assigned to You"
     },
-    included_segments: ["included_player_ids"],
-    included_player_ids: ["c93c8741-2f1b-462c-b8f6-5bbfb4488812"],
-    content_available: true,
-    small_icon: "ic_notification_icon",
-    data: {
-      PushTitle: "Service Notification",
-    }
+    included_segments: ["include_player_ids"],
+    included_player_ids: ["b97d3d46-f897-4d6d-821a-d7fbad2e8f57"]
   }
 
   pushNotificationServices.SendNotifications(message, (error, results) => {

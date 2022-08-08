@@ -1,6 +1,6 @@
 const ONE_SIGNAL_CONFIG = {
-    APP_ID: 'a02b48ad-9664-4541-8347-aea3aa7cc295',
-    APP_KEY: 'YTNmNjAzNmYtZTA5Ni00N2ZjLTg2YTEtMDI3NDc5ODRhMTQz'
+    APP_ID: 'ae5cd53c-ae85-449b-80df-6f18755450dc',
+    APP_KEY: 'NDUzNjhlNjEtY2JhOC00MWJhLWI0Y2MtODBkMzYyOTg4ZDNk'
 };
 
 module.exports = {
