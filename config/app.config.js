@@ -5,4 +5,4 @@ const ONE_SIGNAL_CONFIG = {
 
 module.exports = {
     ONE_SIGNAL_CONFIG
-}
+} 

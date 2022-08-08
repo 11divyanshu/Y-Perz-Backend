@@ -353,34 +353,34 @@ exports.handleOneTimeSuperAssign = (req, res) => {
       //   .then(response1 => {
       //     let fetchedOtp = JSON.stringify(response1, null, 4);
       //     let extData = JSON.parse(fetchedOtp);
-      //     res.redirect('/admin/onetimewash');
+          res.redirect('/admin/onetimewash');
 
       //   })
       //   .catch(err => {
       //     console.log(err);
       //     res.redirect('admin/home');
       //   });
-      var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-          to: 'b3d5d0ab-8f20-4313-b288-1320c41224d4', 
-          notification: {
-              title: 'Title of your push notification', 
-              body: 'Body of your push notification' 
-          },
+      // var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+      //     to: 'b3d5d0ab-8f20-4313-b288-1320c41224d4', 
+      //     notification: {
+      //         title: 'Title of your push notification', 
+      //         body: 'Body of your push notification' 
+      //     },
           
-          data: {  //you can send only notification or only data(or include both)
-              my_key: 'my value',
-              my_another_key: 'my another value'
-          }
-      };
-      fcm.send(message, function(err, response){
-          if (err) {
-              console.log("Something has gone wrong!");
-              res.redirect('admin/home');
-          } else {
-              console.log("Successfully sent with response: ", response);
-              res.redirect('/admin/onetimewash');
-          }
-      });
+      //     data: {  //you can send only notification or only data(or include both)
+      //         my_key: 'my value',
+      //         my_another_key: 'my another value'
+      //     }
+      // };
+      // fcm.send(message, function(err, response){
+      //     if (err) {
+      //         console.log("Something has gone wrong!");
+      //         res.redirect('admin/home');
+      //     } else {
+      //         console.log("Successfully sent with response: ", response);
+      //         res.redirect('/admin/onetimewash');
+      //     }
+      // });
     })
     .catch(err => {
       res.redirect('admin/home');
