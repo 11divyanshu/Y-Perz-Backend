@@ -30,30 +30,6 @@ if (typeof localStorage === "undefined" || localStorage === null) {
   localStorage = new LocalStorage('./scratch');
 }
 
-exports.SendNotification = (req, res) => {
-  let message = {
-    app_id: ONE_SIGNAL_CONFIG.APP_ID,
-    contents: {
-      en: "Supervisor Assigned to You"
-    },
-    included_segments: ["include_player_ids"],
-    included_player_ids: ["b97d3d46-f897-4d6d-821a-d7fbad2e8f57"]
-  }
-
-  pushNotificationServices.SendNotifications(message, (error, results) => {
-    if (error) {
-      res.send(error);
-    }
-    return res.status(200).json({
-      message: "Notification sent successfully",
-      data: results
-    });
-  })
-
-}
-
-
-
 exports.handleAdminRegister = (req, res) => {
   res.render('admin/adminregister', {
     pageTitle: 'Admin Register | YPERZ',
@@ -339,43 +315,35 @@ exports.handleOneTimeSuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      // UserSchema.findAll
-      // (
-      //   { 
-      //     where: { phone: data.phone } 
-      //   }
-      // )
-      //   .then(response1 => {
-      //     let fetchedOtp = JSON.stringify(response1, null, 4);
-      //     let extData = JSON.parse(fetchedOtp);
-          res.redirect('/admin/onetimewash');
-
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     res.redirect('admin/home');
-      //   });
-      // var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-      //     to: 'b3d5d0ab-8f20-4313-b288-1320c41224d4', 
-      //     notification: {
-      //         title: 'Title of your push notification', 
-      //         body: 'Body of your push notification' 
-      //     },
-          
-      //     data: {  //you can send only notification or only data(or include both)
-      //         my_key: 'my value',
-      //         my_another_key: 'my another value'
-      //     }
-      // };
-      // fcm.send(message, function(err, response){
-      //     if (err) {
-      //         console.log("Something has gone wrong!");
-      //         res.redirect('admin/home');
-      //     } else {
-      //         console.log("Successfully sent with response: ", response);
-      //         res.redirect('/admin/onetimewash');
-      //     }
-      // });
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your onetimewash service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: [extData[0].devices]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            res.redirect('/admin/onetimewash'); 
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
     })
     .catch(err => {
       res.redirect('admin/home');
@@ -439,7 +407,40 @@ exports.handleEverydaySuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      res.redirect('/admin/everydaywash');
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your everyday service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: ["1f233a59-0dd2-48ec-ae75-0a7eb016f97b"]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            // return res.status(200).json({
+            //   message: "Notification sent successfully",
+            //   data: results
+            // });
+            res.redirect('/admin/everydaywash');
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
+      
     })
     .catch(err => {
       console.log(err);
@@ -505,7 +506,35 @@ exports.handleAlternateSuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      res.redirect('/admin/alternatewash');
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your alternate wash service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: [extData[0].devices]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            res.redirect('/admin/alternatewash'); 
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
     })
     .catch(err => {
       console.log(err);
@@ -570,7 +599,35 @@ exports.handleWeeklySuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      res.redirect('/admin/weeklywash');
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your weekly wash service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: [extData[0].devices]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            res.redirect('/admin/weeklywash'); 
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
     })
     .catch(err => {
       console.log(err);
@@ -637,7 +694,35 @@ exports.handleDryCleanSuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      res.redirect('/admin/dryclean');
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your dry cleaning service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: [extData[0].devices]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            res.redirect('/admin/dryclean'); 
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
     })
     .catch(err => {
       console.log(err);
@@ -704,7 +789,35 @@ exports.handleRubPolishSuperAssign = (req, res) => {
     }
   )
     .then(response => {
-      res.redirect('/admin/rubpolish');
+      UserSchema.findAll({
+        where: { phone: data.phone }
+      })
+        .then(response1 => {
+          let fetchedData = JSON.stringify(response1, null, 4);
+          let extData = JSON.parse(fetchedData);
+          let device = [];
+          device.push(extData[0].devices);
+          let message = {
+            app_id: ONE_SIGNAL_CONFIG.APP_ID,
+            contents: {
+              en: `${data.supervisor_name} has assigned you as supervisor to your rubbing and polishing service.`
+            },
+            included_segments: ["include_player_ids"],
+            include_player_ids: [extData[0].devices]
+          }
+        
+          pushNotificationServices.SendNotifications(message, (error, results) => {
+            if (error) {
+              res.send(error);
+            }
+            console.log(results);
+            res.redirect('/admin/rubpolish'); 
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('admin/home');
+        })
     })
     .catch(err => {
       console.log(err);

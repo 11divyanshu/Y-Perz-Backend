@@ -418,8 +418,35 @@ exports.handleOneTimeCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleaneronetimewash');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your One Time Wash Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleaneronetimewash'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');
@@ -491,8 +518,35 @@ exports.handleEverydayCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleanereverydaywash');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your Everyday Wash Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleanereverydaywash'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');
@@ -564,8 +618,35 @@ exports.handleWeeklyCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleanereverydaywash');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your Weekly Wash Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleanerweeklywash'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');
@@ -637,8 +718,35 @@ exports.handleAlternateCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleaneralternatewash');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your Alternate Wash Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleaneralternatewash'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');
@@ -710,8 +818,35 @@ exports.handleDryCleanCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleanerdryclean');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your Dry Clean Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleanerdryclean'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');
@@ -783,8 +918,35 @@ exports.handleRubPolishCleanerComplete = (req, res) => {
         }
     )
     .then(response => {
-        res.status(202);
-        res.redirect('/admin/cleanerrubpolish');
+        UserSchema.findAll({
+            where: { phone: data.phone }
+          })
+            .then(response1 => {
+              let fetchedData = JSON.stringify(response1, null, 4);
+              let extData = JSON.parse(fetchedData);
+              let device = [];
+              device.push(extData[0].devices);
+              let message = {
+                app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                contents: {
+                  en: `Your Rubbing & Polishing Service is Completed.`
+                },
+                included_segments: ["include_player_ids"],
+                include_player_ids: [extData[0].devices]
+              }
+            
+              pushNotificationServices.SendNotifications(message, (error, results) => {
+                if (error) {
+                  res.send(error);
+                }
+                console.log(results);
+                res.redirect('/admin/cleanerrubpolish'); 
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              res.redirect('admin/home');
+            })
     }).catch(err => {
         console.log(err);
         res.redirect('/admin/cleanerhome');

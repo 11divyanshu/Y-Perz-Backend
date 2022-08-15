@@ -424,8 +424,35 @@ exports.handleOneTimeCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
-            res.redirect('/admin/suponetimewash');
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your one time wash service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/suponetimewash'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
         })
         .catch(err => {
             console.log(err);
@@ -494,8 +521,35 @@ exports.handleEverydayCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
-            res.redirect('/admin/supeverydaywash');
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your everyday wash service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/supeverydaywash'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
         })
         .catch(err => {
             console.log(err);
@@ -564,8 +618,35 @@ exports.handleWeeklyCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
-            res.redirect('/admin/supweeklywash');
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your weekly wash service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/supweeklywash'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
         })
         .catch(err => {
             console.log(err);
@@ -634,8 +715,35 @@ exports.handleAlternateCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
-            res.redirect('/admin/supalternatewash');
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your alternate day wash service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/supalternatewash'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
         })
         .catch(err => {
             console.log(err);
@@ -704,7 +812,35 @@ exports.handleDryCleanCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your dry cleaning service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/supdryclean'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
             res.redirect('/admin/supdryclean');
         })
         .catch(err => {
@@ -774,8 +910,35 @@ exports.handleRubPolishCleanerAssign = (req, res) => {
         }
     )
         .then(response => {
-            console.log(response);
-            res.redirect('/admin/suprubpolish');
+            UserSchema.findAll({
+                where: { phone: data.phone }
+              })
+                .then(response1 => {
+                  let fetchedData = JSON.stringify(response1, null, 4);
+                  let extData = JSON.parse(fetchedData);
+                  let device = [];
+                  device.push(extData[0].devices);
+                  let message = {
+                    app_id: ONE_SIGNAL_CONFIG.APP_ID,
+                    contents: {
+                      en: `${data.cleaner_name} has assigned you as cleaner to your rubbing and polishing service.`
+                    },
+                    included_segments: ["include_player_ids"],
+                    include_player_ids: [extData[0].devices]
+                  }
+                
+                  pushNotificationServices.SendNotifications(message, (error, results) => {
+                    if (error) {
+                      res.send(error);
+                    }
+                    console.log(results);
+                    res.redirect('/admin/suprubpolish'); 
+                  })
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.redirect('admin/home');
+                })
         })
         .catch(err => {
             console.log(err);
