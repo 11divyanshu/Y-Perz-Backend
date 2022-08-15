@@ -7,8 +7,6 @@ const supervisorController = require('../controllers/supervisorController');
 const cleanerController = require('../controllers/cleanerController');
 const router = express.Router();
 
-router.get('/sendnotification', adminController.SendNotification);
-
 // Administration Authentication
 router.get('/login', adminController.handleAdminLogin);
 router.post('/administratorLogin', adminController.handleAdministrationLoginPost);
