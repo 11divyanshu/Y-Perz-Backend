@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const CarLoanBrand = sequelize.define('carloanbrand',{
+const InsuranceSchema = sequelize.define('insurance',{
     id:{
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -10,21 +10,17 @@ const CarLoanBrand = sequelize.define('carloanbrand',{
     },
     name:{
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true
     },
-    photo:{
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    used:{
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    status:{
+    phone:{
         type: Sequelize.STRING,
         allowNull: false
+    },
+    email:{
+        type: Sequelize.STRING,
+        allowNull: true
     }
 })
 
 
-module.exports = CarLoanBrand;
+module.exports = InsuranceSchema;

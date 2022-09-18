@@ -11,6 +11,8 @@ const AlternateSchema = require('../models/alternateSchema');
 const SingleTimeServiceSchema = require('../models/singleTimeServiceSchema.js');
 const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
+const DriveLearnSchema = require('../models/drivelearnSchema');
+const InsuranceSchema = require('../models/insuranceSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
 const CarBrand = require('../models/carBrandSchema');
@@ -1455,7 +1457,7 @@ exports.addQuery = (req, res) => {
         });
 }
 
-// Get Loans
+// Add Loans
 exports.addLoan = (req, res) => {
     let data = req.body;
     LoanSchema.create({
@@ -1469,6 +1471,55 @@ exports.addLoan = (req, res) => {
             res.status(202);
             res.json({
                 msg: "Loan Created Successfully",
+                key: 1
+            })
+        })
+        .catch(err => {
+            res.status(205);
+            res.json({
+                msg: "Fatal Error Occured",
+                key: 0
+            })
+        });
+}
+
+// Add Drive Learn
+exports.addDriveLearn = (req, res) => {
+    let data = req.body;
+    DriveLearnSchema.create({
+        name: data.name,
+        phone: data.phone
+    })
+        .then(response => {
+            console.log("Drive Learning Request Raised Successfully");
+            res.status(202);
+            res.json({
+                msg: "Drive Learning Request Raised Successfully",
+                key: 1
+            })
+        })
+        .catch(err => {
+            res.status(205);
+            res.json({
+                msg: "Fatal Error Occured",
+                key: 0
+            })
+        });
+}
+
+// Add Insurance Request
+exports.addInsurance = (req, res) => {
+    let data = req.body;
+    InsuranceSchema.create({
+        name: data.name,
+        phone: data.phone,
+        email: data.email
+    })
+        .then(response => {
+            console.log("Insurance Request Raised Successfully");
+            res.status(202);
+            res.json({
+                msg: "Insurance Request Raised Successfully",
                 key: 1
             })
         })
@@ -1655,7 +1706,6 @@ exports.getRSACarBrands = (req, res) => {
             })
         });
 }
-
 
 // Multer image handeling method
 const storage = multer.diskStorage({

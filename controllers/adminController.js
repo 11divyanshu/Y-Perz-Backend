@@ -13,6 +13,8 @@ const CarInsuranceBrand = require('../models/carInsuranceBrandSchema');
 const CarDriveLearningBrand = require('../models/carDriveLearningBrand');
 const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
+const DriveLearnSchema = require('../models/drivelearnSchema');
+const InsuranceSchema = require('../models/insuranceSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
 const RSABrand = require('../models/rsaSchema');
@@ -875,6 +877,56 @@ exports.handleLoans = (req, res) => {
     });
 }
 
+exports.handleInsurance = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  InsuranceSchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      res.render('admin/insurance', {
+        pageTitle: 'Admin Insurance Request | YPERZ',
+        pageName: 'Insurance Request | Administration Panel',
+        path: '/admin/insurance',
+        data: data,
+        loans: extData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
+}
+
+exports.handleDriveLearn = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  DriveLearnSchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      res.render('admin/drivelearn', {
+        pageTitle: 'Admin Drive Learn Request | YPERZ',
+        pageName: 'Drive Learn Request | Administration Panel',
+        path: '/admin/drivelearn',
+        data: data,
+        loans: extData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
+}
+
 exports.handleFaqs = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
   Faqs.findAll()
@@ -1145,7 +1197,7 @@ exports.handleCarLoanBrands = (req, res) => {
         pageTitle: 'Admin Home | YPERZ',
         pageName: 'Home | Administration Panel',
         path: '/admin/home',
-        data: data1
+        data: data
       });
     });
 }
@@ -1155,6 +1207,7 @@ exports.handleAddCarLoanBrands = (req, res) => {
   let data1 = JSON.parse(localStorage.getItem('data'));
   CarLoanBrand.create({
     name: data.brand_name,
+    used: data.used,
     status: "1",
     photo: req.file.path
   })

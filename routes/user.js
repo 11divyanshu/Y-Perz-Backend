@@ -68,6 +68,12 @@ router.post('/addquery', userController.addQuery);
 // Add Loans
 router.post('/addloan', userController.addLoan);
 
+// Add Drive Learn
+router.post('/adddrivelearn', userController.addDriveLearn);
+
+// Add Insurance
+router.post('/addinsurance', userController.addInsurance);
+
 // Create Order IDs
 router.post('/createOrderID', userController.createOrderID);
 

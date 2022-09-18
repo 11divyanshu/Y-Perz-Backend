@@ -29,11 +29,11 @@ app.use('/user', userRoutes);
 // handeling 404 error page 
 // app.use(errorController.get404);
 
-// sequelize.sync().then((result) => {
+sequelize.sync().then((result) => {
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
   })
-// }).catch(err => {
-//   console.log(err);
-// })
+}).catch(err => {
+  console.log(err);
+})
 

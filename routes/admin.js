@@ -50,6 +50,11 @@ router.get('/raisequery', adminController.checkAdministration,adminController.ha
 // Loans
 router.get('/loans', adminController.checkAdministration,adminController.handleLoans);
 
+// Insurance
+router.get('/insurance', adminController.checkAdministration,adminController.handleInsurance);
+
+// Drive Learn
+router.get('/drivelearn', adminController.checkAdministration,adminController.handleDriveLearn);
 
 // FAQs
 router.get('/faqs', adminController.checkAdministration,adminController.handleFaqs);

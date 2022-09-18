@@ -17,6 +17,14 @@
                                             <label for="brand_name">Brand Name</label>
                                             <input type="text" class="form-control" id="brand_name" name="brand_name"
                                                 placeholder="Brand Name" />
+                                            <div style="margin-top: 20px;margin-bottom: 20px;">
+                                                <label for="Used/New">New / Used</label>
+                                                <br/>
+                                                <select name="used">
+                                                    <option value="New">New Brand</option>
+                                                    <option value="Used">User Brand</option>
+                                                </select>
+                                            </div>
                                             <!-- </div> -->
                                             <!-- <div class="form-group"> -->
                                             <label for="brand_image" style="margin-top: 20px;">Brand Image</label>
@@ -58,6 +66,7 @@
                                                 <th>ID</th>
                                                 <th>Photo</th>
                                                 <th>Brand Name</th>
+                                                <th>New/Used</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                                 <th>Details</th>
@@ -83,6 +92,9 @@
                                                         </td>
                                                         <td>
                                                             <%= data.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= data.used %>
                                                         </td>
                                                         <td>
                                                             <% if(data.status=="0" ){ %>
