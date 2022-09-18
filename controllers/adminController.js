@@ -1,3 +1,4 @@
+// imports
 const multer = require('multer');
 const path = require('path');
 const UserSchema = require('../models/userSchema');
@@ -15,6 +16,7 @@ const RaiseQuery = require('../models/querySchema');
 const LoanSchema = require('../models/loanSchema');
 const DriveLearnSchema = require('../models/drivelearnSchema');
 const InsuranceSchema = require('../models/insuranceSchema');
+const ServicePricingSchema = require('../models/servicePricingSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
 const RSABrand = require('../models/rsaSchema');
@@ -877,6 +879,31 @@ exports.handleLoans = (req, res) => {
     });
 }
 
+exports.handleServicesPricing = (req, res) => {
+  let data = JSON.parse(localStorage.getItem('data'));
+  ServicePricingSchema.findAll()
+    .then(response => {
+      let fetchedData = JSON.stringify(response, null, 4);
+      let extData = JSON.parse(fetchedData);
+      res.render('admin/servicespricing', {
+        pageTitle: 'Admin Service Pricing | YPERZ',
+        pageName: 'Service Pricing | Administration Panel',
+        path: '/admin/servicespricing',
+        data: data,
+        loans: extData
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.render('admin/home', {
+        pageTitle: 'Admin Home | YPERZ',
+        pageName: 'Home | Administration Panel',
+        path: '/admin/home',
+        data: data
+      });
+    });
+}
+
 exports.handleInsurance = (req, res) => {
   let data = JSON.parse(localStorage.getItem('data'));
   InsuranceSchema.findAll()
@@ -1509,6 +1536,27 @@ exports.handleUpdateRSACarBrandStatus = (req, res) => {
         path: '/admin/home',
         data: data1
       });
+    })
+}
+
+exports.handleUpdateServicesPricing = (req, res) => {
+  let data = req.body;
+  ServicePricingSchema.update(
+      {
+        price:data.price
+      },
+      {
+        where: {
+          id: data.id
+        }
+      }
+    )
+    .then(response1 => {
+        res.redirect('/admin/servicespricing'); 
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/admin/home');
     })
 }
 

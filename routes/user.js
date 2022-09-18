@@ -15,6 +15,9 @@ router.post('/otpcheckregister', userController.handleOtpCheckRegister);
 router.post('/logout', userController.handleUserLogout);
 router.post('/resendotp', userController.handleOtpResend);
 
+// Get Services Pricing
+router.get('/getservicespricing', userController.handleServicesPricing);
+
 // User Profile Management
 router.post('/userprofileupdate', userController.userProfileUpdate);
 router.post('/userprofilepicupdate', userController.uploadProfilePic, userController.userProfilePicUpdate);

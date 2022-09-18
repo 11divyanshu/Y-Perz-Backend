@@ -16,6 +16,7 @@ const InsuranceSchema = require('../models/insuranceSchema');
 const DryCleaningSchema = require('../models/dryCleaningSchema');
 const RubPolishSchema = require('../models/rubAndPolishSchema');
 const CarBrand = require('../models/carBrandSchema');
+const ServicePricingSchema = require('../models/servicePricingSchema');
 const RSABrand = require('../models/rsaSchema');
 const CarLoanBrand = require('../models/carLoanBrandSchema');
 const CarInsuranceBrand = require('../models/carInsuranceBrandSchema');
@@ -1554,6 +1555,37 @@ exports.getCarBrands = (req, res) => {
                 res.status(202);
                 res.json({
                     msg: "Car Brands Data Not Found",
+                    key: 0
+                })
+            }
+        })
+        .catch(err => {
+            res.status(205);
+            res.json({
+                msg: "Fatal Error Occured",
+                key: 0
+            })
+        });
+}
+
+// Get Services Pricing
+exports.handleServicesPricing = (req, res) => {
+    ServicePricingSchema.findAll()
+        .then(response => {
+            let fetchedData = JSON.stringify(response, null, 4);
+            let extData = JSON.parse(fetchedData);
+            if (extData.length > 0) {
+                res.status(202);
+                res.json({
+                    msg: "Servicing Pricing Data Fetched Successfully",
+                    key: 1,
+                    data: extData
+                })
+            }
+            else {
+                res.status(202);
+                res.json({
+                    msg: "Servicing Pricing Data Not Found",
                     key: 0
                 })
             }

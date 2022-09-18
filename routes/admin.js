@@ -56,6 +56,10 @@ router.get('/insurance', adminController.checkAdministration,adminController.han
 // Drive Learn
 router.get('/drivelearn', adminController.checkAdministration,adminController.handleDriveLearn);
 
+// Services Pricing
+router.get('/servicespricing', adminController.checkAdministration,adminController.handleServicesPricing);
+router.post('/updateservicepricing', adminController.checkAdministration,adminController.handleUpdateServicesPricing);
+
 // FAQs
 router.get('/faqs', adminController.checkAdministration,adminController.handleFaqs);
 router.get('/createfaq', adminController.checkAdministration,adminController.handleCreateFaq);
